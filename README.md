@@ -1,4 +1,4 @@
-#Este es el proyecto final de egg para "Alquileres de quinchos"
+# Este es el proyecto final de egg para "Alquileres de quinchos"
 
 Integrantes:
 - Sofia
@@ -7,3 +7,4 @@ Integrantes:
 - Gimena
 - Hernan
 - Milagros
+- Francisco

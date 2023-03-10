@@ -1,0 +1,6 @@
+body {
+    background-image: url('../static/img/img_inicio.jpg');
+    background-repeat: no-repeat;
+    /*Y le decimos que siempre ocupe el ancho y el alto con esto*/
+    background-size: cover;
+  }
