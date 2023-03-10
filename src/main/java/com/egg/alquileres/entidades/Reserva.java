@@ -39,13 +39,12 @@ public class Reserva {
     private Date fechaDesde;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaHasta;
-    @OneToMany
-    private List<Prestacion> prestacionesContratadas;
 
-    @OneToOne
-    private Propietario propietario;
+    private Double precio;
+    
     @OneToOne
     private Cliente cliente;
-    private String comentario;
+    @OneToOne
+    private Propiedad propiedad;
 
 }

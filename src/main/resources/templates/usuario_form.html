@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Egg Formulario de Usuario</title>
+
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Aboreto&family=Molle&family=Roboto:wght@300;400;700&display=swap");
+        </style>
+        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="/css/font-awesome.min.css" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+            crossorigin="anonymous"
+            />
+    </head>
+
+    <body>
+        <!-- header -->
+        <header class="px-4">
+            <section class="contenedorheader">
+                <a href="/"><h1>Egg New's</h1></a>
+                <nav class="nav-menu">
+                    <a href="/">Inicio</a>
+                    <a href="/login#">Ingresar</a>
+                    <a href="#contact">Contacto</a>
+                </nav>
+            </section>
+        </header>
+
+        <!-- hero -->
+        <!--<section th:replace="fragments/hero :: _hero"></section>-->
+
+        
+        <!-- FORMULARIO DE REGISTRO -->
+        <section class="pb-5">
+            <div class="container w-75 bg-light mt-5 rounded shadow">
+                <div class="row align-items-stretch">
+                    <!-- fila -->
+                    <div class="col img-bg d-none d-md-block rounded"></div>
+                    <div class="col mx-2">
+                        <h2 class="fw-bol text-center py-5">Formulario de registro</h2>
+                        <!---Login -->
+                        
+                        
+                        
+                        <form th:action="@{/registro}" method="POST">
+                            <div class="mb-2">
+                                <label for="nombre" class="form-label">Nombres</label>
+                                <input type="text" class="form-control" name="nombre" />
+                            </div>
+                             <div class="mb-2">
+                                <label for="nombre" class="form-label">Apellido</label>
+                                <input type="text" class="form-control" name="apellido" />
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="email" class="form-label">Correo electronico</label>
+                                <input type="email" class="form-control" name="email" />
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" name="password" />
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="password" class="form-label"
+                                       >Repetir Contraseña</label
+                                >
+                                <input type="password" class="form-control" name="password2" />
+                            </div>
+                            <div class="mb-2">
+                                <label for="telefono" class="form-label">Telefono</label>
+                                <input type="tel" class="form-control" name="telefono" />
+                            </div>
+
+                            <div class="mb-4 form-check">
+                              <p>Elige tu rol</p>
+                              <select name="rol">
+                                  <option value="">Elige una opcion</option>
+                                  <option value="CLIENTE">Cliente</option>
+                                  <option value="PROPIETARIO">Propietario</option>
+                            </div>
+                            <div class="d-grid pb-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Registrarse
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+    </body>
+</html>

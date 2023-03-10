@@ -23,7 +23,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cliente extends Usuario {
+public class Cliente extends Usuario implements Serializable {
 
     @OneToMany
     private Set<Reserva> reservas;

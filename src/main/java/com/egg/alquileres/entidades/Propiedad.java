@@ -1,11 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.egg.alquileres.entidades;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,30 +17,29 @@ import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
- * @author Luz
+ * @author Hernan E Encizo
  */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-class Propiedad {
+public class Propiedad implements Serializable {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String idPropiedad;
     private String nombre; 
-    private String ubicacion;
+    private String direccion;
+    private String ciudad;
     private Double precio_base;
     private Boolean estado;
     
     @OneToOne
     private Propietario propietario;
+    @ElementCollection
+    private List<Date> fechasDisponibles;
     
     @OneToMany
-    private List<Prestacion> serviciosPrestados;
-    
-    @OneToMany
-    private List<FechasDisponibles> fechasDisponibles;
-    
+    private List<Reserva> reservasActivas;
 }
