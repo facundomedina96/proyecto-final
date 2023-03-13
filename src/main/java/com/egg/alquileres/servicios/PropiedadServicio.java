@@ -10,10 +10,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -55,10 +57,14 @@ public class PropiedadServicio {
     @Transactional
     public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Propietario propietario) throws MiException, ParseException {
 
+        
+        
         validar(nombre, direccion, ciudad, precio, propietario);
+        
         // Crear una lista para guardar las fechas disponibles
-        List<Date> fechasDisponibles = new ArrayList<>();
-
+        Set<Date> fechasDisponibles = new TreeSet<>();
+        System.out.println("fechas disponibles paso.");
+        
         // Obtener la fecha actual
         Calendar fechaActual = Calendar.getInstance();
 
@@ -77,16 +83,20 @@ public class PropiedadServicio {
         // Retornar una nueva instancia de Casa con los parámetros proporcionados y las fechas disponible
         Propiedad propiedad = new Propiedad();
 
+        System.out.println("Proximo paso setear los valores");
         propiedad.setNombre(nombre);
         propiedad.setDireccion(direccion);
         propiedad.setCiudad(ciudad);
         propiedad.setPrecio_base(precio);
         propiedad.setEstado(Boolean.TRUE);
         propiedad.setPropietario(propietario);
-        propiedad.setFechasDisponibles(fechasDisponibles);
-
+        System.out.println("Seteo del propietario");
+        propiedad.setFechasDisponibles((Set<Date>) fechasDisponibles);
+        System.out.println("Seteo de las fechas disponibles se paso");
+        
         // Si es un admin el que crea la noticia la guardo sin idCreador la relacion es con periodista
         propiedadRepositorio.save(propiedad);
+        System.out.println("Propiedad persistida");
     }
 
     @Transactional(readOnly = true)

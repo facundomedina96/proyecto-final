@@ -30,12 +30,13 @@ public class Usuario {
     
     @Enumerated(EnumType.STRING)
     protected Rol rol;
-    
+    // NOTA: cambiar el usuario_id solo por id, el nombreUsuario por nombre etc, utilizar convencion JPA  
+    // ademas trae inconvenientes en la comprension, por ej (Thymelife cliente.usuario_id) seria mas facil
+    // comprender cliente.id, etc...
     protected String nombreUsuario;
     protected String apellidoUsuario;
     protected String email;
     protected String password;
     protected String telefono;
     protected Boolean activo;
-
 }

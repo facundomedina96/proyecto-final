@@ -1,0 +1,82 @@
+<nav class="navbar navbar-expand-md navbar-light bg-dark px-5" th:fragment="_panelNav">
+    <div class="containerPanel d-flex text-center">
+        <a href="#" class="text-white text-decoration-none"
+           ><h1 class="tituloPanel">Egg Alquiler's</h1></a
+        >
+    </div>
+    <div class="container-fluid">
+        <ul class="navbar-nav ms-auto">
+            <!-- Dropdown -->
+
+            <li class="nav-item dropdown" sec:authorize="hasRole('PROPIETARIO')">
+                <!--LINK PADRE-->
+                <a
+                    class="nav-link dropdown-toggle text-white"
+                    href="#"
+                    id="navbarDropdownMenuLinkRight"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    >PROPIEDADES</a
+                >
+
+                <!--DESPLEGABLE ITEMS-->
+                <ul
+                    class="dropdown-menu"
+                    aria-labelledby="navbarDropdownMenuLinkRight"
+                    >
+                    <!--ITEM HIJO-->
+                    <li>
+                        <a class="dropdown-item" href="/propiedad/registrar">CREAR</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">LISTAR</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">MODIFICAR<span sec:authorize="hasRole('ADMIN')">/ELIMINAR</span></a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item dropdown" sec:authorize="hasRole('CLIENTE')">
+                <!--LINK PADRE-->
+                <a
+                    class="nav-link dropdown-toggle text-white"
+                    href="#"
+                    id="navbarDropdownMenuLinkRight"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    >RESERVAS</a
+                >
+                <!--DESPLEGABLE ITEMS-->
+                <ul
+                    class="dropdown-menu"
+                    aria-labelledby="navbarDropdownMenuLinkRight"
+                    >
+                    <!--ITEM HIJO-->
+                    <li>
+                        <a class="dropdown-item" href="#">CREAR</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">LISTAR</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">MODIFICAR</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/cliente/perfil"><span sec:authorize="hasRole('CLIENTE')">PERFIL</span></a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/propietario/perfil"><span sec:authorize="hasRole('PROPIETARIO')">PERFIL</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/logout">SALIR</a>
+            </li>
+        </ul>
+    </div>
+</nav>

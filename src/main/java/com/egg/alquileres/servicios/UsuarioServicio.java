@@ -32,52 +32,53 @@ public class UsuarioServicio implements UserDetailsService {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
-    
-    
+
     @Autowired
     private ClienteServicio clienteServicio;
     @Autowired
     private PropietarioServicio propietarioServicio;
 
     // MËTODO PARA VALIDAR LOS PARAMETROS RECIBIDOS DEL FORMULARIO
-    private void validar(String nombre, String apellido, String email, String password, String password2, String telefono) throws MiException {
+    public void validar(String nombre, String apellido, String email, String password, String password2, String telefono) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre no puede ser nulo ni estar vacio.");
         }
 
-        if (apellido == null || nombre.isEmpty()) {
+        if (apellido == null || apellido.isEmpty()) {
             throw new MiException("El apellido no puede ser nulo ni estar vacio.");
         }
 
-        if (email == null || nombre.isEmpty()) {
+        if (email == null || email.isEmpty()) {
             throw new MiException("El Email no puede ser nulo ni estar vacio.");
         }
-        if (password == null || nombre.isEmpty() || password.length() <= 5) {
+        if (password == null || password.isEmpty() || password.length() <= 5) {
             throw new MiException("La contraseña no puede ser nulo ni estar vacio y debe contener mas de 5 dígitos.");
         }
         if (!password.equals(password2)) {
             throw new MiException("Las contraseñas deben ser iguales");
         }
-        if (telefono == null || nombre.isEmpty()) {
+        if (telefono == null || telefono.isEmpty()) {
             throw new MiException("El numero de telefono no puede ser nulo ni estar vacio.");
         }
-
     }
 
     // METODO PARA REGISTRAR UN USUARIO
     @Transactional
     public void registrar(String nombre, String apellido, String email, String password, String password2, String telefono, String rol) throws MiException {
         // llamo al metodo validar pasando los parametros recibidos del form
+        if (rol == null || rol.isEmpty()) {
+            throw new MiException("El rol no puede ser nulo ni estar vacio.");
+        }
+        
         validar(nombre, apellido, email, password, password2, telefono);
 
-        // Antes de persistir pregunto que rol tendra y llamo al correspondiente servicio
+        // Antes de registrar pregunto que rol tendra y llamo al correspondiente servicio
         if (rol.equalsIgnoreCase("cliente")) {
-            clienteServicio.registrarCliente(nombre, apellido, email, password, password2, telefono);
-        }else{
+            clienteServicio.registrar(nombre, apellido, email, password, password2, telefono);
+        } else {
             propietarioServicio.registrarPropietario(nombre, apellido, email, password, password2, telefono);
         }
     }
-
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -178,7 +179,7 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarios;
     }
 
-    public Usuario getOne(String id) {
-        return usuarioRepositorio.getById(id);
-    }
+//    public Usuario getOne(String id) {
+//        return usuarioRepositorio.getById(id);
+//    }
 }
