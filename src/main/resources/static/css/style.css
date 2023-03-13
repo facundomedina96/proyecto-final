@@ -1,0 +1,205 @@
+/* lo primero es descargar de https://fonts.google.com/ las fuentes a utilizar y linkearlos en el head.  Aboreto y Roboto en mi caso*/
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: "Aboreto", cursive;
+}
+
+@font-face {
+    font-family: "english";
+    src: url(../fonts/EnglishTowne.ttf);
+}
+
+body {
+    /* agregar el gradiente cambiar a hsl bajar la opacidad, poner una coma despues del parentesis. poner url y entre parentesis la direccion del archivo local o de internet */
+    background: linear-gradient(
+        to top,
+        hsla(291, 100%, 1%, 0.61) 0%,
+        /* <- cambiar color y opacidad gradientes  */ hsla(0, 0%, 87%, 0.884) 90%
+        ),
+        url(https://www.cocktelera.com.mx/wp-content/uploads/2020/07/suiza-2.jpg); /* <- cambiar imagen a gusto entre los parentesis */
+
+    background-size: cover;
+    /* background-size especifica el tamaño de las imágenes de fondo. */
+    /* Y cover: nos permite escalar la imagen al mayor tamaño posible sin estirarla.*/
+
+    background-repeat: no-repeat;
+    /*background-repeat define como se repiten los fondos del documento. Un fondo de imagen puede ser repetido sobre el eje horizontal, el eje vertical, ambos ejes, o en nuestro caso no estar repetido. */
+
+    background-attachment: fixed;
+    /* background-attachment determina si la posición de la imagen de fondo será fija dentro de la pantalla o se desplazará con su bloque contenedor. */
+    /* con fixed especificamos que la imagen de fondo estará fija en la pantalla y no se moverá con el bloque contenedor. */
+}
+
+/* header */
+
+.contenedorheader {
+    display: flex;
+    /* flex es una propiedad resumida que indica la capacidad de un elemento para alterar sus dimensiones y llenar el espacio disponible. Los elementos flexibles pueden ser estirados para utilizar el espacio disponible proporcional a su factor de crecimiento */
+
+    justify-content: space-between;
+    /* justify-content define cómo el navegador distribuye el espacio entre y alrededor de los items flex, a lo largo del eje principal de su contenedor. */
+    /* con space-between distribuimos los items uniformemente, el primer item al inicio, el último al final */
+
+    padding: 20px 15px;
+    align-items: baseline;
+    /* indica la alineación de un elemento dentro del bloque que lo contiene. */
+    /* baseline: lo alineamos en la Linea Base */
+
+    text-align: center;
+    /* con text-align especificamos la alineación horizontal del texto en un elemento. */
+}
+
+.contenedorheader h1 {
+    font-size: 4em;
+    font-family: "english";
+    /* em es una unidad de medida. */
+    font-weight: 700px;
+    color: rgb(27, 27, 27);
+
+    padding-left: 8px;
+}
+.contenedorheader a {
+    font-size: 1.1em;
+    text-shadow: -1px -1px rgba(255, 255, 255, 0.452);
+    text-decoration: none;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    /* La propiedad text-decoration se usa para establecer el formato de texto a subrayado (underline), suprarrayado (overline), tachado (line-through)  */
+
+    padding: 0 5px;
+    color: rgb(27, 27, 27);
+    font-weight: bold;
+}
+
+.nav-menu a:hover {
+    color: rgb(68, 68, 68);
+}
+
+a:hover {
+    color: rgb(245, 245, 245);
+    text-shadow: -1px -1px rgba(0, 0, 0, 0.452);
+    /* :hover es una pseudo-clase; Generalmente se activa cuando el usuario se desplaza sobre un elemento con el cursor (puntero del mouse). con la propiedad color, modificamos el color al pasar el mouse por el elemento*/
+}
+
+/* Hero*/
+.hero {
+    width: 100%;
+    padding: 45px 50px 60px;
+    display: flex;
+    flex-direction: column;
+    /* flex-direction especifica cómo colocar los objetos flexibles en el contenedor flexible definiendo el eje principal y la dirección */
+    align-items: center;
+    justify-content: center;
+    color: rgb(245, 245, 245);
+    text-shadow: -1px 1px rgba(0, 0, 0, 0.452);
+}
+
+.titleh {
+    text-align: center;
+    padding: auto;
+}
+
+.titleh h1 {
+    font-size: 2.8em;
+    padding: 20px 0px;
+    color: rgb(245, 245, 245);
+    text-shadow: -2px -3px rgba(0, 0, 0, 0.452); /* <- color y opacidad */
+    /* La propiedad text-shadow agrega sombra al texto. */
+    /* acepta valores negativos y positivos. */
+}
+
+.titleh p {
+    font-size: 20px;
+    padding: 15px 50px 10px;
+    font-family: "Roboto", sans-serif;
+}
+
+.hero-btn a {
+    display: block;
+    margin-top: 30px;
+    text-decoration: none;
+    color: rgb(27, 27, 27);
+    font-size: 20px;
+    font-weight: bold;
+    background-color: rgb(245, 245, 245);
+    padding: 20px 30px;
+    border-radius: 20px;
+    /* border radius redondea las esquinas del borde  */
+
+    box-shadow: 3px 4px rgba(0, 0, 0, 0.68);
+    /* box shadow igual que text shadow agrega sombras pueden ser valores negativos y positivos despues el color y la opacidad(0,68) */
+}
+
+.hero-btn a:hover {
+    background-color: rgb(37, 37, 37);
+    color: white;
+}
+
+/*Formulario Login*/
+.img-bg {
+    background: linear-gradient(
+        to top,
+        hsla(291, 50%, 1%, 0.1) 0%,
+        /* <- cambiar color y opacidad gradientes  */ hsla(0, 0%, 50%, 0.5) 95%
+        ), url(https://st4.depositphotos.com/3122905/38857/i/450/depositphotos_388573190-stock-photo-group-young-friends-have-fun.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover; 
+}
+
+.container {
+    background: #1f1f1f;
+    background: linear-gradient(
+        to top,
+        hsla(291, 100%, 1%, 0.61) 0%,
+        /* <- cambiar color y opacidad gradientes  */ hsla(0, 0%, 87%, 0.884) 90%
+        );
+}
+
+/*CARTA MOSTRANDO NOTICIAS*/
+.carta {
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+    background-image:url(/img/texture.jpg);
+    background-position: center center; ;
+
+    transition: all 400ms ease;
+}
+
+.carta:hover {
+    box-shadow: 8px 5px 20px rgba(0, 0, 0, 0.500);;
+    transform: translateY(-3%);
+}
+
+/* CSS DEL MENU DE NAVEGACION ADMIN*/
+.tituloPanel{
+    font-family: "english";
+    font-size: 3em;
+}
+.dropdown-menu li {
+    position: relative;
+}
+.dropdown-menu .dropdown-submenu {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: -7px;
+}
+.dropdown-menu .dropdown-submenu-left {
+    right: 100%;
+    left: auto;
+}
+.dropdown-menu > li:hover > .dropdown-submenu {
+    display: block;
+}
+
+.containerError {
+    margin: 5px;
+    align-items: center;
+    justify-content: center;
+}

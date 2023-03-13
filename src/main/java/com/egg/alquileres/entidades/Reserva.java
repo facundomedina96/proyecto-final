@@ -6,11 +6,9 @@
 package com.egg.alquileres.entidades;
 
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import lombok.AllArgsConstructor;
@@ -39,13 +37,11 @@ public class Reserva {
     private Date fechaDesde;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaHasta;
-    @OneToMany
-    private List<Prestacion> prestacionesContratadas;
 
-    @OneToOne
-    private Propietario propietario;
+    private Double precio;
+    
     @OneToOne
     private Cliente cliente;
-    private String comentario;
-
+    @OneToOne
+    private Propiedad propiedad;
 }

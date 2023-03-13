@@ -1,9 +1,10 @@
 package com.egg.alquileres.entidades;
 
-import java.util.List;
+import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,11 +19,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Propietario extends Usuario {
+@PrimaryKeyJoinColumn(name = "usuario_id") 
+public class Propietario extends Usuario implements Serializable {
 
     @OneToMany
     private Set<Propiedad> propiedades;
 
-    @OneToMany
-    private List<Reserva> reservas;
+//    @OneToMany
+//    private List<Reserva> reservas;
 }
