@@ -24,19 +24,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Service
 public class UsuarioServicio implements UserDetailsService {
 
-<<<<<<< Updated upstream
-    @Autowired
-    private UsuarioRepositorio usuarioRepositorio;
-    
-    
-    @Autowired
-    private ClienteServicio clienteServicio;
-    @Autowired
-    private PropietarioServicio propietarioServicio;
-
-    // MËTODO PARA VALIDAR LOS PARAMETROS RECIBIDOS DEL FORMULARIO
-    private void validar(String nombre, String apellido, String email, String password, String password2, String telefono) throws MiException {
-=======
     private final UsuarioRepositorio usuarioRepositorio;
 
     public UsuarioServicio(UsuarioRepositorio usuarioRepositorio) {
@@ -44,7 +31,6 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     public void validar(String nombre, String apellido, String email, String password, String password2, String telefono) throws MiException {
->>>>>>> Stashed changes
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre no puede ser nulo ni estar vacio.");
         }
@@ -67,49 +53,7 @@ public class UsuarioServicio implements UserDetailsService {
         }
 
     }
-
-    @Transactional
-<<<<<<< Updated upstream
-    public void registrar(String nombre, String apellido, String email, String password, String password2, String telefono, String rol) throws MiException {
-        // llamo al metodo validar pasando los parametros recibidos del form
-        validar(nombre, apellido, email, password, password2, telefono);
-
-        // Antes de persistir pregunto que rol tendra y llamo al correspondiente servicio
-        if (rol.equalsIgnoreCase("cliente")) {
-            clienteServicio.registrarCliente(nombre, apellido, email, password, password2, telefono);
-        }else{
-            propietarioServicio.registrarPropietario(nombre, apellido, email, password, password2, telefono);
-        }
-    }
-
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
-        // en primer lugar vamos a buscar un usuario de nuestro dominio 
-        // a traves del metodo que escribimos en nuestro repositorio
-        // y transformarlo en un usuario del dominio de Spring Security.
-        Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
-
-        if (usuario != null) { // si el usuario existe procedemos
-            // instanciamos un objeto de la Clase User
-            // el constructor de la clase nos solicitara varios parametros
-            // un nombre de usuario, contraseña y una lista de permisos
-
-            // para los permisos nos creamos una lista que almacene objetos de la clase GrantedAuthority
-            List<GrantedAuthority> permisos = new ArrayList();
-
-            //posteriormente creamos permisos para un usuario --> per; 
-            // lo instanciamos como SimpleGrantedAuthority y dentro del constructor
-            // especificamos a quien le vamos a dar esos permisos --> "ROLE_" + getRol().
-            GrantedAuthority per = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString());
-
-            // luego agregamos esos permisos a la lista creada mas arriba
-            permisos.add(per);
-
-            // agregamos los permisos al constructor junto con email y la contraseña            
-            User user = new User(usuario.getEmail(), usuario.getPassword(), permisos);
-=======
+    
     public void registrar(String nombre, String apellido, String email, String password, String password2, String telefono, Rol rol) throws MiException {
 
         validar(nombre, apellido, email, password, password2, telefono);
@@ -117,7 +61,7 @@ public class UsuarioServicio implements UserDetailsService {
         if (rol == null) {
             throw new MiException("El rol no puede ser nulo.");
         }
->>>>>>> Stashed changes
+        
 
         Usuario usuario = new Usuario();
 
@@ -177,11 +121,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuarios = usuarioRepositorio.buscarUsuarios();
         return usuarios;
     }
-
-<<<<<<< Updated upstream
-    public Usuario getOne(String id) {
-        return usuarioRepositorio.getById(id);
-=======
+        
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
@@ -206,6 +146,5 @@ public class UsuarioServicio implements UserDetailsService {
         } else {
             return null;
         }
->>>>>>> Stashed changes
     }
 }

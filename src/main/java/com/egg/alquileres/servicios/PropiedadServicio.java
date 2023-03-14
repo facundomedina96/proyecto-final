@@ -14,11 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-<<<<<<< Updated upstream
-import org.springframework.beans.factory.annotation.Autowired;
-=======
 import java.util.TreeSet;
->>>>>>> Stashed changes
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,14 +53,9 @@ public class PropiedadServicio {
     public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario) throws MiException, ParseException {
 
         validar(nombre, direccion, ciudad, precio, propietario);
-<<<<<<< Updated upstream
-        // Crear una lista para guardar las fechas disponibles
-        List<Date> fechasDisponibles = new ArrayList<>();
-=======
 
         // Crear una lista para guardar las fechas disponibles
-        Set<Date> fechasDisponibles = new TreeSet<>();
->>>>>>> Stashed changes
+        Set<Date> fechasDisponibles = new TreeSet();
 
         // Obtener la fecha actual
         Calendar fechaActual = Calendar.getInstance();
@@ -90,11 +81,7 @@ public class PropiedadServicio {
         propiedad.setPrecio_base(precio);
         propiedad.setEstado(Boolean.TRUE);
         propiedad.setPropietario(propietario);
-<<<<<<< Updated upstream
-        propiedad.setFechasDisponibles(fechasDisponibles);
-=======
         propiedad.setFechasDisponibles((Set<Date>) fechasDisponibles);
->>>>>>> Stashed changes
 
         // Si es un admin el que crea la noticia la guardo sin idCreador la relacion es con periodista
         propiedadRepositorio.save(propiedad);
