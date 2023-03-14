@@ -1,10 +1,10 @@
 package com.egg.alquileres.servicios;
 
 import com.egg.alquileres.entidades.Propiedad;
-import com.egg.alquileres.entidades.Propietario;
+import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.repositorios.PropiedadRepositorio;
-import com.egg.alquileres.repositorios.PropietarioRepositorio;
+import com.egg.alquileres.repositorios.UsuarioRepositorio;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,33 +14,34 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+<<<<<<< Updated upstream
 import org.springframework.beans.factory.annotation.Autowired;
+=======
+import java.util.TreeSet;
+>>>>>>> Stashed changes
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- *
- * @author Hernan E Encizo
- */
 @Service
 public class PropiedadServicio {
 
-    @Autowired
-    private PropiedadRepositorio propiedadRepositorio;
-    @Autowired
-    private PropietarioRepositorio propietarioRepositorio;
+    private final PropiedadRepositorio propiedadRepositorio;
+    private final UsuarioRepositorio usuarioRepositorio;
 
-    private void validar(String nombre, String direccion, String ciudad, Double precio, Propietario propietario) throws MiException {
+    public PropiedadServicio(PropiedadRepositorio propiedadRepositorio, UsuarioRepositorio usuarioRepositorio) {
+        this.propiedadRepositorio = propiedadRepositorio;
+        this.usuarioRepositorio = usuarioRepositorio;
+    }
+    
+    private void validar(String nombre, String direccion, String ciudad, Double precio, Usuario propietario) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre no puede ser nulo ni estar vacio.");
         }
-
         if (direccion == null || direccion.isEmpty()) {
             throw new MiException("La direccion no puede ser nulo ni estar vacio.");
         }
-
         if (ciudad == null || ciudad.isEmpty()) {
             throw new MiException("La ciudad no puede ser nulo ni estar vacio.");
         }
@@ -53,11 +54,17 @@ public class PropiedadServicio {
     }
 
     @Transactional
-    public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Propietario propietario) throws MiException, ParseException {
+    public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario) throws MiException, ParseException {
 
         validar(nombre, direccion, ciudad, precio, propietario);
+<<<<<<< Updated upstream
         // Crear una lista para guardar las fechas disponibles
         List<Date> fechasDisponibles = new ArrayList<>();
+=======
+
+        // Crear una lista para guardar las fechas disponibles
+        Set<Date> fechasDisponibles = new TreeSet<>();
+>>>>>>> Stashed changes
 
         // Obtener la fecha actual
         Calendar fechaActual = Calendar.getInstance();
@@ -83,7 +90,11 @@ public class PropiedadServicio {
         propiedad.setPrecio_base(precio);
         propiedad.setEstado(Boolean.TRUE);
         propiedad.setPropietario(propietario);
+<<<<<<< Updated upstream
         propiedad.setFechasDisponibles(fechasDisponibles);
+=======
+        propiedad.setFechasDisponibles((Set<Date>) fechasDisponibles);
+>>>>>>> Stashed changes
 
         // Si es un admin el que crea la noticia la guardo sin idCreador la relacion es con periodista
         propiedadRepositorio.save(propiedad);
@@ -129,13 +140,13 @@ public class PropiedadServicio {
 
             Propiedad propiedad = respuesta.get();
 
-            Propietario propietario = new Propietario();
+            Usuario propietario = new Usuario();
 
             propietario = propiedad.getPropietario();
 
             // para poder eliminar una propiedad primeramente debo eliminar la relacion que existe con el propietario
             // es decir eliminar la FK de la tabla lista noticias.
-            List<Propiedad> propiedades = propiedadRepositorio.buscarPorPropietario(propietario.getUsuario_id());
+            List<Propiedad> propiedades = propiedadRepositorio.buscarPorPropietario(propietario.getId());
 
             Iterator<Propiedad> it = propiedades.iterator();
 
@@ -146,10 +157,8 @@ public class PropiedadServicio {
                     break;
                 }
             }
-            // en el bucle elimino la propiedad de la lista seteo la lista actualizada al id del propietario.
-            propietario.setPropiedades((Set<Propiedad>) propiedades);
 
-            propietarioRepositorio.save(propietario);
+            usuarioRepositorio.save(propietario);
 
             // <<ELIMINACION DE LA NOTICIA DE LA BASE DE DATOS>>
             propiedadRepositorio.deleteById(propiedad.getIdPropiedad());
