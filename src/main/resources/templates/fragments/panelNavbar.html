@@ -68,11 +68,8 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-white" href="/cliente/perfil"><span sec:authorize="hasRole('CLIENTE')">PERFIL</span></a>
+                <a class="nav-link text-white" href="/perfil"><span sec:authorize="isAuthenticated()">PERFIL</span></a>
 
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" href="/propietario/perfil"><span sec:authorize="hasRole('PROPIETARIO')">PERFIL</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white" href="/logout">SALIR</a>
