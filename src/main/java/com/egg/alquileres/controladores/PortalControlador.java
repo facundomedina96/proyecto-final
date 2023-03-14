@@ -6,18 +6,10 @@
 package com.egg.alquileres.controladores;
 
 import com.egg.alquileres.entidades.Propiedad;
-<<<<<<< Updated upstream
-=======
 import com.egg.alquileres.entidades.Usuario;
->>>>>>> Stashed changes
 import com.egg.alquileres.servicios.PropiedadServicio;
+import com.egg.alquileres.servicios.UsuarioServicio;
 import java.util.List;
-<<<<<<< Updated upstream
-import org.springframework.beans.factory.annotation.Autowired;
-=======
-import javax.servlet.http.HttpSession;
-import org.springframework.security.access.prepost.PreAuthorize;
->>>>>>> Stashed changes
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,13 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class PortalControlador {
 
-<<<<<<< Updated upstream
-    @Autowired
-    private PropiedadServicio propiedadServicio;
-=======
+
     private final PropiedadServicio propiedadServicio;
     private final UsuarioServicio usuarioServicio;
->>>>>>> Stashed changes
 
     public PortalControlador(PropiedadServicio propiedadServicio, UsuarioServicio clienteServicio, UsuarioServicio usuarioServicio) {
         this.propiedadServicio = propiedadServicio;
@@ -48,10 +36,6 @@ public class PortalControlador {
     @GetMapping("/") // especificamos la ruta donde interactua el usuario
     public String index(ModelMap model) {
         try {
-<<<<<<< Updated upstream
-
-            return "propiedades_list.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
-=======
             //Necesito inyectar en el HTML la lista de propiedades
             List<Propiedad> propiedades = propiedadServicio.listarPropiedades();
             model.put("propiedades", propiedades); 
@@ -63,7 +47,6 @@ public class PortalControlador {
             
             //retorno del HTML
             return "index.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
->>>>>>> Stashed changes
         } catch (Exception e) {
             model.put("error", e.getMessage());
             return "error"; // mas tarde crearemos un html para mostrar si surge errores

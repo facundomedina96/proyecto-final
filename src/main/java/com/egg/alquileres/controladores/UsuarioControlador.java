@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -43,6 +42,19 @@ public class UsuarioControlador {
         } catch (MiException e) {
             model.put("error", e.getMessage());
             return "usuario_form"; // mas tarde crearemos un html para mostrar si surge errores
+        }
+    }
+    
+        @GetMapping("/login") // especificamos la ruta donde interactua el usuario
+    public String login(@RequestParam(required = false) String error, ModelMap modelo) {
+        try {
+            if (error != null) {
+                modelo.put("error", "Usuario o contraseña invalido!");
+            }
+            return "usuario_login"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+        } catch (Exception e) {
+            modelo.put("error", e.getMessage());
+            return "index"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
 
