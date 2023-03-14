@@ -12,7 +12,7 @@ public class Imagen implements Serializable {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String idImagen;
+    private String id;
 
     private String nombre;
     private String formato;
@@ -21,12 +21,12 @@ public class Imagen implements Serializable {
     public Imagen() {
     }
 
-    public String getIdImagen() {
-        return idImagen;
+    public String getId() {
+        return id;
     }
 
-    public void setIdImagen(String idImagen) {
-        this.idImagen = idImagen;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNombre() {
