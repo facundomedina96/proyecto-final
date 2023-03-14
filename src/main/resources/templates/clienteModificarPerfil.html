@@ -31,9 +31,6 @@
                 </nav>
             </section>
         </header>
-        
--        <!-- hero -->
--        <!--<section th:replace="fragments/hero :: _hero"></section>-->
 
         <div th:replace="fragments/error_exito :: _error_exito"></div>
 
@@ -45,25 +42,27 @@
                     <div class="col-md-4 img-bg d-none d-md-block rounded"></div>
                     
                     <div class="col mx-1">
-                        <h3 class="fw-bol text-center py-2 mt-2">Formulario de registro</h3>
+                        <h3 class="fw-bol text-center py-2 mt-2">Formulario de Modificacion</h3>
                         <!---Login -->
 
-                        <form th:action="@{/registro}" method="POST">
-
+                        <form th:action="@{/cliente/modificarPerfil/__${cliente.id}__}" method="POST">
+                           
+                            <input hidden th:value="${id}" name="id">                           
+                            
                             <div class="row">
                                 <div class="col">
                                     <label for="nombre" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" aria-label="Nombre" required>
+                                    <input type="text" th:value="${cliente.nombre}" class="form-control" name="nombre" aria-label="Nombre" required>
                                 </div>
                                 <div class="col">
-                                    <label for="apellido" class="form-label">apellido</label>
-                                    <input type="text" class="form-control" name="apellido" placeholder="Apellido" aria-label="Apellido" required>
+                                    <label for="apellido" class="form-label">Apellido</label>
+                                    <input type="text" class="form-control" th:value="${cliente.apellido}" name="apellido" aria-label="Apellido" required>
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <label for="email" class="form-label mt-1">Email</label>
-                                <input type="email" class="form-control" name="email" required>
+                                <input type="email" th:value="${cliente.email}" class="form-control" name="email" required>
                             </div>
 
                             <div class="row mt-2">
@@ -80,21 +79,13 @@
                             <div class="row mt-2">
                                 <div class="col">
                                     <label for="telefono" class="form-label mt-1">Telefono</label>
-                                    <input type="tel" class="form-control" name="telefono" placeholder="0115545545" required>
-                                </div>
-                                <div class="col">
-                                    <label for="inputState" class="form-label mt-1">Rol a elegir</label>
-                                    <select name="rol" class="form-select" required>
-                                        <option value="">Elegi la opcion</option>
-                                        <option value="CLIENTE">Cliente</option>
-                                        <option value="PROPIETARIO">Propietario</option>
-                                    </select>
+                                    <input type="tel" th:value="${cliente.telefono}" class="form-control" name="telefono" placeholder="0115545545" required>
                                 </div>
                             </div>
 
                             <div class="row my-4">
                                 <div class="col">
-                                    <button type="submit" class="btn btn-success col-md-12">Registarse</button>
+                                    <button type="submit" class="btn btn-success col-md-12">Actualizar</button>
                                 </div>
                                 <div class="col">
                                     <button type="reset" class="btn btn-danger col-md-12">Borrar</button>

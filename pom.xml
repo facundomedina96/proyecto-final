@@ -11,7 +11,7 @@
 	<groupId>com.egg</groupId>
 	<artifactId>alquileres</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>alquileresV2</name>
+	<name>alquileresTNI</name>
 	<description>Proyecto de Alquileres de Quinchos para Fiestas</description>
 	<properties>
 		<java.version>1.8</java.version>
