@@ -38,10 +38,6 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
         http.
                 authorizeRequests()
                 .antMatchers("/css/*", "/js/*", "/img/*", "/**")
-<<<<<<< Updated upstream
-                .permitAll();
-    }    
-=======
                 .permitAll()
                 .and().formLogin()
                 .loginPage("/login")
@@ -57,5 +53,4 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
                 .and().csrf()
                 .disable();
     }
->>>>>>> Stashed changes
 }
