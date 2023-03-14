@@ -47,11 +47,11 @@ public class Propiedad implements Serializable {
     public Propiedad() {
     }
 
-    public String getIdPropiedad() {
+    public String getId() {
         return id;
     }
 
-    public void setIdPropiedad(String id) {
+    public void setId(String id) {
         this.id = id;
     }
 

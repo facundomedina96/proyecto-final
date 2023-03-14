@@ -139,7 +139,7 @@ public class PropiedadServicio {
 
             while (it.hasNext()) {
                 Propiedad aux = it.next();
-                if (aux.getIdPropiedad().equals(id)) {
+                if (aux.getId().equals(id)) {
                     it.remove();
                     break;
                 }
@@ -148,7 +148,7 @@ public class PropiedadServicio {
             usuarioRepositorio.save(propietario);
 
             // <<ELIMINACION DE LA NOTICIA DE LA BASE DE DATOS>>
-            propiedadRepositorio.deleteById(propiedad.getIdPropiedad());
+            propiedadRepositorio.deleteById(propiedad.getId());
 
         } else {
             throw new MiException("No existe una Noticia con ese ID");
