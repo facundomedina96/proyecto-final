@@ -32,19 +32,6 @@ public class PropietarioControlador {
         this.usuarioServicio = propietarioServicio;
     }
 
-    @GetMapping("/dashboard")
-    public String panelPropietario(ModelMap modelo) {
-
-        return "panel.html";
-    }
-
-    @GetMapping("/perfil")
-    public String perfil(ModelMap modelo, HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
-        modelo.put("usuario", usuario);
-        return "usuarioPerfil.html";
-    }
-
     @GetMapping("/modificarPerfil/{id}")
     public String modificarPerfil(ModelMap modelo, @PathVariable String id) {
         // inyeccion en el html del usuario para mostrar sus datos.

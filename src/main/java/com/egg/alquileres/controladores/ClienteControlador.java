@@ -26,19 +26,6 @@ public class ClienteControlador {
     public ClienteControlador(UsuarioServicio usuarioServicio) {
         this.usuarioServicio = usuarioServicio;
     }
-    
-    @GetMapping("/dashboard")
-    public String panelCliente(ModelMap modelo) {
-        return "panel.html";
-    }
-
-    @GetMapping("/perfil")
-    public String perfil(ModelMap modelo, HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
-        
-        modelo.put("usuario", usuario);
-        return "usuarioPerfil.html";
-    }
 
     @GetMapping("/modificarPerfil/{id}")
     public String modificarPerfil(ModelMap modelo, @PathVariable String id) {
