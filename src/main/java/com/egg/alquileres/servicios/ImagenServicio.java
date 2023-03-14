@@ -1,0 +1,90 @@
+package com.egg.alquileres.servicios;
+
+import com.egg.alquileres.entidades.Imagen;
+import com.egg.alquileres.repositorios.ImagenRepositorio;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import javax.transaction.Transactional;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+@Service
+public class ImagenServicio {
+
+    private final ImagenRepositorio imagenRepositorio;
+
+    public ImagenServicio(ImagenRepositorio imagenRepositorio) {
+        this.imagenRepositorio = imagenRepositorio;
+    }
+
+    @Transactional
+    public Imagen crearImagen(MultipartFile archivo) {
+        if (archivo != null) {
+            try {
+
+                Imagen imagen = new Imagen();
+
+                imagen.setContenido(archivo.getBytes());
+                imagen.setFormato(archivo.getContentType());
+                imagen.setNombre(archivo.getName());
+
+                return imagenRepositorio.save(imagen);
+
+            } catch (IOException e) {
+
+                System.err.println(e.getMessage());
+            }
+        }
+        return null;
+    }
+
+    public List<Imagen> listarImagenes() {
+
+        List<Imagen> imagenes = new ArrayList();
+
+        imagenes = imagenRepositorio.findAll();
+
+        return imagenes;
+    }
+
+    public Imagen buscarImagen(String idImagen) {
+        return imagenRepositorio.getOne(idImagen);
+    }
+
+    @Transactional
+    public Imagen actualizarImagen(MultipartFile archivo, String idImagen) {
+        if (archivo != null) {
+            try {
+
+                Imagen imagen = new Imagen();
+
+                if (idImagen != null) {
+                    Optional<Imagen> respuesta = imagenRepositorio.findById(idImagen);
+
+                    if (respuesta.isPresent()) {
+                        imagen = respuesta.get();
+                    }
+                }
+
+                imagen.setFormato(archivo.getContentType());
+
+                imagen.setNombre(archivo.getName());
+
+                imagen.setContenido(archivo.getBytes());
+
+                return imagenRepositorio.save(imagen);
+
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+        }
+        return null;
+    }
+
+    @Transactional
+    public void eliminarImagen(String idImagen) {
+        imagenRepositorio.deleteById(idImagen);
+    }
+}

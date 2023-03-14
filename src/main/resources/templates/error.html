@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+   <head th:replace="/fragments/head :: _head"></head>
+
+    <body>
+        <!-- header -->
+        <header class="px-4">
+            <section class="contenedorheader">
+
+                <a th:href="@{/}"><h1>Egg Alquiler</h1></a>
+                <nav class="nav-menu">
+                    <a th:href="@{/}">Inicio</a>
+                    <a href="#contact">Contacto</a>
+                </nav>
+
+            </section>
+        </header>
+
+        <div class="contenedorheader">
+            <a class="navbar-brand" th:text="'Error ' + ${codigo}">EGG NEW's</a>
+            <p class="tituloLibros" th:text="${mensaje}"></p>
+        </div>
+
+        <section class="text-center containerBotonError">
+            <div class="row mt-3">
+                <div class="divVolver">
+                    <a th:href="@{/}" class="btn btn-secondary my-2 botonVolver botones">Volver</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="footerError">
+            <footer th:replace="/fragments/footer :: _footer"></footer>
+        </div>
+
+
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+    </body>
+
+</html>

@@ -27,6 +27,6 @@ class Prestacion {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    protected String idPrestacion;
+    protected String id;
     
 }

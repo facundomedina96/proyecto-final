@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <!-- CABEZA DEL HTML-->
+   <head>
+        <title>Propiedad Inicio</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Aboreto&family=Molle&family=Roboto:wght@300;400;700&display=swap");
+        </style>
+        <link rel="stylesheet" href="css\style.css" />
+        <link rel="stylesheet" href="css\font-awesome.min.css" />
+        <!-- LINK BOOTSTRAP -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    </head>
+
+    <!-- CUERPO DEL HTML-->
+    <body>
+        <!--SI ESTAMOS EN ESTE HTM SIGNIFICA QUE YA ESTAMOS DENTRO POR TANTO EL HEADER TIENE QUE TENER SALIR E INICIO-->
+        <!-- header -->
+        <header class="px-4">
+            <section class="contenedorheader">
+                <a href=""><h1>Egg Alquileres</h1></a>
+                <nav class="nav-menu">
+                    <a href="#contact">Contacto</a>
+                    <a href="/registrar">Registrarse</a>
+                </nav>
+            </section>
+        </header>
+
+        <main class="container text-center mt-5 p-2 ">
+
+            <div class="m-5 text-center">
+                <h1 style="font-size: 3.2em"><strong>Propiedades</strong></h1>
+            </div>
+
+            <!-- EN caso de exito o error-->
+
+            <!-- CARDs NOTICIA -->
+            <div class="row m-4">
+
+                <!--breakpont de las columnas, sm(pequeña ocupa 12), mediana(6x2), large(4x3). padding en Y de 3-->
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 py-3" th:each="propiedad : ${propiedades}">
+
+                    <!--Usamos th:each para recorrer la lista que recibimos desde el controlador-->
+
+                    <div class="card d-flex carta" style="min-height:540px"> 
+
+                        <!--Utilizamos th:ref para especificar la ruta a donde se redigirá al hacer click th:href="@{detalle/{id}(id=${noticia.id})}"-->
+                        <a class="text-decoration-none text-black" th:href="@{/detalle/{id}(id=${propiedad.id})}">
+
+                            <img class="card-img-top" th:src="${'/imagen/propiedad/' + propiedad.id}" style="min-height:300px; max-height:325px">
+
+                            <div class="card-body justify-content-center">
+                                <h3 class="card-title text-center" th:text="${propiedad.nombre}"></h3>
+                                <h2 class="card-title text-center" th:text="${propiedad.direccion}"></h2>
+                                <h2 class="card-title text-center" th:text="${propiedad.ciudad}"></h2>
+                                <h2 class="card-title text-center" th:text="${propiedad.precio}"></h2>
+                            </div>
+
+                            <div class="card-footer position-absolute bottom-0 start-50 translate-middle-x" style="width: 100%" >
+                                <small class="text-muted " th:text="${noticia.alta}"></small>
+                            </div>
+
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+        <!-- PIE DEL ARCHIVO HTML -->
+    </body>
+</html>
+
