@@ -51,7 +51,12 @@
                                     <h4 class="card-title text-center" th:text="${propiedad.direccion}"></h4>
                                     <h4 class="card-title text-center" th:text="${propiedad.ciudad}"></h4>
                                     <h4 class="card-title text-center" th:text="${propiedad.precio_base}"></h4>
-<!--                                <h2 class="card-title text-center" th:text="${propiedad.propietario.nombre}"></h2>-->       
+                                    <img class="img-thumbnail" th:src="@{/imagen/perfil/__${propiedad.id}__}" alt="100%x180">
+
+
+
+
+                                <h2 class="card-title text-center" th:text="${propiedad.propietario.nombre}"></h2>      
                                 </div>
 
 <!--                            <div class="card-footer position-absolute bottom-0 start-50 translate-middle-x" style="width: 100%" >

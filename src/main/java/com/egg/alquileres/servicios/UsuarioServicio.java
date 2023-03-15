@@ -53,7 +53,7 @@ public class UsuarioServicio implements UserDetailsService {
         }
 
     }
-    
+
     public void registrar(String nombre, String apellido, String email, String password, String password2, String telefono, Rol rol) throws MiException {
 
         validar(nombre, apellido, email, password, password2, telefono);
@@ -61,7 +61,7 @@ public class UsuarioServicio implements UserDetailsService {
         if (rol == null) {
             throw new MiException("El rol no puede ser nulo.");
         }
-        
+
 
         Usuario usuario = new Usuario();
 
@@ -73,7 +73,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setTelefono(telefono);
         usuario.setActivo(Boolean.TRUE);
         usuario.setRol(rol);
-        
+
         usuarioRepositorio.save(usuario);
     }
 
@@ -121,7 +121,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuarios = usuarioRepositorio.buscarUsuarios();
         return usuarios;
     }
-        
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
