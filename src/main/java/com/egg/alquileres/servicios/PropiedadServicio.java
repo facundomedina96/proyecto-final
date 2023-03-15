@@ -177,7 +177,8 @@ public class PropiedadServicio {
 
         return propiedades;
     }
-      @Transactional(readOnly = true)
+    
+    @Transactional(readOnly = true)
     public Propiedad listarPropiedadesPorId(String id) throws MiException{
         
         
