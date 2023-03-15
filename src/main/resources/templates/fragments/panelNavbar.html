@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-md navbar-light bg-dark px-5" th:fragment="_panelNav">
     <div class="containerPanel d-flex text-center">
-        <a href="#" class="text-white text-decoration-none"
-           ><h1 class="tituloPanel">Egg Alquiler's</h1></a
-        >
+        <a href="#" class="text-white text-decoration-none"></a>
+        <h1 class="tituloPanel">Egg Alquiler's</h1>
+        </a>
     </div>
     <div class="container-fluid">
         <ul class="navbar-nav ms-auto">
@@ -10,21 +10,11 @@
 
             <li class="nav-item dropdown" sec:authorize="hasRole('PROPIETARIO')">
                 <!--LINK PADRE-->
-                <a
-                    class="nav-link dropdown-toggle text-white"
-                    href="#"
-                    id="navbarDropdownMenuLinkRight"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    >PROPIEDADES</a
-                >
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLinkRight" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">PROPIEDADES</a>
 
                 <!--DESPLEGABLE ITEMS-->
-                <ul
-                    class="dropdown-menu"
-                    aria-labelledby="navbarDropdownMenuLinkRight"
-                    >
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkRight">
                     <!--ITEM HIJO-->
                     <li>
                         <a class="dropdown-item" href="/propiedad/registrar">CREAR</a>
@@ -33,27 +23,18 @@
                         <a class="dropdown-item" href="#">LISTAR</a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">MODIFICAR<span sec:authorize="hasRole('ADMIN')">/ELIMINAR</span></a>
+                        <a class="dropdown-item" href="#">MODIFICAR<span
+                                sec:authorize="hasRole('ADMIN')">/ELIMINAR</span></a>
                     </li>
                 </ul>
             </li>
 
             <li class="nav-item dropdown" sec:authorize="hasRole('CLIENTE')">
                 <!--LINK PADRE-->
-                <a
-                    class="nav-link dropdown-toggle text-white"
-                    href="#"
-                    id="navbarDropdownMenuLinkRight"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    >RESERVAS</a
-                >
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLinkRight" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">RESERVAS</a>
                 <!--DESPLEGABLE ITEMS-->
-                <ul
-                    class="dropdown-menu"
-                    aria-labelledby="navbarDropdownMenuLinkRight"
-                    >
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkRight">
                     <!--ITEM HIJO-->
                     <li>
                         <a class="dropdown-item" href="#">CREAR</a>
@@ -64,6 +45,35 @@
                     <li>
                         <a class="dropdown-item" href="#">MODIFICAR</a>
                     </li>
+                </ul>
+            </li>
+
+            <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+                <!--LINK PADRE-->
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLinkRight" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">PROPIEDADES</a>
+
+                <!--DESPLEGABLE ITEMS-->
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkRight">
+                    <!--ITEM HIJO-->
+                    <li>
+                        <a class="dropdown-item" th:href="@{/}">LISTAR</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+                <!--LINK PADRE-->
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownMenuLinkRight" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">USUARIOS</a>
+                <!--DESPLEGABLE ITEMS-->
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkRight">
+                    <!--ITEM HIJO-->
+
+                    <li>
+                        <a class="dropdown-item" th:href="@{/admin/usuarios}">LISTAR</a>
+                    </li>
+
                 </ul>
             </li>
 
