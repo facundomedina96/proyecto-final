@@ -35,23 +35,22 @@ public class UsuarioServicio implements UserDetailsService {
             throw new MiException("El nombre no puede ser nulo ni estar vacio.");
         }
 
-        if (apellido == null || nombre.isEmpty()) {
+        if (apellido == null || apellido.isEmpty()) {
             throw new MiException("El apellido no puede ser nulo ni estar vacio.");
         }
 
-        if (email == null || nombre.isEmpty()) {
+        if (email == null || email.isEmpty()) {
             throw new MiException("El Email no puede ser nulo ni estar vacio.");
         }
-        if (password == null || nombre.isEmpty() || password.length() <= 5) {
+        if (password == null || password.isEmpty() || password.length() <= 5) {
             throw new MiException("La contraseña no puede ser nulo ni estar vacio y debe contener mas de 5 dígitos.");
         }
         if (!password.equals(password2)) {
             throw new MiException("Las contraseñas deben ser iguales");
         }
-        if (telefono == null || nombre.isEmpty()) {
+        if (telefono == null || telefono.isEmpty()) {
             throw new MiException("El numero de telefono no puede ser nulo ni estar vacio.");
         }
-
     }
     
     public void registrar(String nombre, String apellido, String email, String password, String password2, String telefono, Rol rol) throws MiException {
