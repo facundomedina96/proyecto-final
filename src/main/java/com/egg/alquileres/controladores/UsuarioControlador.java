@@ -26,7 +26,7 @@ public class UsuarioControlador {
     @GetMapping("/registrar") // especificamos la ruta donde interactua el usuario
     public String registrar(ModelMap model) {
         try {
-            return "usuarioFormulario"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+            return "usuario_form"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {
             model.put("error", e.getMessage());
             return "error"; // mas tarde crearemos un html para mostrar si surge errores

@@ -1,57 +1,55 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <style>
-            @import url("https://fonts.googleapis.com/css2?family=Aboreto&family=Molle&family=Roboto:wght@300;400;700&display=swap");
-        </style>
-        <link rel="stylesheet" href="/css/style.css" />
-        <link rel="stylesheet" href="/css/font-awesome.min.css" />
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-            crossorigin="anonymous"
-            />
-        <title>Panel Propietarios</title>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    </head>
-    <body>
-        <nav th:replace="/fragments/panelNavbar :: _panelNav"></nav>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Aboreto&family=Molle&family=Roboto:wght@300;400;700&display=swap");
+    </style>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
+    <title>Panel Propietarios</title>
 
-        <!--EN caso de exito o error -->
+</head>
 
-        <div th:replace="fragments/error_exito :: _error_exito"></div>
+<body>
+    <nav th:replace="/fragments/panelNavbar :: _panelNav"></nav>
 
-        <!-- hero -->
-        <section class="hero">
-            <div class="titleh">
-                <h1 class="py-3">Bienvenido a Egg Alquiler's</h1>
-                <h3>Seccion de
-                    <span sec:authorize="hasRole('CLIENTE')">CLIENTES</span> 
-                    <span sec:authorize="hasRole('PROPIETARIO')">PROPIETARIOS</span>
-                </h3>
-                <p class="my-1" >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit,
-                    delectus. Tempore vitae dignissimos asperiores neque. Laboriosam,
-                    delectus, autem labore voluptatibus officiis ex quos nihil magni
-                    similique rem in porro consectetur esse. Vero at nobis ratione illum
-                    adipisci atque ad earum ea dicta harum corrupti animi, maiores eveniet
-                    assumenda quaerat minus! Lorem ipsum dolor sit amet consectetur
-                    adipisicing elit. Rerum, sed corrupti. Natus minus alias doloribus quo
-                    commodi? Officiis, nobis blanditiis!
-                </p>
-            </div>
-        </section>
+    <!--EN caso de exito o error -->
 
-        <footer th:replace="fragments/footer :: _footer"></footer>
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-            crossorigin="anonymous"
-        ></script>
-    </body>
+    <div th:replace="fragments/error_exito :: _error_exito"></div>
+
+    <!-- hero -->
+    <section class="hero">
+        <div class="titleh">
+            <h1 class="py-3">Bienvenido a Egg Alquiler's</h1>
+            <h3>Seccion de
+                <span sec:authorize="hasRole('CLIENTE')">CLIENTES</span>
+                <span sec:authorize="hasRole('PROPIETARIO')">PROPIETARIOS</span>
+                <span sec:authorize="hasRole('ADMIN')">ADMIN</span>
+            </h3>
+            <p class="my-1">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit,
+                delectus. Tempore vitae dignissimos asperiores neque. Laboriosam,
+                delectus, autem labore voluptatibus officiis ex quos nihil magni
+                similique rem in porro consectetur esse. Vero at nobis ratione illum
+                adipisci atque ad earum ea dicta harum corrupti animi, maiores eveniet
+                assumenda quaerat minus! Lorem ipsum dolor sit amet consectetur
+                adipisicing elit. Rerum, sed corrupti. Natus minus alias doloribus quo
+                commodi? Officiis, nobis blanditiis!
+            </p>
+        </div>
+    </section>
+
+    <footer th:replace="fragments/footer :: _footer"></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+</body>
+
 </html>
