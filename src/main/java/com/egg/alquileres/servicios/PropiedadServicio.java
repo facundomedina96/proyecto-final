@@ -1,5 +1,6 @@
 package com.egg.alquileres.servicios;
 
+import com.egg.alquileres.entidades.Imagen;
 import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.excepciones.MiException;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,13 +27,15 @@ public class PropiedadServicio {
 
     private final PropiedadRepositorio propiedadRepositorio;
     private final UsuarioRepositorio usuarioRepositorio;
+    private final ImagenServicio imagenServicio;
 
-    public PropiedadServicio(PropiedadRepositorio propiedadRepositorio, UsuarioRepositorio usuarioRepositorio) {
+    public PropiedadServicio(PropiedadRepositorio propiedadRepositorio, UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio) {
         this.propiedadRepositorio = propiedadRepositorio;
         this.usuarioRepositorio = usuarioRepositorio;
+        this.imagenServicio = imagenServicio;
     }
     
-    private void validar(String nombre, String direccion, String ciudad, Double precio, Usuario propietario) throws MiException {
+    private void validar(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre no puede ser nulo ni estar vacio.");
         }
@@ -47,12 +51,15 @@ public class PropiedadServicio {
         if (propietario == null) {
             throw new MiException("El propietario no puede ser nulo ni estar vacio.");
         }
+        if (fotos == null || fotos.isEmpty()){
+            throw new MiException("Debe ingresar una foto.");
+        }
     }
 
     @Transactional
-    public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario) throws MiException, ParseException {
+    public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos) throws MiException, ParseException {
 
-        validar(nombre, direccion, ciudad, precio, propietario);
+        validar(nombre, direccion, ciudad, precio, propietario, fotos);
 
         // Crear una lista para guardar las fechas disponibles
         Set<Date> fechasDisponibles = new TreeSet();
@@ -71,6 +78,8 @@ public class PropiedadServicio {
             fechaActual.add(Calendar.DATE, 1);
             fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
         }
+        
+        Imagen imagen = imagenServicio.crearImagen(fotos);
 
         // Retornar una nueva instancia de Casa con los parámetros proporcionados y las fechas disponible
         Propiedad propiedad = new Propiedad();
@@ -82,6 +91,7 @@ public class PropiedadServicio {
         propiedad.setEstado(Boolean.TRUE);
         propiedad.setPropietario(propietario);
         propiedad.setFechasDisponibles((Set<Date>) fechasDisponibles);
+        propiedad.setFotos(imagen);
 
         // Si es un admin el que crea la noticia la guardo sin idCreador la relacion es con periodista
         propiedadRepositorio.save(propiedad);
@@ -97,6 +107,10 @@ public class PropiedadServicio {
         } else {
             throw new MiException("No existe una Propiedad con ese ID");
         }
+    }
+    
+    public List<Propiedad> buscarPropiedadPorPropietario(String idPropietario) {
+        return propiedadRepositorio.buscarPorPropietario(idPropietario);
     }
 
     //Nota: agregue validaciones para que se pueda modificar solo las noticias que le pertenecen a cada periodista
