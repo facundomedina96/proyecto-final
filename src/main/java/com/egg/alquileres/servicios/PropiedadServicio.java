@@ -163,7 +163,17 @@ public class PropiedadServicio {
 
         return propiedades;
     }
+      @Transactional(readOnly = true)
+    public Propiedad listarPropiedadesPorId(String id) throws MiException{
+        
+        
+        List <Propiedad> respuesta = propiedadRepositorio.buscarPorPropietario(id);
+        
+        return (Propiedad) respuesta;
+    }
 
+    
+   
     public Propiedad getOne(String id) {
         return propiedadRepositorio.getById(id);
     }
