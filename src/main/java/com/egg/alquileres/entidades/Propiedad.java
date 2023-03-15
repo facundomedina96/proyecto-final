@@ -43,6 +43,9 @@ public class Propiedad implements Serializable {
 
     @OneToMany
     private List<Reserva> reservasActivas;
+    
+    @OneToOne
+    private Imagen fotos;
 
     public Propiedad() {
     }
@@ -117,6 +120,14 @@ public class Propiedad implements Serializable {
 
     public void setReservasActivas(List<Reserva> reservasActivas) {
         this.reservasActivas = reservasActivas;
+    }
+
+    public Imagen getFotos() {
+        return fotos;
+    }
+
+    public void setFotos(Imagen fotos) {
+        this.fotos = fotos;
     }
 
 }

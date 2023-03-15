@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -29,6 +30,9 @@ public class Usuario implements Serializable {
     private String password;
     private String telefono;
     private Boolean activo;
+
+    @OneToOne
+    private Imagen foto_perfil;
 
     public Usuario() {
     }
@@ -95,6 +99,14 @@ public class Usuario implements Serializable {
 
     public void setActivo(Boolean activo) {
         this.activo = activo;
+    }
+
+    public Imagen getFoto_perfil() {
+        return foto_perfil;
+    }
+
+    public void setFoto_perfil(Imagen foto_perfil) {
+        this.foto_perfil = foto_perfil;
     }
 
 }
