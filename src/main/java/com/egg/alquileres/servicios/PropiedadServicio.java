@@ -167,15 +167,9 @@ public class PropiedadServicio {
     public Propiedad listarPropiedadesPorId(String id) throws MiException{
         
         
-        Optional <Propiedad> respuesta = propiedadRepositorio.findById(id);
+        List <Propiedad> respuesta = propiedadRepositorio.buscarPorPropietario(id);
         
-        if (respuesta.isPresent()) {
-            Propiedad propiedad = respuesta.get();
-            return propiedad;
-        } else {
-            throw new MiException("No existe una Propiedad con ese ID");
-        }
-        
+        return (Propiedad) respuesta;
     }
 
     
