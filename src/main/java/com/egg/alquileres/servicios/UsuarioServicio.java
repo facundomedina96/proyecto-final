@@ -51,7 +51,6 @@ public class UsuarioServicio implements UserDetailsService {
         if (telefono == null || telefono.isEmpty()) {
             throw new MiException("El numero de telefono no puede ser nulo ni estar vacio.");
         }
-
     }
     
     public void registrar(String nombre, String apellido, String email, String password, String password2, String telefono, Rol rol) throws MiException {
