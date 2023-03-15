@@ -101,6 +101,7 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
+    @Transactional
     public void eliminar(String id) throws MiException {
 
         if (id == null || id.isEmpty()) {
@@ -121,7 +122,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuarios = usuarioRepositorio.buscarUsuarios();
         return usuarios;
     }
-        
+       
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
