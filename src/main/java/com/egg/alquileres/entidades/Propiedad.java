@@ -17,7 +17,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 public class Propiedad implements Serializable {
-
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -36,13 +35,15 @@ public class Propiedad implements Serializable {
     @OneToOne
     private Usuario propietario;
     
-    // ¿Hace falta?
     @ElementCollection
     @Temporal(TemporalType.DATE) // Agregar la anotación @Temporal(TemporalType.DATE)
     private Set<Date> fechasDisponibles; // Cambiar la lista a un conjunto Set
 
     @OneToMany
     private List<Reserva> reservasActivas;
+    
+    @OneToMany
+    private Set<Imagen> fotos;
 
     public Propiedad() {
     }
@@ -119,4 +120,11 @@ public class Propiedad implements Serializable {
         this.reservasActivas = reservasActivas;
     }
 
+    public Set<Imagen> getFotos() {
+        return fotos;
+    }
+
+    public void setFotos(Set<Imagen> fotos) {
+        this.fotos = fotos;
+    }
 }
