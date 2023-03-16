@@ -56,7 +56,7 @@ public class PropietarioControlador {
             propietarioServicio.modificar(id, nombre, apellido, email, password, password2, telefono);
             modelo.put("exito", "Se ha modificado su perfil con exito");
 
-            return "redirect:/login";
+            return "redirect:/iniciarSesion";
             //return "noticia_list.html";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());

@@ -41,12 +41,8 @@ public class PortalControlador {
             //Necesito inyectar en el HTML la lista de propiedades
             List<Propiedad> propiedades = propiedadServicio.listarPropiedades(); // buscar todas las noticias
             model.put("propiedades", propiedades); 
-            
-            
-            List<Usuario> usuarios = usuarioServicio.listarUsuarios();
-            model.put("usuarios", usuarios);
             //retorno del HTML
-            return "index.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+            return "inicio.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {
             model.put("error", e.getMessage());
             return "error"; // mas tarde crearemos un html para mostrar si surge errores

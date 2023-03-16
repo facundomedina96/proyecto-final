@@ -44,6 +44,7 @@ public class Propiedad implements Serializable {
     private Double precio_base;
     @Column(nullable = false) // Agregar la anotación @Column(nullable = false)
     private Boolean estado;
+   
 
     @OneToOne
     private Propietario propietario;
