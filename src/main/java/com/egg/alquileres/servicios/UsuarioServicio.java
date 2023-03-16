@@ -214,8 +214,7 @@ public class UsuarioServicio implements UserDetailsService {
 
             cliente = reserva.getCliente();
 
-            // para poder eliminar una propiedad primeramente debo eliminar la relacion que existe con el propietario
-            // es decir eliminar la FK de la tabla lista noticias.
+
             List<Reserva> reservas = reservaRepositorio.buscarPorCliente(cliente.getId());
 
             Iterator<Reserva> it = reservas.iterator();
@@ -230,12 +229,15 @@ public class UsuarioServicio implements UserDetailsService {
 
             reservaRepositorio.save(reserva);
 
-            // <<ELIMINACION DE LA NOTICIA DE LA BASE DE DATOS>>
             reservaRepositorio.deleteById(reserva.getId());
 
         } else {
             throw new MiException("No existe una reserva con ese ID");
         }
 
+    }
+
+    public void registrar(String nombre, String apellido, String email, String password, String password2, String telefono, Rol rol) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

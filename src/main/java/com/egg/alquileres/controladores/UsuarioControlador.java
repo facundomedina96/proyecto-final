@@ -39,13 +39,12 @@ public class UsuarioControlador {
     @PostMapping("/registro") // especificamos la ruta donde interactua el usuario
     public String registro(ModelMap model, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String email, @RequestParam String password, @RequestParam String password2, @RequestParam String telefono, @RequestParam Rol rol, @RequestParam MultipartFile foto_perfil) throws MiException {
         try {
-<<<<<<< HEAD
-           
-            usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol);
-=======
+
+           usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol);
+
 
             usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol, foto_perfil);
->>>>>>> 8068158979796709bdf901ca020092b8745b7472
+
 
             model.put("exito", "Ya puedes ingresar con tu correo y contraseña");
 

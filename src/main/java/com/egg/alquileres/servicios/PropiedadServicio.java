@@ -74,11 +74,11 @@ public class PropiedadServicio {
 
         // Agregar todas las fechas desde la fecha actual hasta el fin de año a la lista de fechas disponibles
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-<<<<<<< HEAD
+
         fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
         fechasDisponibles.add(sdf.parse(sdf.format(finDeAnio.getTime())));
         
-=======
+
         while (fechaActual.before(finDeAnio)) {
             fechaActual.add(Calendar.DATE, 1);
             fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
@@ -86,7 +86,7 @@ public class PropiedadServicio {
 
         Imagen imagen = imagenServicio.crearImagen(fotos);
 
->>>>>>> 8068158979796709bdf901ca020092b8745b7472
+
         // Retornar una nueva instancia de Casa con los parámetros proporcionados y las fechas disponible
         Propiedad propiedad = new Propiedad();
 
