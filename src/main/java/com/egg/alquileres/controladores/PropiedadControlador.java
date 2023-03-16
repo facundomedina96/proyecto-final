@@ -11,7 +11,6 @@ import com.egg.alquileres.servicios.PropiedadServicio;
 import com.egg.alquileres.servicios.UsuarioServicio;
 import java.text.ParseException;
 import javax.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,10 +30,14 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/propiedad")
 public class PropiedadControlador {
 
-    @Autowired
-    private PropiedadServicio propiedadServicio;
-    @Autowired
-    private UsuarioServicio usuarioServicio;
+    private final PropiedadServicio propiedadServicio;
+    private final UsuarioServicio usuarioServicio;
+
+    public PropiedadControlador(PropiedadServicio propiedadServicio, UsuarioServicio usuarioServicio) {
+        this.propiedadServicio = propiedadServicio;
+        this.usuarioServicio = usuarioServicio;
+    }
+    
 
     @GetMapping("/registrar") // especificamos la ruta donde interactua el usuario
     public String registrar(ModelMap model, HttpSession session) {
