@@ -1,5 +1,6 @@
 package com.egg.alquileres.servicios;
 
+import com.egg.alquileres.entidades.Imagen;
 import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.excepciones.MiException;
@@ -10,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -25,13 +27,15 @@ public class PropiedadServicio {
 
     private final PropiedadRepositorio propiedadRepositorio;
     private final UsuarioRepositorio usuarioRepositorio;
+    private final ImagenServicio imagenServicio;
 
-    public PropiedadServicio(PropiedadRepositorio propiedadRepositorio, UsuarioRepositorio usuarioRepositorio) {
+    public PropiedadServicio(PropiedadRepositorio propiedadRepositorio, UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio) {
         this.propiedadRepositorio = propiedadRepositorio;
         this.usuarioRepositorio = usuarioRepositorio;
+        this.imagenServicio = imagenServicio;
     }
-    
-    private void validar(String nombre, String direccion, String ciudad, Double precio, Usuario propietario) throws MiException {
+
+    private void validar(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre no puede ser nulo ni estar vacio.");
         }
@@ -47,12 +51,15 @@ public class PropiedadServicio {
         if (propietario == null) {
             throw new MiException("El propietario no puede ser nulo ni estar vacio.");
         }
+        if (fotos == null || fotos.isEmpty()) {
+            throw new MiException("Debe ingresar una foto.");
+        }
     }
 
     @Transactional
-    public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario) throws MiException, ParseException {
+    public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos) throws MiException, ParseException {
 
-        validar(nombre, direccion, ciudad, precio, propietario);
+        validar(nombre, direccion, ciudad, precio, propietario, fotos);
 
         // Crear una lista para guardar las fechas disponibles
         Set<Date> fechasDisponibles = new TreeSet();
@@ -67,9 +74,19 @@ public class PropiedadServicio {
 
         // Agregar todas las fechas desde la fecha actual hasta el fin de año a la lista de fechas disponibles
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+<<<<<<< HEAD
         fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
         fechasDisponibles.add(sdf.parse(sdf.format(finDeAnio.getTime())));
         
+=======
+        while (fechaActual.before(finDeAnio)) {
+            fechaActual.add(Calendar.DATE, 1);
+            fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
+        }
+
+        Imagen imagen = imagenServicio.crearImagen(fotos);
+
+>>>>>>> 8068158979796709bdf901ca020092b8745b7472
         // Retornar una nueva instancia de Casa con los parámetros proporcionados y las fechas disponible
         Propiedad propiedad = new Propiedad();
 
@@ -80,25 +97,18 @@ public class PropiedadServicio {
         propiedad.setEstado(Boolean.TRUE);
         propiedad.setPropietario(propietario);
         propiedad.setFechasDisponibles((Set<Date>) fechasDisponibles);
+        
+        propiedad.setFotos(new HashSet());
+        propiedad.getFotos().add(imagen);
 
         // Si es un admin el que crea la noticia la guardo sin idCreador la relacion es con periodista
         propiedadRepositorio.save(propiedad);
     }
 
-    @Transactional(readOnly = true)
-    public Propiedad buscarPropiedadPorId(String id) throws MiException {
-        Optional<Propiedad> respuesta = propiedadRepositorio.findById(id);
-
-        if (respuesta.isPresent()) {
-            Propiedad propiedad = respuesta.get();
-            return propiedad;
-        } else {
-            throw new MiException("No existe una Propiedad con ese ID");
-        }
+    public void modificarPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos){
+        /* TO DO */
     }
-
-    //Nota: agregue validaciones para que se pueda modificar solo las noticias que le pertenecen a cada periodista
-    // dicha validacion en el controlador podria hacer un metodo en el servicio que se encargue de dicha tarea.
+    
     @Transactional
     public void modificarImagenPropiedad(String id, MultipartFile archivo) throws MiException {
 
@@ -129,8 +139,7 @@ public class PropiedadServicio {
 
             propietario = propiedad.getPropietario();
 
-            // para poder eliminar una propiedad primeramente debo eliminar la relacion que existe con el propietario
-            // es decir eliminar la FK de la tabla lista noticias.
+            
             List<Propiedad> propiedades = propiedadRepositorio.buscarPorPropietario(propietario.getId());
 
             Iterator<Propiedad> it = propiedades.iterator();
@@ -151,6 +160,34 @@ public class PropiedadServicio {
         }
     }
 
+    @Transactional(readOnly = true)
+    public Propiedad buscarPropiedadPorId(String id) throws MiException {
+        Optional<Propiedad> respuesta = propiedadRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+            Propiedad propiedad = respuesta.get();
+            return propiedad;
+        } else {
+            throw new MiException("No existe una Propiedad con ese ID");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Propiedad listarPropiedadesPorPropietario(String id) throws MiException {
+
+        List<Propiedad> respuesta = propiedadRepositorio.buscarPorPropietario(id);
+
+        return (Propiedad) respuesta;
+    }
+
+    public Propiedad getOne(String id) {
+        return propiedadRepositorio.getById(id);
+    }
+
+    public List<Propiedad> buscarPropiedadPorPropietario(String idPropietario) {
+        return propiedadRepositorio.buscarPorPropietario(idPropietario);
+    }
+
     public List<Propiedad> listarPropiedades() {
 
         List<Propiedad> propiedades = new ArrayList();
@@ -158,19 +195,5 @@ public class PropiedadServicio {
         propiedades = propiedadRepositorio.findAll(Sort.by(Sort.Direction.ASC, "nombre"));
 
         return propiedades;
-    }
-      @Transactional(readOnly = true)
-    public Propiedad listarPropiedadesPorId(String id) throws MiException{
-        
-        
-        List <Propiedad> respuesta = propiedadRepositorio.buscarPorPropietario(id);
-        
-        return (Propiedad) respuesta;
-    }
-
-    
-   
-    public Propiedad getOne(String id) {
-        return propiedadRepositorio.getById(id);
     }
 }

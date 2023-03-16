@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ReservaServicio {
+<<<<<<< HEAD
 
     @Autowired
     private ReservaRepositorio reservaRepositorio;
@@ -72,4 +73,8 @@ public class ReservaServicio {
         // los cambios.
         return reserva;
     }
+=======
+    
+    
+>>>>>>> 8068158979796709bdf901ca020092b8745b7472
 }
