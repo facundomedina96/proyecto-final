@@ -52,7 +52,7 @@
                     <!--Utilizamos th:ref para especificar la ruta a donde se redigirá al hacer click th:href="@{detalle/{id}(id=${noticia.id})}"-->
                     <a class="text-decoration-none text-black" th:href="@{/detalle/__${propiedad.id}__}">
 
-                        <img class="card-img-top" th:src="@{/imagen/perfil/__${propiedad.id}__}" style="min-height:300px; max-height:325px">
+                        <img class="card-img-top" th:src="@{/imagen/propiedad/__${propiedad.id}__}" style="min-height:300px; max-height:325px">
 
                         <div class="card-body justify-content-center">
                             <h3 class="card-title text-center" th:text="${propiedad.nombre}"></h3>
