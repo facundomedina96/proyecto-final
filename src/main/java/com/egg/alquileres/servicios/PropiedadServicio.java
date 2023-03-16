@@ -35,7 +35,7 @@ public class PropiedadServicio {
         this.imagenServicio = imagenServicio;
     }
 
-    private void validar(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos) throws MiException {
+    private void validar(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile[] fotos) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre no puede ser nulo ni estar vacio.");
         }
@@ -51,13 +51,13 @@ public class PropiedadServicio {
         if (propietario == null) {
             throw new MiException("El propietario no puede ser nulo ni estar vacio.");
         }
-        if (fotos == null || fotos.isEmpty()) {
+        if (fotos == null) {
             throw new MiException("Debe ingresar una foto.");
         }
     }
 
     @Transactional
-    public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos) throws MiException, ParseException {
+    public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile[] fotos) throws MiException, ParseException {
 
         validar(nombre, direccion, ciudad, precio, propietario, fotos);
 
@@ -79,7 +79,6 @@ public class PropiedadServicio {
             fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
         }
 
-        Imagen imagen = imagenServicio.crearImagen(fotos);
 
         // Retornar una nueva instancia de Casa con los parámetros proporcionados y las fechas disponible
         Propiedad propiedad = new Propiedad();
@@ -91,18 +90,21 @@ public class PropiedadServicio {
         propiedad.setEstado(Boolean.TRUE);
         propiedad.setPropietario(propietario);
         propiedad.setFechasDisponibles((Set<Date>) fechasDisponibles);
-        
-        propiedad.setFotos(new HashSet());
-        propiedad.getFotos().add(imagen);
+
+        propiedad.setFotos(new HashSet<>());
+
+        for (MultipartFile foto : fotos) {
+            propiedad.getFotos().add(imagenServicio.crearImagen(foto));
+        }
 
         // Si es un admin el que crea la noticia la guardo sin idCreador la relacion es con periodista
         propiedadRepositorio.save(propiedad);
     }
 
-    public void modificarPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos){
+    public void modificarPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos) {
         /* TO DO */
     }
-    
+
     @Transactional
     public void modificarImagenPropiedad(String id, MultipartFile archivo) throws MiException {
 
@@ -133,7 +135,6 @@ public class PropiedadServicio {
 
             propietario = propiedad.getPropietario();
 
-            
             List<Propiedad> propiedades = propiedadRepositorio.buscarPorPropietario(propietario.getId());
 
             Iterator<Propiedad> it = propiedades.iterator();
