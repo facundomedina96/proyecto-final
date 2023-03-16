@@ -44,7 +44,6 @@ public class PortalControlador {
             List<Usuario> usuarios = usuarioServicio.listarUsuarios();
             model.put("usuarios", usuarios);
             
-            
             //retorno del HTML
             return "index.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {

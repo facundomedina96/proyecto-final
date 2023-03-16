@@ -41,9 +41,15 @@ public class AdminControlador {
     }
 
     @GetMapping("/eliminaruser/{id}")
-    public String eliminarUsuario(@PathVariable String id) throws MiException {
-        usuarioServicio.eliminar(id);
-        return "redirect:/admin/usuarios";
+    public String eliminarUsuario(ModelMap modelo, @PathVariable String id){
+        try {
+            usuarioServicio.eliminar(id);
+            modelo.put("exito", "Se ha eliminado el usuario con exito");
+            return "redirect:/admin/usuarios";
+        } catch (MiException ex) {
+            modelo.put("error", "No se ha eliminado el usuario, vuelve a intentarlo");
+            return "redirect:/admin/usuarios";
+        }
     }
 
     //@GetMapping("/propiedades")
@@ -54,9 +60,15 @@ public class AdminControlador {
 //    }  ACA REUTILICE EL INDEX
 
     @GetMapping("/eliminarpropiedad/{id}")
-    public String eliminarPropiedad(@PathVariable String id) throws MiException {
-        propiedadServicio.eliminarPropiedad(id);
-        return "redirect:/";
+    public String eliminarPropiedad(ModelMap modelo, @PathVariable String id){
+        try {
+            propiedadServicio.eliminarPropiedad(id);
+            modelo.put("exito", "Se ha eliminado la propiedad con exito");
+            return "redirect:/";
+        } catch (MiException ex) {
+            modelo.put("error", "No se ha eliminado la propiedad, vuelve a intentarlo");
+            return "redirect:/";
+        }
     }
 
 }
