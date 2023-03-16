@@ -8,7 +8,6 @@ import com.egg.alquileres.repositorios.PropiedadRepositorio;
 import com.egg.alquileres.repositorios.UsuarioRepositorio;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -35,7 +34,7 @@ public class PropiedadServicio {
         this.imagenServicio = imagenServicio;
     }
     
-    private void validar(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos) throws MiException {
+    private void validar(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile[] fotos) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre no puede ser nulo ni estar vacio.");
         }
@@ -51,13 +50,13 @@ public class PropiedadServicio {
         if (propietario == null) {
             throw new MiException("El propietario no puede ser nulo ni estar vacio.");
         }
-        if (fotos == null || fotos.isEmpty()){
-            throw new MiException("Debe ingresar una foto.");
+        if (fotos == null){
+            throw new MiException("Debe ingresar al menos una foto.");
         }
     }
 
     @Transactional
-    public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos) throws MiException, ParseException {
+    public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile[] fotos) throws MiException, ParseException {
 
         validar(nombre, direccion, ciudad, precio, propietario, fotos);
 
@@ -78,10 +77,8 @@ public class PropiedadServicio {
             fechaActual.add(Calendar.DATE, 1);
             fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
         }
+        System.out.println(fotos.getClass());
         
-        Imagen imagen = imagenServicio.crearImagen(fotos);
-
-        // Retornar una nueva instancia de Casa con los parámetros proporcionados y las fechas disponible
         Propiedad propiedad = new Propiedad();
 
         propiedad.setNombre(nombre);
@@ -91,11 +88,12 @@ public class PropiedadServicio {
         propiedad.setEstado(Boolean.TRUE);
         propiedad.setPropietario(propietario);
         propiedad.setFechasDisponibles((Set<Date>) fechasDisponibles);
-        
         propiedad.setFotos(new HashSet<>());
-        propiedad.getFotos().add(imagen);
+                
+        for (MultipartFile foto : fotos) {
+            propiedad.getFotos().add(imagenServicio.crearImagen(foto));
+        }
 
-        // Si es un admin el que crea la noticia la guardo sin idCreador la relacion es con periodista
         propiedadRepositorio.save(propiedad);
     }
 
@@ -115,10 +113,8 @@ public class PropiedadServicio {
         return propiedadRepositorio.buscarPorPropietario(idPropietario);
     }
 
-    //Nota: agregue validaciones para que se pueda modificar solo las noticias que le pertenecen a cada periodista
-    // dicha validacion en el controlador podria hacer un metodo en el servicio que se encargue de dicha tarea.
     @Transactional
-    public void modificarImagenPropiedad(String id, MultipartFile archivo) throws MiException {
+    public void modificarImagenesPropiedad(String id, MultipartFile[] archivo) throws MiException {
 
         if (id == null || id.isEmpty()) {
             throw new MiException("El ID de la noticia no puede ser nulo ni estar vacio.");
@@ -147,8 +143,6 @@ public class PropiedadServicio {
 
             propietario = propiedad.getPropietario();
 
-            // para poder eliminar una propiedad primeramente debo eliminar la relacion que existe con el propietario
-            // es decir eliminar la FK de la tabla lista noticias.
             List<Propiedad> propiedades = propiedadRepositorio.buscarPorPropietario(propietario.getId());
 
             Iterator<Propiedad> it = propiedades.iterator();
@@ -163,7 +157,6 @@ public class PropiedadServicio {
 
             usuarioRepositorio.save(propietario);
 
-            // <<ELIMINACION DE LA NOTICIA DE LA BASE DE DATOS>>
             propiedadRepositorio.deleteById(propiedad.getId());
 
         } else {
@@ -173,9 +166,7 @@ public class PropiedadServicio {
 
     public List<Propiedad> listarPropiedades() {
 
-        List<Propiedad> propiedades = new ArrayList();
-
-        propiedades = propiedadRepositorio.findAll(Sort.by(Sort.Direction.ASC, "nombre"));
+        List<Propiedad> propiedades = propiedadRepositorio.findAll(Sort.by(Sort.Direction.ASC, "nombre"));
 
         return propiedades;
     }

@@ -54,7 +54,7 @@ public class PropiedadControlador {
     }
 
     @PostMapping("/registro/{id}") // especificamos la ruta donde interactua el usuario
-    public String registro(ModelMap model, @RequestParam String nombre, @RequestParam String direccion, @RequestParam String ciudad, @RequestParam Double precio, @RequestParam MultipartFile fotos, @PathVariable("id") String id) {
+    public String registro(ModelMap model, @RequestParam String nombre, @RequestParam String direccion, @RequestParam String ciudad, @RequestParam Double precio, @RequestParam MultipartFile[] fotos, @PathVariable("id") String id) throws MiException {
 
         try {
             Usuario propietario = usuarioServicio.getOne(id);
@@ -64,10 +64,7 @@ public class PropiedadControlador {
 
             model.put("exito", "Propiedad registrada con exito");
             return "redirect:/dashboard";
-        } catch (MiException ex) {
-            model.put("error", ex.getMessage());
-            return "redirect:/propiedad/registrar";
-        } catch (ParseException ex) {
+        } catch (MiException | ParseException ex) {
             model.put("error", ex.getMessage());
             return "redirect:/propiedad/registrar";
         }
