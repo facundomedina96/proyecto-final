@@ -36,7 +36,7 @@ public class UsuarioControlador {
     @PostMapping("/registro") // especificamos la ruta donde interactua el usuario
     public String registro(ModelMap model, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String email, @RequestParam String password, @RequestParam String password2, @RequestParam String telefono, @RequestParam Rol rol) {
         try {
-
+           
             usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol);
 
             model.put("exito", "Ya puedes ingresar con tu correo y contraseña");
