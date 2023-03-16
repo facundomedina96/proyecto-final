@@ -40,7 +40,6 @@ public class PortalControlador {
             List<Propiedad> propiedades = propiedadServicio.listarPropiedades();
             model.put("propiedades", propiedades); 
             
-            
             List<Usuario> usuarios = usuarioServicio.listarUsuarios();
             model.put("usuarios", usuarios);
             
