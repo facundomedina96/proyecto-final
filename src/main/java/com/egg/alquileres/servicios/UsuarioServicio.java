@@ -1,5 +1,6 @@
 package com.egg.alquileres.servicios;
 
+import com.egg.alquileres.entidades.Imagen;
 import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.enumeraciones.Rol;
 import com.egg.alquileres.excepciones.MiException;
@@ -20,25 +21,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UsuarioServicio implements UserDetailsService {
 
     private final UsuarioRepositorio usuarioRepositorio;
+    private final ImagenServicio imagenServicio;
 
-    public UsuarioServicio(UsuarioRepositorio usuarioRepositorio) {
+    public UsuarioServicio(UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio) {
         this.usuarioRepositorio = usuarioRepositorio;
+        this.imagenServicio = imagenServicio;
     }
 
-    public void validar(String nombre, String apellido, String email, String password, String password2, String telefono) throws MiException {
+    public void validar(String nombre, String apellido, String email, String password, String password2, String telefono, MultipartFile foto_perfil) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre no puede ser nulo ni estar vacio.");
         }
-
         if (apellido == null || apellido.isEmpty()) {
             throw new MiException("El apellido no puede ser nulo ni estar vacio.");
         }
-
         if (email == null || email.isEmpty()) {
             throw new MiException("El Email no puede ser nulo ni estar vacio.");
         }
@@ -51,16 +53,20 @@ public class UsuarioServicio implements UserDetailsService {
         if (telefono == null || telefono.isEmpty()) {
             throw new MiException("El numero de telefono no puede ser nulo ni estar vacio.");
         }
+        
+        //En vez de validar la foto de perfil, se le podria asignar una foto de perfil base
+        if (foto_perfil == null || foto_perfil.isEmpty()) {
+            throw new MiException("Error: No se ha logrado cargar la foto de perfil.");
+        }
     }
 
-    public void registrar(String nombre, String apellido, String email, String password, String password2, String telefono, Rol rol) throws MiException {
+    public void registrar(String nombre, String apellido, String email, String password, String password2, String telefono, Rol rol, MultipartFile foto_perfil) throws MiException {
 
-        validar(nombre, apellido, email, password, password2, telefono);
+        validar(nombre, apellido, email, password, password2, telefono, foto_perfil);
 
         if (rol == null) {
             throw new MiException("El rol no puede ser nulo.");
         }
-
 
         Usuario usuario = new Usuario();
 
@@ -73,6 +79,10 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setActivo(Boolean.TRUE);
         usuario.setRol(rol);
 
+        Imagen imagen = imagenServicio.crearImagen(foto_perfil);
+
+        usuario.setFoto_perfil(imagen);
+
         usuarioRepositorio.save(usuario);
     }
 
@@ -80,9 +90,9 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarioRepositorio.getById(id);
     }
 
-    public void modificar(String id, String nombre, String apellido, String email, String password, String password2, String telefono) throws MiException {
+    public void modificar(String id, String nombre, String apellido, String email, String password, String password2, String telefono, MultipartFile foto_perfil) throws MiException {
 
-        validar(nombre, apellido, email, password, password2, telefono);
+        validar(nombre, apellido, email, password, password2, telefono, foto_perfil);
 
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
 
@@ -121,7 +131,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuarios = usuarioRepositorio.buscarUsuarios();
         return usuarios;
     }
-    
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
