@@ -22,7 +22,7 @@
     <div id="album" class="album">
       <!--cards-->
       <div class="card"  th:each="propiedad : ${propiedades}" style="width: 18rem">
-        <img th:src="@{'/imagen/' + ${propiedad.imagen}}"  id="imagen" class="card-img-top" alt="..." /> <!--"@{${'/images/operadores/' + idOperador + '.png'}}"-->
+        <img th:src="@{'/imagen/' + ${propiedad.fotos[0].id}}"  id="imagen" class="card-img-top" alt="..." /> <!--"@{${'/images/operadores/' + idOperador + '.png'}}"-->
         <div class="card-body">
           <h5 class="card-title" th:text="${propiedad.nombre}"></h5>
         </div>

@@ -7,13 +7,10 @@ package com.egg.alquileres.controladores;
 
 import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Usuario;
-import com.egg.alquileres.servicios.ClienteServicio;
 import com.egg.alquileres.servicios.PropiedadServicio;
-import com.egg.alquileres.servicios.UsuarioServicio;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,10 +27,6 @@ public class PortalControlador {
 
     @Autowired
     private PropiedadServicio propiedadServicio;
-    @Autowired
-    private ClienteServicio clienteServicio;
-    @Autowired
-    private UsuarioServicio usuarioServicio;
 
     @GetMapping("/") // especificamos la ruta donde interactua el usuario
     public String index(ModelMap model) {
@@ -56,9 +49,9 @@ public class PortalControlador {
             Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
             
             if(logueado.getRol().toString().equals("PROPIETARIO")){
-                return "redirect:/propietario/dashboard";
+                return "redirect:/propietario/panel"; ////error manda a un controlador que no existe
             }else{
-                return "redirect:/cliente/dashboard"; // si es usuario va a inicio sino dashboard
+                return "redirect:/usuario/panel";// si es usuario va a inicio sino dashboard
             }
            
         } catch (Exception e) {
