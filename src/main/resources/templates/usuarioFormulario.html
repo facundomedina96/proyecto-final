@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Egg Formulario de Propiedad</title>
+    <title>Egg Formulario de Usuario</title>
 
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Aboreto&family=Molle&family=Roboto:wght@300;400;700&display=swap");
@@ -25,10 +25,14 @@
             </a>
             <nav class="nav-menu">
                 <a href="/">Inicio</a>
+                <a href="/login#">Ingresar</a>
                 <a href="#contact">Contacto</a>
             </nav>
         </section>
     </header>
+
+    - <!-- hero -->
+    - <!--<section th:replace="fragments/hero :: _hero"></section>-->
 
     <div th:replace="fragments/error_exito :: _error_exito"></div>
 
@@ -43,43 +47,61 @@
                     <h3 class="fw-bol text-center py-2 mt-2">Formulario de registro</h3>
                     <!---Login -->
 
-                    <form th:action="@{/propiedad/registro/__${usuario.id}__}" method="POST" enctype="multipart/form-data" >
-
-                        <input hidden th:value="${id}" name="id">
+                    <form th:action="@{/registro}" method="POST" enctype="multipart/form-data" >
 
                         <div class="row">
                             <div class="col">
-                                <label for="nombre" class="form-label">Nombre de la propiedad</label>
-                                <input type="text" class="form-control" name="nombre" placeholder="Alpen Palace"
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" name="nombre" placeholder="Nombre"
                                     aria-label="Nombre" required>
                             </div>
                             <div class="col">
-                                <label for="apellido" class="form-label">Direccion</label>
-                                <input type="text" class="form-control" name="direccion" placeholder="Las Ramblas 5432"
-                                    aria-label="Direccion" required>
+                                <label for="apellido" class="form-label">apellido</label>
+                                <input type="text" class="form-control" name="apellido" placeholder="Apellido"
+                                    aria-label="Apellido" required>
                             </div>
                         </div>
 
                         <div class="col-md-12">
-                            <label for="email" class="form-label mt-1">Ciudad</label>
-                            <input type="text" class="form-control" name="ciudad" required placeholder="Misiones">
+                            <label for="email" class="form-label mt-1">Email</label>
+                            <input type="email" class="form-control" name="email" required>
                         </div>
 
                         <div class="row mt-2">
                             <div class="col">
-                                <label for="precio" class="form-label mt-1">Precio</label>
-                                <input type="number" class="form-control" name="precio" placeholder="25.800" required>
+                                <label for="password" class="form-label mt-1">Password</label>
+                                <input type="password" class="form-control" name="password" required>
+                            </div>
+                            <div class="col">
+                                <label for="password2" class="form-label mt-1">Confirm Password</label>
+                                <input type="password" class="form-control" name="password2" required>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col">
+                                <label for="telefono" class="form-label mt-1">Telefono</label>
+                                <input type="tel" class="form-control" name="telefono" placeholder="0115545545"
+                                    required>
+                            </div>
+                            <div class="col">
+                                <label for="inputState" class="form-label mt-1">Rol a elegir</label>
+                                <select name="rol" class="form-select" required>
+                                    <option value="">Elegi la opcion</option>
+                                    <option value="CLIENTE">Cliente</option>
+                                    <option value="PROPIETARIO">Propietario</option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="col">
-                            <label for="foto" class="form-label mt-1">Fotos</label>
-                            <input type="file" class="form-control" multiple="true" name="fotos" alt="Subi tu imagen" required>
+                            <label for="apellido" class="form-label">Foto de Perfil</label>
+                            <input type="file" class="form-control" name="foto_perfil" required>
                         </div>
 
                         <div class="row my-4">
                             <div class="col">
-                                <button type="submit" class="btn btn-success col-md-12">Registar</button>
+                                <button type="submit" class="btn btn-success col-md-12">Registarse</button>
                             </div>
                             <div class="col">
                                 <button type="reset" class="btn btn-danger col-md-12">Borrar</button>
