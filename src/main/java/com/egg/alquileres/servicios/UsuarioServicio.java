@@ -1,53 +1,58 @@
-/*
-    ------>>> TODO: Podria crear Clientes y Propietarios en el mismo Servicio utilizando if y tomar rutas 
-    dependiendo de la eleccion que me llegue por parametro desde un formulario.
- */
 package com.egg.alquileres.servicios;
 
+import com.egg.alquileres.entidades.Imagen;
+import com.egg.alquileres.entidades.Propiedad;
+import com.egg.alquileres.entidades.Reserva;
 import com.egg.alquileres.entidades.Usuario;
+import com.egg.alquileres.enumeraciones.Rol;
 import com.egg.alquileres.excepciones.MiException;
+import com.egg.alquileres.repositorios.ReservaRepositorio;
 import com.egg.alquileres.repositorios.UsuarioRepositorio;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
-/**
- *
- * @author Luz
- */
 @Service
 public class UsuarioServicio implements UserDetailsService {
 
-    @Autowired
-    private UsuarioRepositorio usuarioRepositorio;
+    private final UsuarioRepositorio usuarioRepositorio;
+    private final ImagenServicio imagenServicio;
+    private final ReservaRepositorio reservaRepositorio;
 
-    @Autowired
-    private ClienteServicio clienteServicio;
-    @Autowired
-    private PropietarioServicio propietarioServicio;
+    public UsuarioServicio(UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio, ReservaRepositorio reservaRepositorio) {
+        this.usuarioRepositorio = usuarioRepositorio;
+        this.imagenServicio = imagenServicio;
+        this.reservaRepositorio = reservaRepositorio;
+    }
 
-    // MËTODO PARA VALIDAR LOS PARAMETROS RECIBIDOS DEL FORMULARIO
-    public void validar(String nombre, String apellido, String email, String password, String password2, String telefono) throws MiException {
+    public void validar(String nombre, String apellido, String email, String password, String password2, String telefono, MultipartFile foto_perfil) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre no puede ser nulo ni estar vacio.");
         }
-
         if (apellido == null || apellido.isEmpty()) {
             throw new MiException("El apellido no puede ser nulo ni estar vacio.");
         }
-
         if (email == null || email.isEmpty()) {
             throw new MiException("El Email no puede ser nulo ni estar vacio.");
         }
@@ -60,81 +65,56 @@ public class UsuarioServicio implements UserDetailsService {
         if (telefono == null || telefono.isEmpty()) {
             throw new MiException("El numero de telefono no puede ser nulo ni estar vacio.");
         }
-    }
 
-    // METODO PARA REGISTRAR UN USUARIO
-    @Transactional
-    public void registrar(String nombre, String apellido, String email, String password, String password2, String telefono, String rol) throws MiException {
-        // llamo al metodo validar pasando los parametros recibidos del form
-        if (rol == null || rol.isEmpty()) {
-            throw new MiException("El rol no puede ser nulo ni estar vacio.");
-        }
-        
-        validar(nombre, apellido, email, password, password2, telefono);
-
-        // Antes de registrar pregunto que rol tendra y llamo al correspondiente servicio
-        if (rol.equalsIgnoreCase("cliente")) {
-            clienteServicio.registrar(nombre, apellido, email, password, password2, telefono);
-        } else {
-            propietarioServicio.registrarPropietario(nombre, apellido, email, password, password2, telefono);
+        //En vez de validar la foto de perfil, se le podria asignar una foto de perfil base
+        if (foto_perfil == null || foto_perfil.isEmpty()) {
+            throw new MiException("Error: No se ha logrado cargar la foto de perfil.");
         }
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public void registrar(String nombre, String apellido, String email, String password, String password2, String telefono, Rol rol, MultipartFile foto_perfil) throws MiException {
 
-        // en primer lugar vamos a buscar un usuario de nuestro dominio 
-        // a traves del metodo que escribimos en nuestro repositorio
-        // y transformarlo en un usuario del dominio de Spring Security.
-        Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
+        validar(nombre, apellido, email, password, password2, telefono, foto_perfil);
 
-        if (usuario != null) { // si el usuario existe procedemos
-            // instanciamos un objeto de la Clase User
-            // el constructor de la clase nos solicitara varios parametros
-            // un nombre de usuario, contraseña y una lista de permisos
-
-            // para los permisos nos creamos una lista que almacene objetos de la clase GrantedAuthority
-            List<GrantedAuthority> permisos = new ArrayList();
-
-            //posteriormente creamos permisos para un usuario --> per; 
-            // lo instanciamos como SimpleGrantedAuthority y dentro del constructor
-            // especificamos a quien le vamos a dar esos permisos --> "ROLE_" + getRol().
-            GrantedAuthority per = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString());
-
-            // luego agregamos esos permisos a la lista creada mas arriba
-            permisos.add(per);
-
-            // agregamos los permisos al constructor junto con email y la contraseña            
-            User user = new User(usuario.getEmail(), usuario.getPassword(), permisos);
-
-            // atrapamos al usuario que ya esta autenticado y guardarlo en la session.
-            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-
-            //Guardamos la solicitud en un objeto de la interfaz HttpSession
-            HttpSession session = attr.getRequest().getSession(true);
-
-            // en los datos de la session seteamos los atributos
-            // en la varible session vamos a setear el atributo usuarioSession como llave y lo que va a contener 
-            // es el valor con todos los datos del objeto usuario autentificado.
-            session.setAttribute("usuarioSession", usuario);
-
-            // y retornamos ese Usuario.
-            return user;
-        } else {
-            return null;
+        if (rol == null) {
+            throw new MiException("El rol no puede ser nulo.");
         }
+
+        Usuario usuario = new Usuario();
+
+        usuario.setNombre(nombre);
+        usuario.setApellido(apellido);
+        usuario.setEmail(email);
+
+        usuario.setPassword(new BCryptPasswordEncoder().encode(password));
+        usuario.setTelefono(telefono);
+        usuario.setActivo(Boolean.TRUE);
+        usuario.setRol(rol);
+
+        Imagen imagen = imagenServicio.crearImagen(foto_perfil);
+
+        usuario.setFoto_perfil(imagen);
+
+        usuarioRepositorio.save(usuario);
     }
 
-    public void modificar(String id, String nombre, String apellido, String email, String password, String password2, String telefono) throws MiException {
-        validar(nombre, apellido, email, password, password2, telefono);
+    public Usuario getOne(String id) {
+        return usuarioRepositorio.getById(id);
+    }
+
+    public void modificar(String id, String nombre, String apellido, String email, String password, String password2, String telefono, MultipartFile foto_perfil) throws MiException {
+
+        validar(nombre, apellido, email, password, password2, telefono, foto_perfil);
 
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
 
         if (respuesta.isPresent()) {
             Usuario usuario = respuesta.get();
-            usuario.setNombreUsuario(nombre);
+            usuario.setNombre(nombre);
+            usuario.setApellido(apellido);
             usuario.setEmail(email);
-            usuario.setPassword(password);
+            usuario.setPassword(new BCryptPasswordEncoder().encode(password));
+            usuario.setTelefono(telefono);
 
             usuarioRepositorio.save(usuario);
         } else {
@@ -142,8 +122,9 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    // nota queda por reseatear el sueldo cuando se da de baja o se modifica el rol a USER.
-    public void modificarEstado(String id) throws MiException {
+    @Transactional
+    public void eliminar(String id) throws MiException {
+
         if (id == null || id.isEmpty()) {
             throw new MiException("El id no puede ser nulo o estar vacio");
         }
@@ -151,35 +132,110 @@ public class UsuarioServicio implements UserDetailsService {
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
 
         if (respuesta.isPresent()) {
-            Usuario usuario = respuesta.get();
-
-            if (usuario.getActivo().equals(Boolean.TRUE)) {
-                usuario.setActivo(Boolean.FALSE);
-            } else {
-                usuario.setActivo(Boolean.TRUE);
-            }
-            // POR ULTIMO GUARDO LOS CAMBIOS 
-            usuarioRepositorio.save(usuario);
-
+            respuesta.get().setActivo(Boolean.FALSE);
         } else {
             throw new MiException("No se encontro ningún usuario con ese ID");
         }
     }
 
     public List<Usuario> listarUsuarios() {
-
-        // creacion de una lista que almacenara los usuarios con rol periodista
         List<Usuario> usuarios = new ArrayList();
-
-        //la lista va a contener los usuarios que me devuelva el repositorio 
-        //EN UsuarioRepositorio hay una Query que me devuelve los usuarios con el ROL de periodista
         usuarios = usuarioRepositorio.buscarUsuarios();
-
-        // RETORTNO LA LISTA AL CONTROLADOR admin/listarPeridista para inyectarlos en una tabla
         return usuarios;
     }
 
-//    public Usuario getOne(String id) {
-//        return usuarioRepositorio.getById(id);
-//    }
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
+
+        if (usuario != null) {
+            List<GrantedAuthority> permisos = new ArrayList();
+
+            GrantedAuthority per = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString());
+
+            permisos.add(per);
+
+            User user = new User(usuario.getEmail(), usuario.getPassword(), permisos);
+
+            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+
+            HttpSession session = attr.getRequest().getSession(true);
+
+            session.setAttribute("usuarioSession", usuario);
+
+            return user;
+        } else {
+            return null;
+        }
+    }
+
+    @Transactional
+    public void crearReserva(String id, String nombre, String apellido, String email, String password, String password2, String telefono, Date Date, Usuario cliente, Date fechaDesde, Propiedad propiedad, Date fechaHasta, MultipartFile foto_perfil) throws MiException, ParseException {
+
+        validar(nombre, apellido, email, password, password2, telefono, foto_perfil);
+
+        Set<Date> fechasDisponibles = new TreeSet();
+
+        Calendar fechaActual = Calendar.getInstance();
+
+        Calendar finDeAnio = Calendar.getInstance();
+        finDeAnio.set(Calendar.MONTH, Calendar.DECEMBER);
+        finDeAnio.set(Calendar.DAY_OF_MONTH, 31);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        while (fechaActual.before(finDeAnio)) {
+            fechaActual.add(Calendar.DATE, 1);
+            fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
+        }
+
+        Reserva reserva = new Reserva();
+
+        reserva.setCliente(cliente);
+        reserva.setFechaDesde(fechaDesde);
+        reserva.setFechaHasta(fechaHasta);
+        reserva.setId(id);
+        reserva.setPrecio(Double.NaN);
+        reserva.setPropiedad(propiedad);
+
+        reservaRepositorio.save(reserva);
+
+    }
+
+    @Transactional
+    public void eliminarReserva(String id) throws MiException {
+        Optional<Reserva> respuesta = reservaRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+
+            Reserva reserva = respuesta.get();
+
+            Usuario cliente = new Usuario();
+
+            cliente = reserva.getCliente();
+
+            // para poder eliminar una propiedad primeramente debo eliminar la relacion que existe con el propietario
+            // es decir eliminar la FK de la tabla lista noticias.
+            List<Reserva> reservas = reservaRepositorio.buscarPorCliente(cliente.getId());
+
+            Iterator<Reserva> it = reservas.iterator();
+
+            while (it.hasNext()) {
+                Reserva aux = it.next();
+                if (aux.getId().equals(id)) {
+                    it.remove();
+                    break;
+                }
+            }
+
+            reservaRepositorio.save(reserva);
+
+            // <<ELIMINACION DE LA NOTICIA DE LA BASE DE DATOS>>
+            reservaRepositorio.deleteById(reserva.getId());
+
+        } else {
+            throw new MiException("No existe una reserva con ese ID");
+        }
+
+    }
 }

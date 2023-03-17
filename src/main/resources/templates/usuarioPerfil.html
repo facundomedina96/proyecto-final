@@ -3,11 +3,9 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:replace="/fragments/head :: _head"></head>
 
-
     <body>
 
         <div class="container text-center p-3">
-
             <div th:if="${exito}!=null" class="card text-white bg-success mb-3 mt-3 mensajeExito" >
                 <div class="card-body">
                     <h5 class="card-title">Exito</h5>
@@ -23,7 +21,6 @@
         </div>
 
         <main>
-
             <div class="m-5 text-center">
                 <h1 style="font-size: 3.2em"><strong>Perfil</strong></h1>
             </div>
@@ -42,39 +39,35 @@
                             <th scope="col">Eliminar Perfil</th> 
                         </tr>
                     </thead>
-
-                    <tbody th:each="usuario : ${usuario}"> 
-
                         <tr>
-                            <td th:text="${usuario.nombreUsuario}"></td>
-                            <td th:text="${usuario.apellidoUsuario}"></td>
+                            <td th:text="${usuario.nombre}"></td>
+                            <td th:text="${usuario.apellido}"></td>
                             <td th:text="${usuario.email}"></td>
                             <td th:text="${usuario.telefono}"></td>
                             <td th:text="${usuario.rol}"></td>
                             <td th:text="${usuario.activo}"></td>
+                            <img class="img-fluid img-thumbnail" th:src="@{/imagen/perfil/__${usuario.id}__}">
 
                             <td>
-                                <a class="btn btn-warning btn-sm col-sm-12" th:href= "@{/cliente/modificarPerfil/__${usuario.usuario_id}__}" sec:authorize="hasRole('CLIENTE')">Modificar</a>
-                                <a class="btn btn-warning btn-sm col-sm-12" th:href= "@{/propietario/modificarPerfil/__${usuario.usuario_id}__}" sec:authorize="hasRole('PROPIETARIO')">Modificar</a>
+                                <a class="btn btn-warning btn-sm col-sm-12" th:href= "@{/cliente/modificarPerfil/__${usuario.id}__}" sec:authorize="hasRole('CLIENTE')">Modificar</a>
+                                <a class="btn btn-warning btn-sm col-sm-12" th:href= "@{/propietario/modificarPerfil/__${usuario.id}__}" sec:authorize="hasRole('PROPIETARIO')">Modificar</a>
                             </td>
                             <td>
-                                <a class="btn btn-danger btn-sm col-sm-12" th:href= "@{/cliente/eliminarPerfil/__${usuario.usuario_id}__}" sec:authorize="hasRole('CLIENTE')">Eliminar</a>
-                                <a class="btn btn-danger btn-sm col-sm-12" th:href= "@{/propietario/eliminarPerfil/__${usuario.usuario_id}__}" sec:authorize="hasRole('PROPIETARIO')">Eliminar</a>
+                                <a class="btn btn-danger btn-sm col-sm-12" th:href= "@{/cliente/eliminarPerfil/__${usuario.id}__}" sec:authorize="hasRole('CLIENTE')">Eliminar</a>
+                                <a class="btn btn-danger btn-sm col-sm-12" th:href= "@{/propietario/eliminarPerfil/__${usuario.id}__}" sec:authorize="hasRole('PROPIETARIO')">Eliminar</a>
                             </td>
                         </tr>
-
                     </tbody> 
                 </table>
 
                 <section class="py-3 text-center container">
                     <div class="row py-lg-5">
                         <div class="col-lg-6 col-md-8 mx-auto">
-                            <a th:href="@{/cliente/dashboard}" class="btn btn-primary">Volver</a>
+                            <a th:href="@{/dashboard}" class="btn btn-primary">Volver</a>
                         </div>
                     </div>
                 </section>
             </div>
-
         </main>
 
         <script

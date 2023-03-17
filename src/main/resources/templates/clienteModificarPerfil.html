@@ -45,18 +45,18 @@
                         <h3 class="fw-bol text-center py-2 mt-2">Formulario de Modificacion</h3>
                         <!---Login -->
 
-                        <form th:action="@{/cliente/modificarPerfil/__${cliente.usuario_id}__}" method="POST">
+                        <form th:action="@{/cliente/modificarPerfil/__${cliente.id}__}" method="POST">
                            
                             <input hidden th:value="${id}" name="id">                           
                             
                             <div class="row">
                                 <div class="col">
                                     <label for="nombre" class="form-label">Nombre</label>
-                                    <input type="text" th:value="${cliente.nombreUsuario}" class="form-control" name="nombre" aria-label="Nombre" required>
+                                    <input type="text" th:value="${cliente.nombre}" class="form-control" name="nombre" aria-label="Nombre" required>
                                 </div>
                                 <div class="col">
                                     <label for="apellido" class="form-label">Apellido</label>
-                                    <input type="text" class="form-control" th:value="${cliente.apellidoUsuario}" name="apellido" aria-label="Apellido" required>
+                                    <input type="text" class="form-control" th:value="${cliente.apellido}" name="apellido" aria-label="Apellido" required>
                                 </div>
                             </div>
 

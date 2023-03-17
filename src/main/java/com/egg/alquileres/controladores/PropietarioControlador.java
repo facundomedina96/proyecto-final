@@ -5,11 +5,10 @@
  */
 package com.egg.alquileres.controladores;
 
-import com.egg.alquileres.entidades.Propietario;
+import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.excepciones.MiException;
-import com.egg.alquileres.servicios.PropietarioServicio;
+import com.egg.alquileres.servicios.UsuarioServicio;
 import javax.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -27,36 +27,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/propietario")
 public class PropietarioControlador {
 
-    @Autowired
-    private PropietarioServicio propietarioServicio;
+    private final UsuarioServicio usuarioServicio;
 
-    @GetMapping("/dashboard")
-    public String panelPropietario(ModelMap modelo) {
-
-        return "panel.html";
-    }
-
-    @GetMapping("/perfil")
-    public String perfil(ModelMap modelo, HttpSession session) {
-        Propietario usuario = (Propietario) session.getAttribute("usuarioSession");
-        modelo.put("usuario", usuario);
-        return "usuarioPerfil.html";
+    public PropietarioControlador(UsuarioServicio propietarioServicio) {
+        this.usuarioServicio = propietarioServicio;
     }
 
     @GetMapping("/modificarPerfil/{id}")
     public String modificarPerfil(ModelMap modelo, @PathVariable String id) {
         // inyeccion en el html del usuario para mostrar sus datos.
-        modelo.put("propietario", propietarioServicio.getOne(id));
+        modelo.put("propietario", usuarioServicio.getOne(id));
         return "propietarioModificarPerfil.html";
     }
 
     @PostMapping("/modificarPerfil/{id}")
-    public String modificarPerfil(ModelMap modelo, @PathVariable String id, String nombre, String apellido, String email, String password, String password2, String telefono) {
+    public String modificarPerfil(ModelMap modelo, @PathVariable String id, String nombre, String apellido, String email, String password, String password2, String telefono, MultipartFile foto_perfil) {
         try {
-            propietarioServicio.modificar(id, nombre, apellido, email, password, password2, telefono);
+            usuarioServicio.modificar(id, nombre, apellido, email, password, password2, telefono, foto_perfil);
             modelo.put("exito", "Se ha modificado su perfil con exito");
 
-            return "redirect:/iniciarSesion";
+            return "redirect:/login";
             //return "noticia_list.html";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
@@ -68,7 +58,7 @@ public class PropietarioControlador {
     public String eliminarPerfil(ModelMap modelo, @PathVariable String id) {
         try {
             // inyeccion en el html del usuario para mostrar sus datos.
-            propietarioServicio.eliminar(id);
+            usuarioServicio.eliminar(id);
             modelo.put("exito", "Se ha eliminado su perfil con exito");
             return "redirect:/";
         } catch (MiException ex) {
