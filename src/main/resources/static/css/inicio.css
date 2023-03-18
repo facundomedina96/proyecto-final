@@ -1,0 +1,27 @@
+body {
+  background: rgb(238, 174, 202);
+  background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+}
+
+.titulo {
+  color: #010003;
+  font-weight: normal;
+  font-size: 40px;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 40px;
+}
+
+.titulo h1 {
+  display: inline-block;
+}
+
+.album {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+footer p {
+  margin:auto;
+}

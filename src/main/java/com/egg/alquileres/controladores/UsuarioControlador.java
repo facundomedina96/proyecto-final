@@ -28,7 +28,7 @@ public class UsuarioControlador {
     @GetMapping("/registrar") // especificamos la ruta donde interactua el usuario
     public String registrar(ModelMap model) {
         try {
-            return "usuario_form"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+            return "usuarioFormulario"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {
             model.put("error", e.getMessage());
             return "error"; // mas tarde crearemos un html para mostrar si surge errores
@@ -43,13 +43,13 @@ public class UsuarioControlador {
 
             model.put("exito", "Ya puedes ingresar con tu correo y contraseña");
 
-            return "index";
+            return "inicio.html";
         } catch (MiException e) {
             model.put("error", e.getMessage());
-            return "usuario_form"; // mas tarde crearemos un html para mostrar si surge errores
+            return "usuarioFormulario"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
-
+    
     @GetMapping("/dashboard")
     public String panel(ModelMap modelo) {
         return "panel.html";
@@ -61,10 +61,10 @@ public class UsuarioControlador {
             if (error != null) {
                 modelo.put("error", "Usuario o contraseña invalido!");
             }
-            return "usuario_login"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+            return "iniciarSesion"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {
             modelo.put("error", e.getMessage());
-            return "index"; // mas tarde crearemos un html para mostrar si surge errores
+            return "inicio"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
 
