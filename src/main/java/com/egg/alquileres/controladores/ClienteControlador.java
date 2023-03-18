@@ -1,9 +1,7 @@
 package com.egg.alquileres.controladores;
 
-import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.servicios.UsuarioServicio;
-import javax.servlet.http.HttpSession;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

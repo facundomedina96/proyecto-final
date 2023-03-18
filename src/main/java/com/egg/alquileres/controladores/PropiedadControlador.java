@@ -53,7 +53,7 @@ public class PropiedadControlador {
     }
 
     @PostMapping("/registro/{id}") // especificamos la ruta donde interactua el usuario
-    public String registro(ModelMap model, @RequestParam String nombre, @RequestParam String direccion, @RequestParam String ciudad, @RequestParam Double precio, @RequestParam MultipartFile[] fotos, @PathVariable("id") String id) {
+    public String registro(ModelMap model, @RequestParam String nombre, @RequestParam String direccion, @RequestParam String ciudad, @RequestParam Double precio, @RequestParam MultipartFile fotos, @PathVariable("id") String id) {
 
         try {
             Usuario propietario = usuarioServicio.getOne(id);

@@ -32,7 +32,7 @@ public class Usuario implements Serializable {
     private Boolean activo;
     
     @OneToOne
-    Imagen foto_perfil;
+    private Imagen foto_perfil;
 
     public Usuario() {
     }
@@ -107,7 +107,5 @@ public class Usuario implements Serializable {
 
     public void setFoto_perfil(Imagen foto_perfil) {
         this.foto_perfil = foto_perfil;
-    }
-    
-
+    } 
 }

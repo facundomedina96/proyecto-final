@@ -15,4 +15,10 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
 
     @Query("SELECT u FROM Usuario u")
     public List<Usuario> buscarUsuarios();
+
+    @Query("SELECT u FROM Usuario u WHERE u.rol = CLIENTE")
+    public List<Usuario> buscarClientes();
+
+    @Query("SELECT u FROM Usuario u WHERE u.rol = PROPIETARIO")
+    public List<Usuario> buscarPropietarios();
 }
