@@ -1,8 +1,10 @@
 package com.egg.alquileres.servicios;
 
 import com.egg.alquileres.entidades.Imagen;
+import com.egg.alquileres.entidades.Prestacion;
 import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Usuario;
+import com.egg.alquileres.enumeraciones.NombrePrestacion;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.repositorios.PropiedadRepositorio;
 import com.egg.alquileres.repositorios.UsuarioRepositorio;
@@ -28,11 +30,13 @@ public class PropiedadServicio {
     private final PropiedadRepositorio propiedadRepositorio;
     private final UsuarioRepositorio usuarioRepositorio;
     private final ImagenServicio imagenServicio;
+    private final PrestacionServicio prestacionServicio;
 
-    public PropiedadServicio(PropiedadRepositorio propiedadRepositorio, UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio) {
+    public PropiedadServicio(PropiedadRepositorio propiedadRepositorio, UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio, PrestacionServicio prestacionServicio) {
         this.propiedadRepositorio = propiedadRepositorio;
         this.usuarioRepositorio = usuarioRepositorio;
         this.imagenServicio = imagenServicio;
+        this.prestacionServicio = prestacionServicio;
     }
 
     private void validar(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos) throws MiException {
@@ -57,7 +61,8 @@ public class PropiedadServicio {
     }
 
     @Transactional
-    public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos) throws MiException, ParseException {
+    public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos,
+            NombrePrestacion nombreD, Double precioD, Boolean activoD, NombrePrestacion nombreC, Double precioC, Boolean activoC, NombrePrestacion nombreP, Double precioP, Boolean activoP) throws MiException, ParseException {
 
         validar(nombre, direccion, ciudad, precio, propietario, fotos);
 
@@ -78,6 +83,10 @@ public class PropiedadServicio {
         fechasDisponibles.add(sdf.parse(sdf.format(finDeAnio.getTime())));
 
         Imagen imagen = imagenServicio.crearImagen(fotos);
+        
+        Prestacion prestacion1 = prestacionServicio.crearPrestacion(nombreD, precioD, activoD);
+        Prestacion prestacion2 = prestacionServicio.crearPrestacion(nombreC, precioC, activoC);
+        Prestacion prestacion3 = prestacionServicio.crearPrestacion(nombreP, precioP, activoP);
 
         // Retornar una nueva instancia de Casa con los parámetros proporcionados y las fechas disponible
         Propiedad propiedad = new Propiedad();
@@ -92,6 +101,11 @@ public class PropiedadServicio {
 
         propiedad.setFotos(new HashSet<>());
         propiedad.getFotos().add(imagen);
+        
+        propiedad.setPrestaciones(new ArrayList());
+        propiedad.getPrestaciones().add(prestacion1);
+        propiedad.getPrestaciones().add(prestacion2);
+        propiedad.getPrestaciones().add(prestacion3);
 
         // Si es un admin el que crea la noticia la guardo sin idCreador la relacion es con periodista
         propiedadRepositorio.save(propiedad);
