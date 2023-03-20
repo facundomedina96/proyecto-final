@@ -39,11 +39,13 @@ public class UsuarioServicio implements UserDetailsService {
     private final UsuarioRepositorio usuarioRepositorio;
     private final ImagenServicio imagenServicio;
     private final ReservaRepositorio reservaRepositorio;
+    private final PropiedadServicio propiedadServicio;
 
-    public UsuarioServicio(UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio, ReservaRepositorio reservaRepositorio) {
+    public UsuarioServicio(UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio, ReservaRepositorio reservaRepositorio, PropiedadServicio propiedadServicio) {
         this.usuarioRepositorio = usuarioRepositorio;
         this.imagenServicio = imagenServicio;
         this.reservaRepositorio = reservaRepositorio;
+        this.propiedadServicio = propiedadServicio;
     }
 
     public void validar(String nombre, String apellido, String email, String password, String password2, String telefono, MultipartFile foto_perfil) throws MiException {
@@ -171,34 +173,22 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void crearReserva(String id, String nombre, String apellido, String email, String password, String password2, String telefono, Date Date, Usuario cliente, Date fechaDesde, Propiedad propiedad, Date fechaHasta, MultipartFile foto_perfil) throws MiException, ParseException {
+    public void crearReserva(String id_propiedad, Usuario cliente, Date fechaDesde, Date fechaHasta) throws MiException, ParseException {
 
-        validar(nombre, apellido, email, password, password2, telefono, foto_perfil);
-
-        Set<Date> fechasDisponibles = new TreeSet();
-
-        Calendar fechaActual = Calendar.getInstance();
-
-        Calendar finDeAnio = Calendar.getInstance();
-        finDeAnio.set(Calendar.MONTH, Calendar.DECEMBER);
-        finDeAnio.set(Calendar.DAY_OF_MONTH, 31);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        while (fechaActual.before(finDeAnio)) {
-            fechaActual.add(Calendar.DATE, 1);
-            fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
-        }
-
-        Reserva reserva = new Reserva();
-
-        reserva.setCliente(cliente);
-        reserva.setFechaDesde(fechaDesde);
-        reserva.setFechaHasta(fechaHasta);
-        reserva.setId(id);
-        reserva.setPrecio(Double.NaN);
-        reserva.setPropiedad(propiedad);
-
+        ReservaServicio reservaServicio = new ReservaServicio();
+        
+        
+        Reserva reserva = reservaServicio.crearReserva(fechaDesde, fechaHasta, cliente, id_propiedad);
+        
+        Propiedad propiedad = propiedadServicio.buscarPropiedadPorId(id_propiedad);
+        
+        List <Reserva> reservasActivas  = propiedad.getReservasActivas();
+        
+        reservasActivas.add(reserva);
+        
         reservaRepositorio.save(reserva);
+        
+        
 
     }
 
