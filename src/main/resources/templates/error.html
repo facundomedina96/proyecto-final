@@ -1,24 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-   <head th:replace="/fragments/head :: _head"></head>
+    <head th:replace="/fragments/head :: _head"></head>
 
     <body>
-        <!-- header -->
-        <header class="px-4">
-            <section class="contenedorheader">
-
-                <a th:href="@{/}"><h1>Egg Alquiler</h1></a>
-                <nav class="nav-menu">
-                    <a th:href="@{/}">Inicio</a>
-                    <a href="#contact">Contacto</a>
-                </nav>
-
-            </section>
-        </header>
+        <nav th:replace="/fragments/navbar :: _navbar"></nav>
 
         <div class="contenedorheader">
-            <a class="navbar-brand" th:text="'Error ' + ${codigo}">EGG NEW's</a>
+            <a class="navbar-brand" th:text="'Error ' + ${codigo}"></a>
             <p class="tituloLibros" th:text="${mensaje}"></p>
         </div>
 

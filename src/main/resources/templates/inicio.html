@@ -24,15 +24,15 @@
 
                 <div class="col-md-4 mb-4 d-flex justify-content-center" th:each="propiedad : ${propiedades}">
 
-                    <div class="card shadow " style="width: 18rem">
+                    <div class="card shadow" style="width: 18rem">
 
 
-                        <div th:id="__${propiedad.id}__" class="carousel slide" data-interval="false">
+                        <div th:id="__${propiedad.id}__" class="carousel slide m-1" data-interval="false">
                             <div class="carousel-inner">
 
                                 <div th:each="imagen, iterstat: ${propiedad.fotos}"
                                     th:class="${iterstat.first} ? 'carousel-item active':'carousel-item' ">
-                                    <img class="d-block w-100 rounded p-2" th:src=" @{/imagen/__${imagen.id}__}"
+                                    <img class="d-block w-100 rounded" th:src=" @{/imagen/__${imagen.id}__}"
                                         alt="slide">
                                 </div>
 
@@ -79,11 +79,11 @@
 
                                             <div th:id="__${propiedad.id}__ + 'modal'" class="carousel slide"
                                                 data-interval="false">
-                                                <div class="carousel-inner">
+                                                <div class="carousel-inner ">
 
                                                     <div th:each="imagen, iterstat: ${propiedad.fotos}"
                                                         th:class="${iterstat.first} ? 'carousel-item active':'carousel-item' ">
-                                                        <img class="d-block w-100 rounded p-2"
+                                                        <img class="d-block w-100 rounded p-1"
                                                             th:src=" @{/imagen/__${imagen.id}__}" alt="slide">
                                                     </div>
 
@@ -115,8 +115,8 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                                data-dismiss="modal">Cerrar</button>
+                                            <button type="button" class="btn btn-primary">Reservar</button>
                                         </div>
                                     </div>
                                 </div>
