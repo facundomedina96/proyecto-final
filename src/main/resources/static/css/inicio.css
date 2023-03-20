@@ -42,4 +42,4 @@ footer p {
 .carousel-item img {
   height: 400px;
   width: 100%;
-  object-fit: scale-down;}
+  object-fit: cover;}
