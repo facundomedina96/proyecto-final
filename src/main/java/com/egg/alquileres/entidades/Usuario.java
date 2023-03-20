@@ -30,9 +30,9 @@ public class Usuario implements Serializable {
     private String password;
     private String telefono;
     private Boolean activo;
-
+    
     @OneToOne
-    private Imagen foto_perfil;
+    Imagen foto_perfil;
 
     public Usuario() {
     }
@@ -108,5 +108,6 @@ public class Usuario implements Serializable {
     public void setFoto_perfil(Imagen foto_perfil) {
         this.foto_perfil = foto_perfil;
     }
+    
 
 }

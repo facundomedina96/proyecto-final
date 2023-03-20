@@ -37,7 +37,6 @@ public class PropiedadControlador {
         this.propiedadServicio = propiedadServicio;
         this.usuarioServicio = usuarioServicio;
     }
-    
 
     @GetMapping("/registrar") // especificamos la ruta donde interactua el usuario
     public String registrar(ModelMap model, HttpSession session) {
@@ -45,16 +44,16 @@ public class PropiedadControlador {
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             model.put("usuario", usuario);
 
-            return "propiedadRegistro.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+            return "propiedad_registro.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
 
         } catch (Exception e) {
             model.put("error", e.getMessage());
-            return "redirect:/dashboard"; // mas tarde crearemos un html para mostrar si surge errores
+            return "redirect:/propietario/dashboard"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
 
     @PostMapping("/registro/{id}") // especificamos la ruta donde interactua el usuario
-    public String registro(ModelMap model, @RequestParam String nombre, @RequestParam String direccion, @RequestParam String ciudad, @RequestParam Double precio, @RequestParam MultipartFile[] fotos, @PathVariable("id") String id) throws MiException {
+    public String registro(ModelMap model, @RequestParam String nombre, @RequestParam String direccion, @RequestParam String ciudad, @RequestParam Double precio, @RequestParam MultipartFile[] fotos, @PathVariable("id") String id) {
 
         try {
             Usuario propietario = usuarioServicio.getOne(id);

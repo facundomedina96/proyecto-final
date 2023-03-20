@@ -1,7 +1,9 @@
 package com.egg.alquileres.controladores;
 
+import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.servicios.UsuarioServicio;
+import javax.servlet.http.HttpSession;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,7 +32,7 @@ public class ClienteControlador {
     public String modificarPerfil(ModelMap modelo, @PathVariable String id) {
         // inyeccion en el html del usuario para mostrar sus datos.
         modelo.put("cliente", usuarioServicio.getOne(id));
-        return "clienteModificarPerfil.html";
+        return "cliente_modificar_perfil.html";
     }
 
     @PostMapping("/modificarPerfil/{id}")
@@ -39,11 +41,11 @@ public class ClienteControlador {
             usuarioServicio.modificar(id, nombre, apellido, email, password, password2, telefono, foto_perfil);
             modelo.put("exito", "Se ha modificado su perfil con exito");
 
-            return "redirect:/login";
+            return "redirect:/iniciar_sesion";
             //return "noticia_list.html";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
-            return "clienteModificarPerfil.html";
+            return "cliente_modificar_perfil.html";
         }
     }
 

@@ -1,0 +1,11 @@
+body {
+    background-image: url('../img/img_general.jpg');
+    background-repeat: no-repeat;
+    /*Y le decimos que siempre ocupe el ancho y el alto con esto*/
+    background-size: cover;
+}
+
+.form {
+    font-weight: 600;
+}
+

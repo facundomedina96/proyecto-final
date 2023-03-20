@@ -1,9 +1,11 @@
 package com.egg.alquileres.controladores;
 
+import com.egg.alquileres.entidades.Imagen;
 import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.servicios.ImagenServicio;
 import com.egg.alquileres.servicios.PropiedadServicio;
 import com.egg.alquileres.servicios.UsuarioServicio;
+import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,7 +28,7 @@ public class ImagenControlador {
         this.usuarioServicio = usuarioServicio;
         this.imagenServicio = imagenServicio;
     }
-    
+
     /**
      * Función general para presentar una imagen.
      * @param id id de la imagen.
@@ -55,4 +57,5 @@ public class ImagenControlador {
 
         return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
     }
+
 }

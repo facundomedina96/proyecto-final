@@ -128,5 +128,4 @@ public class Propiedad implements Serializable {
     public void setFotos(Set<Imagen> fotos) {
         this.fotos = fotos;
     }
-
 }
