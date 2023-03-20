@@ -43,29 +43,30 @@ public class UsuarioControlador {
 
             modelo.put("exito", "Ya puedes ingresar con tu correo y contraseña");
 
-            return "inicio";
+            return "inicio.html";
         } catch (MiException e) {
-            modelo.put("error", e.getMessage());
 
-            modelo.put("nombre", nombre);
-            modelo.put("apellido", apellido);
-            modelo.put("email", email);
-            modelo.put("telefono", telefono);
+            modelo.addAttribute("nombre", nombre);
+            modelo.addAttribute("apellido", apellido);
+            modelo.addAttribute("email", email);
+            modelo.addAttribute("telefono", telefono);
+            
+            modelo.put("error", e.getMessage());
             return "usuario_formulario.html"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
 
     // trabajo desde el ultimo commit 
-    @GetMapping("/iniciarSesion") // especificamos la ruta donde interactua el usuario
+    @GetMapping("/iniciarSesion") 
     public String login(@RequestParam(required = false) String error, ModelMap modelo) {
         try {
             if (error != null) {
                 modelo.put("error", "Usuario o contraseña invalido!");
             }
-            return "iniciar_sesion"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+            return "iniciar_sesion";
         } catch (Exception e) {
             modelo.put("error", e.getMessage());
-            return "inicio.html"; // mas tarde crearemos un html para mostrar si surge errores
+            return "inicio.html";
         }
     }
 

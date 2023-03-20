@@ -22,12 +22,15 @@
             style="--bs-scroll-height: 100px"
           >
             <li class="nav-item">
-              <a class="nav-link" href="/iniciarSesion">Iniciar Sesión</a>
+              <a class="nav-link" href="/iniciarSesion" sec:authorize="isAnonymous()">Iniciar Sesión</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/registrar">Registrarse</a>
- 
+              <a class="nav-link" href="/registrar" sec:authorize="isAnonymous()">Registrarse</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Salir</a>
+            </li>
+
           </ul>
         </div>
       </div>
