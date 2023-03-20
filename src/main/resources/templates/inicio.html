@@ -32,7 +32,7 @@
 
                                 <div th:each="imagen, iterstat: ${propiedad.fotos}"
                                     th:class="${iterstat.first} ? 'carousel-item active':'carousel-item' ">
-                                    <img class="d-block w-100 rounded" th:src=" @{/imagen/__${imagen.id}__}"
+                                    <img class="d-block w-100 rounded p-1" th:src=" @{/imagen/__${imagen.id}__}"
                                         alt="slide">
                                 </div>
 

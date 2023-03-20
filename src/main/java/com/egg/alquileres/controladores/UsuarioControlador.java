@@ -71,7 +71,10 @@ public class UsuarioControlador {
     }
 
     @GetMapping("/dashboard")
-    public String panel(ModelMap modelo) {
+    public String panel(ModelMap modelo, HttpSession session) {        
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+
+        modelo.put("usuario", usuario);
         return "panel.html";
     }
 
