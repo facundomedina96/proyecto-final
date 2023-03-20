@@ -29,7 +29,7 @@ public class PortalControlador {
     private PropiedadServicio propiedadServicio;
 
     @GetMapping("/") // especificamos la ruta donde interactua el usuario
-    public String index(ModelMap model) {
+    public String inicio(ModelMap model) {
         try {
             //Necesito inyectar en el HTML la lista de propiedades
             List<Propiedad> propiedades = propiedadServicio.listarPropiedades(); // buscar todas las noticias

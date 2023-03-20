@@ -52,13 +52,6 @@ public class AdminControlador {
         }
     }
 
-    //@GetMapping("/propiedades")
-//    public String listarPropiedades(ModelMap modelo) {
-//        List<Propiedad> propiedades = propiedadServicio.listarPropiedades();
-//        modelo.addAttribute("propiedades", propiedades);
-//        return "index.html";
-//    }  ACA REUTILICE EL INDEX
-
     @GetMapping("/eliminarpropiedad/{id}")
     public String eliminarPropiedad(ModelMap modelo, @PathVariable String id){
         try {

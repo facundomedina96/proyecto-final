@@ -32,7 +32,7 @@ public class ClienteControlador {
     public String modificarPerfil(ModelMap modelo, @PathVariable String id) {
         // inyeccion en el html del usuario para mostrar sus datos.
         modelo.put("cliente", usuarioServicio.getOne(id));
-        return "clienteModificarPerfil.html";
+        return "cliente_modificar_perfil.html";
     }
 
     @PostMapping("/modificarPerfil/{id}")
@@ -41,11 +41,11 @@ public class ClienteControlador {
             usuarioServicio.modificar(id, nombre, apellido, email, password, password2, telefono, foto_perfil);
             modelo.put("exito", "Se ha modificado su perfil con exito");
 
-            return "redirect:/iniciarSesion";
+            return "redirect:/iniciar_sesion";
             //return "noticia_list.html";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
-            return "clienteModificarPerfil.html";
+            return "cliente_modificar_perfil.html";
         }
     }
 
