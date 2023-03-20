@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -74,5 +75,38 @@ public class UsuarioControlador {
 
         modelo.put("usuario", usuario);
         return "usuarioPerfil.html";
+    }
+    
+    @GetMapping("/modificarPerfil/{id}")
+    public String modificarPerfil(ModelMap modelo, @PathVariable String id) {
+        // inyeccion en el html del usuario para mostrar sus datos.
+        modelo.put("usuario", usuarioServicio.getOne(id));
+        return "usuarioModificarPerfil.html";
+    }
+
+    @PostMapping("/modificarPerfil/{id}")
+    public String modificarPerfil(ModelMap modelo, @RequestParam String id, String nombre, String apellido, String email, String password, String password2, String telefono, MultipartFile foto_perfil) {
+        try {
+            usuarioServicio.modificar(id, nombre, apellido, email, password, password2, telefono, foto_perfil);
+            modelo.put("exito", "Se ha modificado su perfil con exito");
+
+            return "redirect:/login";
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+            return "usuarioModificarPerfil.html";
+        }
+    }
+
+    @GetMapping("/eliminarPerfil/{id}")
+    public String eliminarPerfil(ModelMap modelo, @PathVariable String id) {
+        try {
+            // inyeccion en el html del usuario para mostrar sus datos.
+            usuarioServicio.eliminar(id);
+            modelo.put("exito", "Se ha eliminado su perfil con exito");
+            return "redirect:/";
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+            return "redirect:../perfil";
+        }
     }
 }

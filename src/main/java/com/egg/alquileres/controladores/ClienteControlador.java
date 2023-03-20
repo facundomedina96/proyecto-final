@@ -24,39 +24,5 @@ public class ClienteControlador {
 
     public ClienteControlador(UsuarioServicio usuarioServicio) {
         this.usuarioServicio = usuarioServicio;
-    }
-
-    @GetMapping("/modificarPerfil/{id}")
-    public String modificarPerfil(ModelMap modelo, @PathVariable String id) {
-        // inyeccion en el html del usuario para mostrar sus datos.
-        modelo.put("cliente", usuarioServicio.getOne(id));
-        return "clienteModificarPerfil.html";
-    }
-
-    @PostMapping("/modificarPerfil/{id}")
-    public String modificarPerfil(ModelMap modelo, @PathVariable String id, String nombre, String apellido, String email, String password, String password2, String telefono, MultipartFile foto_perfil) {
-        try {
-            usuarioServicio.modificar(id, nombre, apellido, email, password, password2, telefono, foto_perfil);
-            modelo.put("exito", "Se ha modificado su perfil con exito");
-
-            return "redirect:/login";
-            //return "noticia_list.html";
-        } catch (MiException ex) {
-            modelo.put("error", ex.getMessage());
-            return "clienteModificarPerfil.html";
-        }
-    }
-
-    @GetMapping("/eliminarPerfil/{id}")
-    public String eliminarPerfil(ModelMap modelo, @PathVariable String id) {
-        try {
-            // inyeccion en el html del usuario para mostrar sus datos.
-            usuarioServicio.eliminar(id);
-            modelo.put("exito", "Se ha eliminado su perfil con exito");
-            return "redirect:/";
-        } catch (MiException ex) {
-            modelo.put("error", ex.getMessage());
-            return "redirect:../perfil";
-        }
-    }
+    } 
 }

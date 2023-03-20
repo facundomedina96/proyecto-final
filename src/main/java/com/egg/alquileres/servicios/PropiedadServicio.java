@@ -83,7 +83,7 @@ public class PropiedadServicio {
         fechasDisponibles.add(sdf.parse(sdf.format(finDeAnio.getTime())));
 
         Imagen imagen = imagenServicio.crearImagen(fotos);
-        
+
         Prestacion prestacion1 = prestacionServicio.crearPrestacion(nombreD, precioD, activoD);
         Prestacion prestacion2 = prestacionServicio.crearPrestacion(nombreC, precioC, activoC);
         Prestacion prestacion3 = prestacionServicio.crearPrestacion(nombreP, precioP, activoP);
@@ -101,7 +101,7 @@ public class PropiedadServicio {
 
         propiedad.setFotos(new HashSet<>());
         propiedad.getFotos().add(imagen);
-        
+
         propiedad.setPrestaciones(new ArrayList());
         propiedad.getPrestaciones().add(prestacion1);
         propiedad.getPrestaciones().add(prestacion2);
@@ -140,12 +140,15 @@ public class PropiedadServicio {
         return propiedades;
     }
 
+    // modifique este metodo estaba mal devolvia una sola propiedad en vez de una lista
     @Transactional(readOnly = true)
-    public Propiedad listarPropiedadesPorPropietario(String id) throws MiException {
+    public List<Propiedad> listarPropiedadesPorPropietario(String id) throws MiException {
 
-        List<Propiedad> respuesta = propiedadRepositorio.buscarPorPropietario(id);
+        List<Propiedad> propiedades = new ArrayList();
 
-        return (Propiedad) respuesta;
+        propiedades = propiedadRepositorio.buscarPorPropietario(id);
+
+        return propiedades;
     }
 
     @Transactional
@@ -198,7 +201,31 @@ public class PropiedadServicio {
         }
     }
 
-    public void modificarPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos) {
-        /* TO DO */
+    /* Por ahora el propietario solo puede modificar estos atributos, Si se opta por darle la opcion 
+       de modificar mas atributos, Modificar el HTML para pedir los datos, el controlador, y por ultimo este servicio.
+    */
+    public void modificarPropiedad(String id, String nombre, String direccion, String ciudad, Double precio, MultipartFile fotos) throws MiException {
+
+        // Buscar la propiedad en la BBDD y la guardamos en respuesta
+        Optional<Propiedad> respuesta = propiedadRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+            Propiedad propiedad = respuesta.get();
+            propiedad.setNombre(nombre);
+            propiedad.setDireccion(direccion);
+            propiedad.setCiudad(ciudad);
+            propiedad.setPrecio_base(precio);
+
+            Imagen imagen = imagenServicio.crearImagen(fotos);
+
+            Set<Imagen> imagenes = propiedad.getFotos();
+            imagenes.add(imagen);
+
+            propiedad.setFotos(imagenes);
+
+            propiedadRepositorio.save(propiedad);
+        } else {
+            throw new MiException("No se encontro ningúna Propiedad con ese ID");
+        }
     }
 }

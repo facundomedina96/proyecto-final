@@ -5,12 +5,14 @@
  */
 package com.egg.alquileres.controladores;
 
+import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.enumeraciones.NombrePrestacion;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.servicios.PropiedadServicio;
 import com.egg.alquileres.servicios.UsuarioServicio;
 import java.text.ParseException;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -68,6 +70,61 @@ public class PropiedadControlador {
         } catch (MiException | ParseException ex) {
             model.put("error", ex.getMessage());
             return "redirect:/propiedad/registrar";
+        }
+    }
+
+    //Metodo listarPropiedades toma un usuario y lista sus porpiedads en una tabla crud;
+    @GetMapping("/listar")
+    public String listar(ModelMap model, HttpSession session) {
+        try {
+
+            Usuario sesionActual = (Usuario) session.getAttribute("usuarioSession");
+
+            List<Propiedad> propiedades = usuarioServicio.listarPropiedades(sesionActual.getId()); // buscar todas las noticias
+            model.put("propiedades", propiedades);
+
+            return "propiedadesCRUD.html";
+        } catch (MiException e) {
+            model.put("error", e.getMessage());
+            return "error";
+        }
+    }
+
+    //Metodo listarPropiedades toma un usuario y lista sus porpiedads en una tabla;
+    @GetMapping("/modificar/{id}")
+    public String modificar(@PathVariable String id, ModelMap model) {
+
+        // obtengo informacion de la session y lo almaceno en sesionActual
+        Propiedad propiedad = propiedadServicio.getOne(id);
+        model.put("propiedad", propiedad);
+        return "propiedadModificar.html";
+    }
+
+    @PostMapping("/modificando/{id}")
+    public String modificando(ModelMap modelo, @PathVariable String id, String nombre, String direccion, String ciudad, Double precio, MultipartFile fotos) {
+        try {
+
+            propiedadServicio.modificarPropiedad(id, nombre, direccion, ciudad, precio, fotos);
+            modelo.put("exito", "Se ha modificado la propiedad con exito");
+
+            return "redirect:/propietario/listarPropiedades";
+
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+            return "propiedadesCRUD.html";
+        }
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(ModelMap modelo, @PathVariable String id) {
+        try {
+            propiedadServicio.eliminarPropiedad(id);
+            modelo.put("exito", "Se ha eliminado la propiedad con exito");
+
+            return "redirect:/propietario/listarPropiedades";
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+            return "redirect:../perfil";
         }
     }
 }

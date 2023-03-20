@@ -40,29 +40,29 @@
                 <div class="row align-items-stretch">
                     <!-- fila -->
                     <div class="col-md-4 img-bg d-none d-md-block rounded"></div>
-                    
+
                     <div class="col mx-1">
                         <h3 class="fw-bol text-center py-2 mt-2">Formulario de Modificacion</h3>
                         <!---Login -->
 
-                        <form th:action="@{/propietario/modificarPerfil/__${propietario.id}__}" method="POST">
-                           
+                        <form th:action="@{/modificarPerfil/__${usuario.id}__}" method="POST" enctype="multipart/form-data">
+
                             <input hidden th:value="${id}" name="id">                           
-                            
+
                             <div class="row">
                                 <div class="col">
                                     <label for="nombre" class="form-label">Nombre</label>
-                                    <input type="text" th:value="${propietario.nombre}" class="form-control" name="nombre" aria-label="Nombre" required>
+                                    <input type="text" th:value="${usuario.nombre}" class="form-control" name="nombre" aria-label="Nombre" required>
                                 </div>
                                 <div class="col">
                                     <label for="apellido" class="form-label">Apellido</label>
-                                    <input type="text" class="form-control" th:value="${propietario.apellido}" name="apellido" aria-label="Apellido" required>
+                                    <input type="text" class="form-control" th:value="${usuario.apellido}" name="apellido" aria-label="Apellido" required>
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <label for="email" class="form-label mt-1">Email</label>
-                                <input type="email" th:value="${propietario.email}" class="form-control" name="email" required>
+                                <input type="email" th:value="${usuario.email}" class="form-control" name="email" required>
                             </div>
 
                             <div class="row mt-2">
@@ -79,8 +79,13 @@
                             <div class="row mt-2">
                                 <div class="col">
                                     <label for="telefono" class="form-label mt-1">Telefono</label>
-                                    <input type="tel" th:value="${propietario.telefono}" class="form-control" name="telefono" placeholder="0115545545" required>
+                                    <input type="tel" th:value="${usuario.telefono}" class="form-control" name="telefono" placeholder="0115545545" required>
                                 </div>
+                            </div>
+
+                            <div class="col mt-2">
+                                <label for="apellido" class="form-label">Foto de Perfil</label>
+                                <input type="file" class="form-control" name="foto_perfil" required>
                             </div>
 
                             <div class="row my-4">
