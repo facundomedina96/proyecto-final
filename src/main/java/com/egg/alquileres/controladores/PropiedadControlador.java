@@ -5,13 +5,11 @@
  */
 package com.egg.alquileres.controladores;
 
-import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.servicios.PropiedadServicio;
 import com.egg.alquileres.servicios.UsuarioServicio;
 import java.text.ParseException;
-import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -49,39 +47,25 @@ public class PropiedadControlador {
             return "propiedad_registro.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
 
         } catch (Exception e) {
-
             model.put("error", e.getMessage());
             return "redirect:/propietario/dashboard"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
 
     @PostMapping("/registro/{id}") // especificamos la ruta donde interactua el usuario
-    public String registro(ModelMap model, @RequestParam String nombre,
-            @RequestParam String direccion, @RequestParam String ciudad,
-            @RequestParam(required = false) Double precio,
-            @RequestParam MultipartFile[] fotos, @PathVariable("id") String id,
-            HttpSession session) {
+    public String registro(ModelMap model, @RequestParam String nombre, @RequestParam String direccion, @RequestParam String ciudad, @RequestParam Double precio, @RequestParam MultipartFile[] fotos, @PathVariable("id") String id) {
 
         try {
             Usuario propietario = usuarioServicio.getOne(id);
+
+            System.out.println("El nombre del propietario es: " + propietario.getNombre());
             propiedadServicio.crearPropiedad(nombre, direccion, ciudad, precio, propietario, fotos);
 
-            model.put("usuario", propietario);
-            List<Propiedad> propiedades = propiedadServicio.buscarPropiedadPorPropietario(propietario.getId()); // buscar todas las noticias
-            model.put("propiedades", propiedades);
-            return "panel.html";
+            model.put("exito", "Propiedad registrada con exito");
+            return "redirect:/dashboard";
         } catch (MiException | ParseException ex) {
-
-            Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
-            model.put("usuario", usuario);
-
-            model.addAttribute("nombre", nombre);
-            model.addAttribute("direccion", direccion);
-            model.addAttribute("ciudad", ciudad);
-            model.addAttribute("precio", precio);
-
             model.put("error", ex.getMessage());
-            return "propiedad_registro.html";
+            return "redirect:/propiedad/registrar";
         }
     }
 }
