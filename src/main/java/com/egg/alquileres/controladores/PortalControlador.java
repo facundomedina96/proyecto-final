@@ -6,6 +6,7 @@
 package com.egg.alquileres.controladores;
 
 import com.egg.alquileres.entidades.Propiedad;
+import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.servicios.PropiedadServicio;
 import com.egg.alquileres.servicios.UsuarioServicio;
 import java.util.List;
@@ -23,20 +24,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class PortalControlador {
 
-
     private final PropiedadServicio propiedadServicio;
 
     public PortalControlador(PropiedadServicio propiedadServicio, UsuarioServicio clienteServicio, UsuarioServicio usuarioServicio) {
         this.propiedadServicio = propiedadServicio;
     }
-    
+
     @GetMapping("/") // especificamos la ruta donde interactua el usuario
     public String index(ModelMap model) {
         try {
             //Necesito inyectar en el HTML la lista de propiedades
             List<Propiedad> propiedades = propiedadServicio.listarPropiedades();
-            model.put("propiedades", propiedades); 
-            
+            model.put("propiedades", propiedades);
+
             //retorno del HTML
             return "inicio.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {
@@ -70,4 +70,5 @@ public class PortalControlador {
             return "error";
         }
     }
+
 }

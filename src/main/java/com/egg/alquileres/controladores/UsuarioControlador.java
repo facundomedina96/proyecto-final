@@ -39,17 +39,9 @@ public class UsuarioControlador {
     @PostMapping("/registro") // especificamos la ruta donde interactua el usuario
     public String registro(ModelMap model, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String email, @RequestParam String password, @RequestParam String password2, @RequestParam String telefono, @RequestParam Rol rol, @RequestParam MultipartFile foto_perfil) throws MiException {
         try {
-
-
-           usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol);
-
-
+            //usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol);
+            //usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol, foto_perfil);
             usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol, foto_perfil);
-
-
-
-            usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol, foto_perfil);
-
 
             model.put("exito", "Ya puedes ingresar con tu correo y contraseña");
 
@@ -59,10 +51,16 @@ public class UsuarioControlador {
             return "usuarioFormulario"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
-    
+
     @GetMapping("/dashboard")
-    public String panel(ModelMap modelo) {
-        return "panel.html";
+    public String panel(ModelMap modelo, HttpSession session) {
+        Usuario sesionActual = (Usuario) session.getAttribute("usuarioSession");
+        if (!sesionActual.getActivo()) {
+            modelo.put("error", "Su cuenta ha sido dada de baja por infringir las normas");
+            return "iniciarSesion";
+        } else {
+            return "panel";
+        }
     }
 
     @GetMapping("/login") // especificamos la ruta donde interactua el usuario
@@ -85,7 +83,7 @@ public class UsuarioControlador {
         modelo.put("usuario", usuario);
         return "usuarioPerfil.html";
     }
-    
+
     @GetMapping("/modificarPerfil/{id}")
     public String modificarPerfil(ModelMap modelo, @PathVariable String id) {
         // inyeccion en el html del usuario para mostrar sus datos.

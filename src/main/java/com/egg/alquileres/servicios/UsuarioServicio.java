@@ -116,7 +116,7 @@ public class UsuarioServicio implements UserDetailsService {
             usuario.setEmail(email);
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
             usuario.setTelefono(telefono);
-            
+
             // se crea la imagen para luego setearla al usuario
             Imagen imagen = imagenServicio.crearImagen(foto_perfil);
             usuario.setFoto_perfil(imagen);
@@ -144,7 +144,7 @@ public class UsuarioServicio implements UserDetailsService {
        redireccionar al metodo eliminarPropietario o eliminarCliente que desarrolaran la logica 
        adecuada para cada caso; La otra solucion seria desarrollar todo el codigo con validaciones
        dentro del metodo eliminar; 
-    */
+     */
     @Transactional
     public void eliminar(String id) throws MiException {
 
@@ -193,24 +193,20 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-
     @Transactional
     public void crearReserva(String id_propiedad, Usuario cliente, Date fechaDesde, Date fechaHasta) throws MiException, ParseException {
 
         ReservaServicio reservaServicio = new ReservaServicio();
-        
-        
+
         Reserva reserva = reservaServicio.crearReserva(fechaDesde, fechaHasta, cliente, id_propiedad);
-        
+
         Propiedad propiedad = propiedadServicio.buscarPropiedadPorId(id_propiedad);
-        
-        List <Reserva> reservasActivas  = propiedad.getReservasActivas();
-        
+
+        List<Reserva> reservasActivas = propiedad.getReservasActivas();
+
         reservasActivas.add(reserva);
-        
+
         reservaRepositorio.save(reserva);
-        
-        
 
     }
 
@@ -225,7 +221,6 @@ public class UsuarioServicio implements UserDetailsService {
             Usuario cliente = new Usuario();
 
             cliente = reserva.getCliente();
-
 
             List<Reserva> reservas = reservaRepositorio.buscarPorCliente(cliente.getId());
 
@@ -247,11 +242,11 @@ public class UsuarioServicio implements UserDetailsService {
             throw new MiException("No existe una reserva con ese ID");
         }
     }
+
     // Metodo agregado para que los Usuarios-Propietarios puedan ver sus propiedades
     public List<Propiedad> listarPropiedades(String idPropietario) throws MiException {
 
         List<Propiedad> propiedades = new ArrayList();
-
 
         propiedades = propiedadServicio.listarPropiedadesPorPropietario(idPropietario);
         return propiedades;

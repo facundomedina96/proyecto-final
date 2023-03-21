@@ -46,7 +46,6 @@ public class PropiedadControlador {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             model.put("usuario", usuario);
-
             return "propiedadRegistro.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
 
         } catch (Exception e) {
@@ -58,17 +57,18 @@ public class PropiedadControlador {
     @PostMapping("/registro/{id}") // especificamos la ruta donde interactua el usuario
     public String registro(ModelMap model, @RequestParam String nombre, @RequestParam String direccion, @RequestParam String ciudad, @RequestParam Double precio, @RequestParam MultipartFile fotos, @PathVariable("id") String id,
             NombrePrestacion nombreD, Double precioD, Boolean activoD, NombrePrestacion nombreC, Double precioC, Boolean activoC, NombrePrestacion nombreP, Double precioP, Boolean activoP) {
-
         try {
             Usuario propietario = usuarioServicio.getOne(id);
-
             System.out.println("El nombre del propietario es: " + propietario.getNombre());
-            propiedadServicio.crearPropiedad(nombre, direccion, ciudad, precio, propietario, fotos, nombreD, precioD, activoD, nombreC, precioC, activoC, nombreP, precioP, activoP);
 
+            propiedadServicio.crearPropiedad(nombre, direccion, ciudad, precio, propietario, fotos, nombreD, precioD, activoD, nombreC, precioC, activoC, nombreP, precioP, activoP);
             model.put("exito", "Propiedad registrada con exito");
+
             return "redirect:/dashboard";
+
         } catch (MiException | ParseException ex) {
             model.put("error", ex.getMessage());
+
             return "redirect:/propiedad/registrar";
         }
     }
@@ -77,10 +77,8 @@ public class PropiedadControlador {
     @GetMapping("/listar")
     public String listar(ModelMap model, HttpSession session) {
         try {
-
             Usuario sesionActual = (Usuario) session.getAttribute("usuarioSession");
-
-            List<Propiedad> propiedades = usuarioServicio.listarPropiedades(sesionActual.getId()); // buscar todas las noticias
+            List<Propiedad> propiedades = usuarioServicio.listarPropiedades(sesionActual.getId());
             model.put("propiedades", propiedades);
 
             return "propiedadesCRUD.html";
