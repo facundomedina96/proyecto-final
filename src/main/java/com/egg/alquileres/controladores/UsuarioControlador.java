@@ -5,10 +5,10 @@ import com.egg.alquileres.enumeraciones.Rol;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.servicios.UsuarioServicio;
 import javax.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,7 +40,12 @@ public class UsuarioControlador {
     public String registro(ModelMap model, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String email, @RequestParam String password, @RequestParam String password2, @RequestParam String telefono, @RequestParam Rol rol, @RequestParam MultipartFile foto_perfil) throws MiException {
         try {
 
+
            usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol);
+
+
+            usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol, foto_perfil);
+
 
 
             usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol, foto_perfil);
@@ -48,13 +53,13 @@ public class UsuarioControlador {
 
             model.put("exito", "Ya puedes ingresar con tu correo y contraseña");
 
-            return "index";
+            return "inicio.html";
         } catch (MiException e) {
             model.put("error", e.getMessage());
-            return "usuario_form"; // mas tarde crearemos un html para mostrar si surge errores
+            return "usuarioFormulario"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
-
+    
     @GetMapping("/dashboard")
     public String panel(ModelMap modelo) {
         return "panel.html";
@@ -66,10 +71,10 @@ public class UsuarioControlador {
             if (error != null) {
                 modelo.put("error", "Usuario o contraseña invalido!");
             }
-            return "usuario_login"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+            return "iniciarSesion"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {
             modelo.put("error", e.getMessage());
-            return "index"; // mas tarde crearemos un html para mostrar si surge errores
+            return "inicio"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
 
@@ -80,5 +85,37 @@ public class UsuarioControlador {
         modelo.put("usuario", usuario);
         return "usuarioPerfil.html";
     }
+    
+    @GetMapping("/modificarPerfil/{id}")
+    public String modificarPerfil(ModelMap modelo, @PathVariable String id) {
+        // inyeccion en el html del usuario para mostrar sus datos.
+        modelo.put("usuario", usuarioServicio.getOne(id));
+        return "usuarioModificarPerfil.html";
+    }
 
+    @PostMapping("/modificarPerfil/{id}")
+    public String modificarPerfil(ModelMap modelo, @RequestParam String id, String nombre, String apellido, String email, String password, String password2, String telefono, MultipartFile foto_perfil) {
+        try {
+            usuarioServicio.modificar(id, nombre, apellido, email, password, password2, telefono, foto_perfil);
+            modelo.put("exito", "Se ha modificado su perfil con exito");
+
+            return "redirect:/login";
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+            return "usuarioModificarPerfil.html";
+        }
+    }
+
+    @GetMapping("/eliminarPerfil/{id}")
+    public String eliminarPerfil(ModelMap modelo, @PathVariable String id) {
+        try {
+            // inyeccion en el html del usuario para mostrar sus datos.
+            usuarioServicio.eliminar(id);
+            modelo.put("exito", "Se ha eliminado su perfil con exito");
+            return "redirect:/";
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+            return "redirect:../perfil";
+        }
+    }
 }

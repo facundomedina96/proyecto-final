@@ -1,8 +1,10 @@
 package com.egg.alquileres.servicios;
 
 import com.egg.alquileres.entidades.Imagen;
+import com.egg.alquileres.entidades.Prestacion;
 import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Usuario;
+import com.egg.alquileres.enumeraciones.NombrePrestacion;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.repositorios.PropiedadRepositorio;
 import com.egg.alquileres.repositorios.UsuarioRepositorio;
@@ -28,11 +30,13 @@ public class PropiedadServicio {
     private final PropiedadRepositorio propiedadRepositorio;
     private final UsuarioRepositorio usuarioRepositorio;
     private final ImagenServicio imagenServicio;
+    private final PrestacionServicio prestacionServicio;
 
-    public PropiedadServicio(PropiedadRepositorio propiedadRepositorio, UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio) {
+    public PropiedadServicio(PropiedadRepositorio propiedadRepositorio, UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio, PrestacionServicio prestacionServicio) {
         this.propiedadRepositorio = propiedadRepositorio;
         this.usuarioRepositorio = usuarioRepositorio;
         this.imagenServicio = imagenServicio;
+        this.prestacionServicio = prestacionServicio;
     }
 
     private void validar(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos) throws MiException {
@@ -57,7 +61,8 @@ public class PropiedadServicio {
     }
 
     @Transactional
-    public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos) throws MiException, ParseException {
+    public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos,
+            NombrePrestacion nombreD, Double precioD, Boolean activoD, NombrePrestacion nombreC, Double precioC, Boolean activoC, NombrePrestacion nombreP, Double precioP, Boolean activoP) throws MiException, ParseException {
 
         validar(nombre, direccion, ciudad, precio, propietario, fotos);
 
@@ -75,6 +80,7 @@ public class PropiedadServicio {
         // Agregar todas las fechas desde la fecha actual hasta el fin de año a la lista de fechas disponibles
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
+
         fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
         fechasDisponibles.add(sdf.parse(sdf.format(finDeAnio.getTime())));
         
@@ -87,6 +93,16 @@ public class PropiedadServicio {
         Imagen imagen = imagenServicio.crearImagen(fotos);
 
 
+        fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
+        fechasDisponibles.add(sdf.parse(sdf.format(finDeAnio.getTime())));
+
+
+
+        Prestacion prestacion1 = prestacionServicio.crearPrestacion(nombreD, precioD, activoD);
+        Prestacion prestacion2 = prestacionServicio.crearPrestacion(nombreC, precioC, activoC);
+        Prestacion prestacion3 = prestacionServicio.crearPrestacion(nombreP, precioP, activoP);
+
+
         // Retornar una nueva instancia de Casa con los parámetros proporcionados y las fechas disponible
         Propiedad propiedad = new Propiedad();
 
@@ -97,18 +113,59 @@ public class PropiedadServicio {
         propiedad.setEstado(Boolean.TRUE);
         propiedad.setPropietario(propietario);
         propiedad.setFechasDisponibles((Set<Date>) fechasDisponibles);
-        
-        propiedad.setFotos(new HashSet());
+
+        propiedad.setFotos(new HashSet<>());
         propiedad.getFotos().add(imagen);
+
+        propiedad.setPrestaciones(new ArrayList());
+        propiedad.getPrestaciones().add(prestacion1);
+        propiedad.getPrestaciones().add(prestacion2);
+        propiedad.getPrestaciones().add(prestacion3);
 
         // Si es un admin el que crea la noticia la guardo sin idCreador la relacion es con periodista
         propiedadRepositorio.save(propiedad);
     }
 
-    public void modificarPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos){
-        /* TO DO */
+    public Propiedad getOne(String id) {
+        return propiedadRepositorio.getById(id);
     }
-    
+
+    @Transactional(readOnly = true)
+    public Propiedad buscarPropiedadPorId(String id) throws MiException {
+        Optional<Propiedad> respuesta = propiedadRepositorio.findById(id);
+
+        if (respuesta.isPresent()) {
+            Propiedad propiedad = respuesta.get();
+            return propiedad;
+        } else {
+            throw new MiException("No existe una Propiedad con ese ID");
+        }
+    }
+
+    public List<Propiedad> buscarPropiedadPorPropietario(String idPropietario) {
+        return propiedadRepositorio.buscarPorPropietario(idPropietario);
+    }
+
+    public List<Propiedad> listarPropiedades() {
+
+        List<Propiedad> propiedades = new ArrayList();
+
+        propiedades = propiedadRepositorio.findAll(Sort.by(Sort.Direction.ASC, "nombre"));
+
+        return propiedades;
+    }
+
+    // modifique este metodo estaba mal devolvia una sola propiedad en vez de una lista
+    @Transactional(readOnly = true)
+    public List<Propiedad> listarPropiedadesPorPropietario(String id) throws MiException {
+
+        List<Propiedad> propiedades = new ArrayList();
+
+        propiedades = propiedadRepositorio.buscarPorPropietario(id);
+
+        return propiedades;
+    }
+
     @Transactional
     public void modificarImagenPropiedad(String id, MultipartFile archivo) throws MiException {
 
@@ -139,7 +196,6 @@ public class PropiedadServicio {
 
             propietario = propiedad.getPropietario();
 
-            
             List<Propiedad> propiedades = propiedadRepositorio.buscarPorPropietario(propietario.getId());
 
             Iterator<Propiedad> it = propiedades.iterator();
@@ -160,40 +216,31 @@ public class PropiedadServicio {
         }
     }
 
-    @Transactional(readOnly = true)
-    public Propiedad buscarPropiedadPorId(String id) throws MiException {
+    /* Por ahora el propietario solo puede modificar estos atributos, Si se opta por darle la opcion 
+       de modificar mas atributos, Modificar el HTML para pedir los datos, el controlador, y por ultimo este servicio.
+    */
+    public void modificarPropiedad(String id, String nombre, String direccion, String ciudad, Double precio, MultipartFile fotos) throws MiException {
+
+        // Buscar la propiedad en la BBDD y la guardamos en respuesta
         Optional<Propiedad> respuesta = propiedadRepositorio.findById(id);
 
         if (respuesta.isPresent()) {
             Propiedad propiedad = respuesta.get();
-            return propiedad;
+            propiedad.setNombre(nombre);
+            propiedad.setDireccion(direccion);
+            propiedad.setCiudad(ciudad);
+            propiedad.setPrecio_base(precio);
+
+            Imagen imagen = imagenServicio.crearImagen(fotos);
+
+            Set<Imagen> imagenes = propiedad.getFotos();
+            imagenes.add(imagen);
+
+            propiedad.setFotos(imagenes);
+
+            propiedadRepositorio.save(propiedad);
         } else {
-            throw new MiException("No existe una Propiedad con ese ID");
+            throw new MiException("No se encontro ningúna Propiedad con ese ID");
         }
-    }
-
-    @Transactional(readOnly = true)
-    public Propiedad listarPropiedadesPorPropietario(String id) throws MiException {
-
-        List<Propiedad> respuesta = propiedadRepositorio.buscarPorPropietario(id);
-
-        return (Propiedad) respuesta;
-    }
-
-    public Propiedad getOne(String id) {
-        return propiedadRepositorio.getById(id);
-    }
-
-    public List<Propiedad> buscarPropiedadPorPropietario(String idPropietario) {
-        return propiedadRepositorio.buscarPorPropietario(idPropietario);
-    }
-
-    public List<Propiedad> listarPropiedades() {
-
-        List<Propiedad> propiedades = new ArrayList();
-
-        propiedades = propiedadRepositorio.findAll(Sort.by(Sort.Direction.ASC, "nombre"));
-
-        return propiedades;
     }
 }

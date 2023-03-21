@@ -49,12 +49,12 @@
                             <img class="img-fluid img-thumbnail" th:src="@{/imagen/perfil/__${usuario.id}__}">
 
                             <td>
-                                <a class="btn btn-warning btn-sm col-sm-12" th:href= "@{/cliente/modificarPerfil/__${usuario.id}__}" sec:authorize="hasRole('CLIENTE')">Modificar</a>
-                                <a class="btn btn-warning btn-sm col-sm-12" th:href= "@{/propietario/modificarPerfil/__${usuario.id}__}" sec:authorize="hasRole('PROPIETARIO')">Modificar</a>
+                                <a class="btn btn-warning btn-sm col-sm-12" th:href= "@{/modificarPerfil/__${usuario.id}__}">Modificar</a>
+           
                             </td>
                             <td>
-                                <a class="btn btn-danger btn-sm col-sm-12" th:href= "@{/cliente/eliminarPerfil/__${usuario.id}__}" sec:authorize="hasRole('CLIENTE')">Eliminar</a>
-                                <a class="btn btn-danger btn-sm col-sm-12" th:href= "@{/propietario/eliminarPerfil/__${usuario.id}__}" sec:authorize="hasRole('PROPIETARIO')">Eliminar</a>
+              
+                                <a class="btn btn-danger btn-sm col-sm-12" th:href= "@{/eliminarPerfil/__${usuario.id}__}">Eliminar</a>
                             </td>
                         </tr>
                     </tbody> 

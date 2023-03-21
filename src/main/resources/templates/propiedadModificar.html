@@ -40,67 +40,46 @@
                 <div class="col-md-4 img-bg d-none d-md-block rounded"></div>
 
                 <div class="col mx-1">
-                    <h3 class="fw-bol text-center py-2 mt-2">Formulario de registro</h3>
+                    <h3 class="fw-bol text-center py-2 mt-2">Formulario de Modificacion</h3>
                     <!---Login -->
 
-                    <form th:action="@{/propiedad/registro/__${usuario.id}__}" method="POST"
-                        enctype="multipart/form-data">
+                    <form th:action="@{/propiedad/modificando/__${id}__}" method="POST" enctype="multipart/form-data" >
 
-                        <input hidden th:value="${id}" name="id">
+                        <input hidden th:value="${propiedad.id}" name="id">
 
                         <div class="row">
                             <div class="col">
                                 <label for="nombre" class="form-label">Nombre de la propiedad</label>
-                                <input type="text" class="form-control" name="nombre" placeholder="Alpen Palace"
+                                <input type="text" class="form-control" name="nombre" th:value="${propiedad.nombre}"
                                     aria-label="Nombre" required>
                             </div>
                             <div class="col">
                                 <label for="apellido" class="form-label">Direccion</label>
-                                <input type="text" class="form-control" name="direccion" placeholder="Las Ramblas 5432"
+                                <input type="text" class="form-control" name="direccion" th:value="${propiedad.direccion}"
                                     aria-label="Direccion" required>
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <label for="email" class="form-label mt-1">Ciudad</label>
-                            <input type="text" class="form-control" name="ciudad" required placeholder="Misiones">
+                            <input type="text" class="form-control" name="ciudad" required th:value="${propiedad.ciudad}">
                         </div>
 
                         <div class="row mt-2">
                             <div class="col">
                                 <label for="precio" class="form-label mt-1">Precio</label>
-                                <input type="number" class="form-control" name="precio" placeholder="25.800" required>
+                                <input type="number" class="form-control" name="precio" th:value="${propiedad.precio_base}" required>
                             </div>
                         </div>
 
                         <div class="col">
                             <label for="foto" class="form-label mt-1">Fotos</label>
-                            <input type="file" class="form-control" multiple="true" name="fotos" alt="Subi tu imagen"
-                                required>
-                        </div>
-
-                        <div>
-                            <label> Que servicios desea agregar? </label> <br>
-                            <label for="dj">DJ:</label>
-                            <input hidden value="DJ" name="nombreD">
-                            <input type="checkbox" name="activoD" id="dj" value="true">
-                            <label for="dj_precio">Precio:</label>
-                            <input type="number" name="precioD" id="dj_precio" step="0.01"><br>
-                            <label for="cat">Catering:</label>
-                            <input hidden value="CATERING" name="nombreC">
-                            <input type="checkbox" name="activoC" id="cat" value="true">
-                            <label for="cat_precio">Precio:</label>
-                            <input type="number" name="precioC" id="cat_precio" step="0.01"><br>
-                            <label for="pile">Pileta:</label>
-                            <input hidden value="PILETA" name="nombreP">
-                            <input type="checkbox" name="activoP" id="pile" value="true">
-                            <label for="pile_precio">Precio:</label>
-                            <input type="number" name="precioP" id="pile_precio" step="0.01">
+                            <input type="file" class="form-control" multiple="true" name="fotos" alt="Subi tu imagen" required>
                         </div>
 
                         <div class="row my-4">
                             <div class="col">
-                                <button type="submit" class="btn btn-success col-md-12">Registar</button>
+                                <button type="submit" class="btn btn-success col-md-12">Enviar</button>
                             </div>
                             <div class="col">
                                 <button type="reset" class="btn btn-danger col-md-12">Borrar</button>
