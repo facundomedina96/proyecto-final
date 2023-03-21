@@ -1,9 +1,11 @@
+     
+     
      <nav
       class="navbar bg-dark navbar-expand-lg bg-body-tertiary"
       data-bs-theme="dark"
       th:fragment="_navbar"
     >
-      <div class="container-fluid">
+      <div class="container-fluid ">
         <a class="navbar-brand" href="/">Alquileres</a>
         <button
           class="navbar-toggler"
@@ -16,18 +18,25 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarScroll">
+        <div class="collapse navbar-collapse" id="navbarScroll" >
           <ul
-            class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
-            style="--bs-scroll-height: 100px"
+            class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll "
+            style="--bs-scroll-height: 110px"
           >
             <li class="nav-item">
-              <a class="nav-link" href="/iniciarSesion">Iniciar Sesión</a>
+              <a class="nav-link" href="/iniciarSesion" sec:authorize="isAnonymous()">Iniciar Sesión</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/registrar">Registrarse</a>
- 
+              <a class="nav-link" href="/registrar" sec:authorize="isAnonymous()">Registrarse</a>
             </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/perfil" sec:authorize="isAuthenticated()">Perfil</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout" sec:authorize="isAuthenticated()">Salir</a>
+            </li>
+
           </ul>
         </div>
       </div>

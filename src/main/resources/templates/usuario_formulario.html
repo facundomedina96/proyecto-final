@@ -2,90 +2,88 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 
-    <head th:replace="/fragments/head :: _head"></head>
+<head th:replace="/fragments/head :: _head('Inicio', 'inicio.css')"></head>
 
-    <body>
-        <!-- TO DO: MODIFICARLO -->
+<body>
+    <!-- TO DO: MODIFICARLO -->
 
-        <nav th:replace="/fragments/navbar :: _navbar"></nav>
-        <div th:replace="fragments/error_exito :: _error_exito"></div>
+    <nav th:replace="/fragments/navbar :: _navbar"></nav>
+    <div th:replace="fragments/error_exito :: _error_exito"></div>
 
-        <div class="container p-4 my-4 shadow rounded bg-light bg-opacity-75 border border-info border-opacity-50 border-2">
-            <form class="form" th:action="@{/registro}" method="POST" enctype="multipart/form-data" >
+    <div class="container p-4 my-4 shadow rounded bg-light bg-opacity-75 border border-info border-opacity-50 border-2">
+        <form class="form" th:action="@{/registro}" method="POST" enctype="multipart/form-data">
 
-                <h1 class="border-bottom border-dark border-opacity-50">Formulario de registro</h1>
+            <h1 class="border-bottom border-dark border-opacity-50">Formulario de registro</h1>
 
-                <div class="form-group row ">
+            <div class="form-group row ">
 
+                <div class="form-group col">
+                    <label for="nombre" class="colFormLabel">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" th:value="${nombre}" placeholder="Nombre" aria-label="Nombre">
+                </div>
+
+                <div class="form-group col">
+                    <label for="apellido" class="colFormLabel">Apellido</label>
+                    <input type="text" class="form-control" name="apellido" th:value="${apellido}" placeholder="Apellido"
+                        aria-label="Apellido">
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="form-group row">
                     <div class="form-group col">
-                        <label for="nombre" class="colFormLabel">Nombre</label>
-                        <input type="text" class="form-control" name="nombre" placeholder="Nombre"
-                               aria-label="Nombre">
-                    </div>
-
-                    <div class="form-group col">
-                        <label for="apellido" class="colFormLabel">Apellido</label>
-                        <input type="text" class="form-control" name="apellido" placeholder="Apellido"
-                               aria-label="Apellido">
-
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="form-group row">
-                        <div class="form-group col">
-                            <label for="email" class="colFormLabel ">Email</label>
-                            <input type="email" class="form-control" name="email" >
-                        </div>
+                        <label for="email" class="colFormLabel ">Email</label>
+                        <input type="email" class="form-control" name="email" th:value="${email}">
                     </div>
                 </div>
+            </div>
 
-                <div class="row">
-                    <p class="form-group col-lg-6">
-                        <label for="password" class="colFormLabel">Password</label>
-                        <input type="password" class="form-control" name="password">
+            <div class="row">
+                <p class="form-group col-lg-6">
+                    <label for="password" class="colFormLabel">Password</label>
+                    <input type="password" class="form-control" name="password">
 
-                    </p>
-                    <p class="form-group col-lg-6">
-                        <label for="password2" class="colFormLabel">Confirm Password</label>
-                        <input type="password" class="form-control" name="password2">
-                    </p>
+                </p>
+                <p class="form-group col-lg-6">
+                    <label for="password2" class="colFormLabel">Confirm Password</label>
+                    <input type="password" class="form-control" name="password2">
+                </p>
+            </div>
+
+            <div class="row">
+                <p class="col">
+                    <label for="telefono" class="colFormLabel">Telefono</label>
+                    <input type="tel" class="form-control" name="telefono" th:value="${telefono}" placeholder="0115545545">
+                </p>
+                <p class="col">
+                    <label for="inputState" class="colFormLabel">Rol a elegir</label>
+                    <select name="rol" class="form-select">
+                        <option value="">Elegi la opcion</option>
+                        <option value="CLIENTE">Cliente</option>
+                        <option value="PROPIETARIO">Propietario</option>
+                    </select>
+                </p>
+            </div>
+
+            <div class="row ">
+                <p class="col">
+                    <label for="formFile" class="form-label">Foto de Perfil</label>
+                    <input type="file" class="form-control" name="foto_perfil" id="formFile">
+                </p>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-outline-success col-sm-12">Registarse</button>
                 </div>
-
-                <div class="row">
-                    <p class="col">
-                        <label for="telefono" class="colFormLabel">Telefono</label>
-                        <input type="tel" class="form-control" name="telefono" placeholder="0115545545"
-                               >
-                    </p>
-                    <p class="col">
-                        <label for="inputState" class="colFormLabel">Rol a elegir</label>
-                        <select name="rol" class="form-select">
-                            <option value="">Elegi la opcion</option>
-                            <option value="CLIENTE">Cliente</option>
-                            <option value="PROPIETARIO">Propietario</option>
-                        </select>
-                    </p>
+                <div class="col">
+                    <button type="reset" class="btn btn-outline-danger col-sm-12">Borrar</button>
                 </div>
+            </div>
 
-                <div class="row ">
-                    <p class="col">
-                        <label for="formFile" class="form-label">Foto de Perfil</label>
-                        <input type="file" class="form-control" name="foto_perfil" id="formFile">
-                    </p>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <button type="submit" class="btn btn-outline-success  col-sm-12">Registarse</button>
-                    </div>
-                    <div class="col">
-                        <button type="reset" class="btn btn-outline-danger col-sm-12">Borrar</button>
-                    </div>
-                </div>
-
-            </form>
-        </div>
+        </form>
+    </div>
 
 
 
@@ -95,6 +93,6 @@
 
 
 
-    </body>
+</body>
 
 </html>

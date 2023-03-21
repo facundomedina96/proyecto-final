@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="/fragments/head :: _head"></head>
+<head th:replace="/fragments/head :: _head('Inicio', 'inicio.css')"></head>
 
 <body>
     <nav th:replace="/fragments/navbar :: _navbar"></nav>
@@ -13,36 +13,49 @@
     <main th:replace="/fragments/hero :: _hero"></main>
 
 
-    <div class="album">
-        <div class="card flex-wrap" th:each="propiedad : ${propiedades}" style="width: 18rem">
-            <div th:id="__${propiedad.id}__" class="carousel slide" data-interval="false">
-                <div class="carousel-inner ">
+    <div id="album" class="album py-5 bg-light">
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4" th:each="propiedad : ${propiedades}" >
+                    <div class="card shadow" style="width: 18rem">
 
-                    <div th:each="imagen, iterstat: ${propiedad.fotos}"
-                        th:class="${iterstat.first} ? 'carousel-item active':'carousel-item' ">
-                        <img class="d-block w-100" th:src=" @{/imagen/__${imagen.id}__}" alt="slide">
+
+                        <div th:id="__${propiedad.id}__" class="carousel slide" data-interval="false">
+                            <div class="carousel-inner">
+            
+                                <div th:each="imagen, iterstat: ${propiedad.fotos}"
+                                    th:class="${iterstat.first} ? 'carousel-item active':'carousel-item' ">
+                                    <img class="d-block w-100 rounded p-1" th:src=" @{/imagen/__${imagen.id}__}" alt="slide">
+                                </div>
+            
+                            </div>
+                            <button class="carousel-control-prev" type="button" th:attr="data-bs-target='#__${propiedad.id}__'"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" th:attr="data-bs-target='#__${propiedad.id}__'"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+            
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${propiedad.nombre}"></h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" th:text="${propiedad.ciudad}"></li>
+                            <li class="list-group-item" th:text="${propiedad.precio_base}"></li>
+                            <li class="list-group-item" th:text="${propiedad.propietario.nombre} + ' ' + ${propiedad.propietario.apellido}"></li>
+                        </ul>
+                        <div class="card-body">
+                            <a href="#" class="card-link">Ver más</a>
+                        </div>
                     </div>
-
                 </div>
-                <button class="carousel-control-prev" type="button" th:attr="data-bs-target='#__${propiedad.id}__'"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" th:attr="data-bs-target='#__${propiedad.id}__'"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
             </div>
-
-            <div class="card-body border-top">
-                <h5 class="card-title " th:text="${propiedad.nombre}"></h5>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item" th:text="${propiedad.ciudad}"></li>
-                <li class="list-group-item" th:text="${propiedad.precio_base}"></li>
-            </ul>
         </div>
     </div>
 
