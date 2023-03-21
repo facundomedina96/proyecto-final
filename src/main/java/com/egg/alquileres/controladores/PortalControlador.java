@@ -9,7 +9,6 @@ import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.servicios.PropiedadServicio;
-import com.egg.alquileres.servicios.UsuarioServicio;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,22 +22,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author Hernan E Encizo
  */
-@Controller
+@ControllerusuarioServicio
 @RequestMapping("/")
 public class PortalControlador {
 
     @Autowired
     private PropiedadServicio propiedadServicio;
-    @Autowired
-    private UsuarioServicio usuarioServicio;
 
-    @GetMapping("/") // especificamos la ruta donde interactua el usuario
+    @GetMapping("/")
     public String inicio(ModelMap model) {
         try {
-            //Necesito inyectar en el HTML la lista de propiedades
-            List<Propiedad> propiedades = propiedadServicio.listarPropiedades(); // buscar todas las noticias
-            model.put("propiedades", propiedades);
-
+            List<Propiedad> propiedades = propiedadServicio.listarPropiedades(); 
+            model.put("propiedades", propiedades); 
             //retorno del HTML
             return "inicio.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {
@@ -46,6 +41,37 @@ public class PortalControlador {
             return "error"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
+    
+    @GetMapping("/inicio") // especificamos la ruta donde interactua el usuario
+    public String inicio(ModelMap model, HttpSession session) {
+        
+        try {             
+            Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+            
+            if(logueado.getRol().toString().equals("PROPIETARIO")){
+                return "redirect:/propietario/panel"; ////error manda a un controlador que no existe
+            }else{
+                return "redirect:/usuario/panel";// si es usuario va a inicio sino dashboard
+            }
+           
+        } catch (Exception e) {
+            model.put("error", e.getMessage());
+            return "error"; // mas tarde crearemos un html para mostrar si surge errores
+        }
+    }
+
+//    @GetMapping("/listaPropiedades") // especificamos la ruta donde interactua el usuario
+//    public String listaPropiedades(ModelMap model) {
+//        try {
+//            List<Propiedad> propiedades = propiedadServicio.listarPropiedades(); // buscar todas las noticias
+//            model.put("propiedades", propiedades); // agregamos al model la propiedad "noticias" y la variable
+//
+//            return "propiedades_list"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+//        } catch (Exception e) {
+//            model.put("error", e.getMessage());
+//            return "error"; // mas tarde crearemos un html para mostrar si surge errores
+//        }
+//    }
 
 //    @GetMapping("/inicio") // especificamos la ruta donde interactua el usuario
 //    public String inicio(ModelMap model, HttpSession session) {
