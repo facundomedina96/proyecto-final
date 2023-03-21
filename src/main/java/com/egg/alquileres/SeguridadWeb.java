@@ -30,7 +30,6 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
         this.usuarioServicio = usuarioServicio;
     }
     
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(usuarioServicio).passwordEncoder(new BCryptPasswordEncoder());
@@ -56,5 +55,5 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and().csrf()
                 .disable();
-    }
+    }     
 }

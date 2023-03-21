@@ -143,6 +143,11 @@ public class UsuarioServicio implements UserDetailsService {
         usuarios = usuarioRepositorio.buscarUsuarios();
         return usuarios;
     }
+    
+    public Usuario buscarPorEmail(String email){
+        Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
+        return usuario;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
