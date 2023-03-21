@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author Hernan E Encizo
  */
-@ControllerusuarioServicio
+@Controller
 @RequestMapping("/")
 public class PortalControlador {
 
@@ -90,18 +90,7 @@ public class PortalControlador {
 //            return "error"; // mas tarde crearemos un html para mostrar si surge errores
 //        }
 //    }
-//    @GetMapping("/listaPropiedades") // especificamos la ruta donde interactua el usuario
-//    public String listaPropiedades(ModelMap model) {
-//        try {
-//            List<Propiedad> propiedades = propiedadServicio.listarPropiedades(); // buscar todas las noticias
-//            model.put("propiedades", propiedades); // agregamos al model la propiedad "noticias" y la variable
-//
-//            return "propiedades_list"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
-//        } catch (Exception e) {
-//            model.put("error", e.getMessage());
-//            return "error"; // mas tarde crearemos un html para mostrar si surge errores
-//        }
-//    }
+
     
     @GetMapping("/detalle/{id}")
     public String detalleNoticia(ModelMap model, @PathVariable("id") String id) {

@@ -8,7 +8,7 @@
     <nav th:replace="/fragments/navbar :: _navbar"></nav>
 
     <!-- tabla para la lista de usuarios -->
-    <div class="container m-5">
+    <div class="container bg-light bg-opacity-75 m-5">
         <table class="table">
             <thead class="thead-light">
                 <tr>
@@ -26,11 +26,6 @@
                     <th scope="row" th:text="${usuario.id}"></th>
                     <td th:text="${usuario.nombre}"></td>
                     <td th:text="${usuario.email}"></td>
-                    <!-- <td <a class="d-flex aling-items-center">
-                        <img class="img-thumbnail" width="200" th:src="@{/imagen/perfil/__${usuario.id}__}"
-                            alt="img perfil">
-                        </a>
-                    </td> -->
                     <td th:text="${usuario.rol}"></td>
                     <td th:text="${usuario.activo}"></td>
                     <td> <a th:href="@{/admin/eliminaruser/__${usuario.id}__}"> <i class="gg-edit-markup"></i>
