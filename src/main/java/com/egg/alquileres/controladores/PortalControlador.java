@@ -9,6 +9,7 @@ import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.servicios.PropiedadServicio;
 import com.egg.alquileres.servicios.UsuarioServicio;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,4 +71,5 @@ public class PortalControlador {
             return "error";
         }
     }
+   
 }
