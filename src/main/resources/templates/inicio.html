@@ -61,7 +61,7 @@
                         </ul>
                         <div class="card-body">
                             <button type="button" class="btn btn-primary" data-toggle="modal"
-                            th:attr="data-target='#__${propiedad.id}__'+'ModalCard'" >
+                            th:attr="data-target='#__${propiedad.id}__'+'ModalCard'"  >
                                 Ver más
                             </button>
                             
@@ -116,7 +116,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-dismiss="modal">Cerrar</button>
-                                            <button type="button" class="btn btn-primary">Reservar</button>
+                                            <a type="button" class="btn btn-primary" th:href="@{/reserva/${propiedad.id}}">Reservar</a>
                                         </div>
                                     </div>
                                 </div>

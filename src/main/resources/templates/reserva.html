@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head th:fragment="_head(titulo, css)">
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title th:text="${titulo}"></title>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Aboreto&family=Molle&family=Roboto:wght@300;400;700&display=swap");
+        </style>
+        <link th:href="'/css/' + ${css}" rel="stylesheet" />
+        <link rel="stylesheet" href="../static/css/reserva.css"> <!--despues acomodar esto-->
+        <link   
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+          crossorigin="anonymous"
+          defer
+        ></script>
+      </head>
+<body>
+    <nav
+    class="navbar bg-dark navbar-expand-lg bg-body-tertiary"
+    data-bs-theme="dark"
+    th:fragment="_navbar"
+  >
+    <div class="container-fluid ">
+      <a class="navbar-brand" href="/">Alquileres</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarScroll"
+        aria-controls="navbarScroll"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarScroll" >
+        <ul
+          class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll "
+          style="--bs-scroll-height: 110px"
+        >
+          <li class="nav-item">
+            <a class="nav-link" href="/iniciarSesion" sec:authorize="isAnonymous()">Iniciar Sesión</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/registrar" sec:authorize="isAnonymous()">Registrarse</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/perfil" sec:authorize="isAuthenticated()">Perfil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout" sec:authorize="isAuthenticated()">Salir</a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div>
+    <h3>Quincho Villa Tomas</h3>
+    <p>Combinando lo rústico con lo sofisticado, este quincho es el ambiente ideal para festejar cualquier tipo de eventos. Además de ser acogedor, ofrece una impresionante vista a las montañas, perfecto para disfrutar con amigos o la familia.</p>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3346.1908887913028!2d-68.91411068525217!3d-32.99874248185638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x967e75f028bc0c0f%3A0xdb9f3d1213ec3fcf!2sQUINCHO%20VILLA%20TOMAS!5e0!3m2!1ses-419!2sar!4v1679442985568!5m2!1ses-419!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
+<article>
+    <div>
+        <h5>¿Que ofrece este lugar?</h5>
+        <ul>
+            <li type="circle">Wifi</li>
+            <li type="circle">Cocina</li>
+            <li type="circle">Estacionamiento gratis en la propiedad</li>
+            <li type="circle">Aire acondicionado</li>
+            <li type="circle">Se permiten mascotas</li>
+            <li type="circle">Tv HD</li>
+        </ul>
+    </div>
+</article>
+
+<aside>
+    <div class="form">
+        <form action="">
+            <h5>Hace tu reserva!</h5>
+            <p>Fecha desde:</p>
+            <input type="date" name="fecha desde">
+            <p>Fecha hasta:</p>
+            <input type="date" name="fecha hasta">
+          
+            <div class="col-sm-3">
+                <p>Cantidad de días</p>
+              <label class="visually-hidden" for="specificSizeInputName"></label>
+              <input type="number" class="form-control" id="specificSizeInputName" placeholder="Días">
+            </div>
+          
+            <p>Servicios a contratar</p>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+              <label class="form-check-label" for="flexCheckDefault">
+                Pileta $5.000
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+              <label class="form-check-label" for="flexCheckChecked">
+                Catering $15.000
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+              <label class="form-check-label" for="flexCheckChecked">
+                DJ $10.000
+              </label>
+            </div>
+            <div class="col-sm-3">
+                <p>Nombre de Usuario</p>
+              <label class="visually-hidden" for="specificSizeInputName">Nombre de Usuario</label>
+              <input type="text" class="form-control" id="specificSizeInputName" placeholder="Nombre">
+            </div><br>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+          </form>
+    </aside>
+  </div>
+</aside>
+</body>
+</html>

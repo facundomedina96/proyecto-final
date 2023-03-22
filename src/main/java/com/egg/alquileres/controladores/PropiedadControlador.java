@@ -68,4 +68,5 @@ public class PropiedadControlador {
             return "redirect:/propiedad/registrar";
         }
     }
+   
 }

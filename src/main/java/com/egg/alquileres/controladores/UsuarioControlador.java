@@ -56,13 +56,13 @@ public class UsuarioControlador {
     }
 
     // trabajo desde el ultimo commit 
-    @GetMapping("/iniciarSesion") // especificamos la ruta donde interactua el usuario
+    @GetMapping("/iniciar-sesion") // especificamos la ruta donde interactua el usuario
     public String login(@RequestParam(required = false) String error, ModelMap modelo) {
         try {
             if (error != null) {
                 modelo.put("error", "Usuario o contraseña invalido!");
             }
-            return "iniciar_sesion"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+            return "iniciar_sesion.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {
             modelo.put("error", e.getMessage());
             return "inicio.html"; // mas tarde crearemos un html para mostrar si surge errores
