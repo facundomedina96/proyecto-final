@@ -82,6 +82,7 @@ public class UsuarioControlador {
             return "iniciar_sesion.html";
         } else {
 
+            modelo.put("usuario", (Usuario) session.getAttribute("usuarioSession"));
             if(sesionActual.getRol().toString().equals("PROPIETARIO")){
                 
                 List<Propiedad> propiedades = propiedadServicio.listarPropiedadesPorPropietario(sesionActual.getId()); 

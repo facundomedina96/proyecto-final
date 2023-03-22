@@ -35,7 +35,9 @@ public class ClienteControlador {
     }
 
     @PostMapping("/modificarPerfil/{id}")
-    public String modificarPerfil(ModelMap modelo, @PathVariable String id, String nombre, String apellido, String email, String password, String password2, String telefono, MultipartFile foto_perfil) {
+    public String modificarPerfil(ModelMap modelo, @PathVariable String id,
+            String nombre, String apellido, String email, String password,
+            String password2, String telefono, MultipartFile foto_perfil) {
         try {
             usuarioServicio.modificar(id, nombre, apellido, email, password, password2, telefono, foto_perfil);
             modelo.put("exito", "Se ha modificado su perfil con exito");
@@ -48,10 +50,12 @@ public class ClienteControlador {
     }
 
     @GetMapping("/eliminarPerfil/{id}")
-    public String eliminarPerfil(ModelMap modelo, @PathVariable String id) {
+    public String eliminarPerfil(ModelMap modelo, @PathVariable String id, 
+            HttpSession session) {
         try {
             // inyeccion en el html del usuario para mostrar sus datos.
             usuarioServicio.eliminar(id);
+            session.invalidate();
             modelo.put("exito", "Se ha eliminado su perfil con exito");
             return "redirect:/";
         } catch (MiException ex) {

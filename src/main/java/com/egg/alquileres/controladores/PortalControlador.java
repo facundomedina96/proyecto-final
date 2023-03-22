@@ -30,8 +30,11 @@ public class PortalControlador {
     private PropiedadServicio propiedadServicio;
 
     @GetMapping("/")
-    public String inicio(ModelMap model) {
+    public String inicio(ModelMap model, HttpSession session) {
         try {
+            
+            model.put("usuario", (Usuario) session.getAttribute("usuarioSession"));
+            
             List<Propiedad> propiedades = propiedadServicio.listarPropiedades(); 
             model.put("propiedades", propiedades); 
             //retorno del HTML
@@ -43,7 +46,7 @@ public class PortalControlador {
     }
     
     @GetMapping("/inicio") // especificamos la ruta donde interactua el usuario
-    public String inicio(ModelMap model, HttpSession session) {
+    public String inicioLogueado(ModelMap model, HttpSession session) {
         
         try {             
             Usuario logueado = (Usuario) session.getAttribute("usuarioSession");

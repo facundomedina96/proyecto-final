@@ -2,7 +2,7 @@
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="/fragments/head :: _head('Inicio', 'inicio.css')"></head>
+<head th:replace="/fragments/head :: _head('Perfil', 'inicio.css')"></head>
 
 <body>
 
@@ -21,68 +21,104 @@
         -->
 
     <main>
-        <div class="m-5 text-center">
-            <h1 style="font-size: 3.2em"><strong>Perfil</strong></h1>
-        </div>
+
+        <div class="container rounded p-3 mt-5 bg-light bg-opacity-50">
+
+            <div class="m-5 text-center">
+                <h1 style="font-size: 3.2em"><strong>Perfil</strong></h1>
+            </div>
+
+            <div class="px-4 my-5 text-center ">
+                <img class="img-thumbnail rounded thumbnail" th:src="@{/imagen/perfil/__${usuario.id}__}">
+            </div>
 
 
-        <div class="px-4 pt-5 my-5 text-center border-bottom">
-            <img class="img-thumbnail thumbnail" th:src="@{/imagen/perfil/__${usuario.id}__}">
-        </div>
+            <div class="row justify-content-center g-5">
 
-        <div class=" table-responsive m-2">
+                <div class="col-md-7 col-lg-8">
 
-            <table class="table table-bordered ">
-                <thead class="table-dark ">
-                    <tr>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Apellido</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Telefono</th>
-                        <th scope="col">Rol</th>
-                        <th scope="col">Estado de Alta</th>
-                        <th scope="col">Modificar Perfil</th>
-                        <th scope="col">Eliminar Perfil</th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td th:text="${usuario.nombre}"></td>
-                    <td th:text="${usuario.apellido}"></td>
-                    <td th:text="${usuario.email}"></td>
-                    <td th:text="${usuario.telefono}"></td>
-                    <td th:text="${usuario.rol}"></td>
-                    <td th:text="${usuario.activo}"></td>
 
-                    <td>
-                        <a class="btn btn-warning btn-sm col-sm-12"
-                            th:href="@{/cliente/modificarPerfil/__${usuario.id}__}"
-                            sec:authorize="hasRole('CLIENTE')">Modificar</a>
-                        <a class="btn btn-warning btn-sm col-sm-12"
-                            th:href="@{/propietario/modificarPerfil/__${usuario.id}__}"
-                            sec:authorize="hasRole('PROPIETARIO')">Modificar</a>
-                    </td>
-                    <td>
-                        <a class="btn btn-danger btn-sm col-sm-12"
-                            th:href="@{/cliente/eliminarPerfil/__${usuario.id}__}"
-                            sec:authorize="hasRole('CLIENTE')">Eliminar</a>
-                        <a class="btn btn-danger btn-sm col-sm-12"
-                            th:href="@{/propietario/eliminarPerfil/__${usuario.id}__}"
-                            sec:authorize="hasRole('PROPIETARIO')">Eliminar</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <p class="container border rounded bg-light py-1" id="nombre" th:text="${usuario.nombre}">
+                            </p>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="nombre" class="form-label">Apellido</label>
+                            <p class="container border rounded bg-light py-1" id="apellido"
+                                th:text="${usuario.apellido}"></p>
+                        </div>
+
+
+                        <div class="col-12">
+                            <label for="nombre" class="form-label">Email</label>
+                            <p class="container border rounded bg-light py-1" id="email" th:text="${usuario.email}"></p>
+                        </div>
+
+
+                        <div class="col-12">
+                            <label for="nombre" class="form-label">Teléfono</label>
+                            <p class="container border rounded bg-light py-1" id="telefono"
+                                th:text="${usuario.telefono}"></p>
+                        </div>
+                        <div class="col-12">
+                            <label for="nombre" class="form-label">activo</label>
+                            <p class="container border rounded bg-light py-1" id="telefono"
+                                th:text="${usuario.activo}"></p>
+                        </div>
+
+
+
+                        <hr class="my-4">
+
+                        <div class="row g-3 text-center">
+                            <div class="col" sec:authorize=" hasRole('CLIENTE')">
+                                <a class="btn btn-warning shadow border border-2 border-dark"
+                                    th:href="@{/cliente/modificarPerfil/__${usuario.id}__}">
+                                    Modificar Perfil
+                                </a>
+                            </div>
+                            <div class="col-md-6" sec:authorize="hasRole('PROPIETARIO')">
+                                <a class="btn btn-warning shadow border border-2 border-dark"
+                                    th:href="@{/propietario/modificarPerfil/__${usuario.id}__}">
+                                    Modificar Perfil
+                                </a>
+                            </div>
+                            <div class="col" sec:authorize="hasRole('CLIENTE')">
+                                <a class="btn btn-danger shadow border border-2 border-dark"
+                                    th:href="@{/cliente/eliminarPerfil/__${usuario.id}__}">Dar de Baja
+                                </a>
+                            </div>
+                            <div class="col-md-6" sec:authorize="hasRole('PROPIETARIO')">
+                                <a class="btn btn-danger shadow border border-2 border-dark"
+                                    th:href="@{/propietario/eliminarPerfil/__${usuario.id}__}">Dar de Baja
+                                </a>
+                            </div>
+
+
+                        </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
 
             <section class="py-3 text-center container">
                 <div class="row py-lg-5">
                     <div class="col-lg-6 col-md-8 mx-auto">
-                        <a th:href="@{/}" class="btn btn-primary">Volver</a>
+                        <a th:href="@{/}"
+                            class="btn btn-primary shadow border border-2 border-primary-subtle">Volver</a>
                     </div>
                 </div>
             </section>
         </div>
     </main>
-    
+
+
+
+
     <div th:replace="/fragments/footer :: _footer"></div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
