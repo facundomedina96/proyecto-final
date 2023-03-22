@@ -48,7 +48,7 @@ public class PropietarioControlador {
 
     @GetMapping("/modificarPerfil/{id}")
     public String modificarPerfil(ModelMap modelo, @PathVariable String id) {
-        modelo.put("propietario", usuarioServicio.getOne(id));
+        modelo.put("usuario", usuarioServicio.getOne(id));
         return "propietario_modificar_perfil.html";
     }
 
@@ -57,7 +57,7 @@ public class PropietarioControlador {
         try {
             usuarioServicio.modificar(id, nombre, apellido, email, password, password2, telefono, foto_perfil);
             modelo.put("exito", "Se ha modificado su perfil con exito");
-
+            
             return "redirect:/iniciar_sesion";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());

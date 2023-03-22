@@ -1,15 +1,18 @@
 <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark" th:fragment="_navbar">
-  <div class="container-fluid ">
+  <div class="container-fluid">
     <a class="navbar-brand" href="/">Alquileres</a>
+
+    <form class="form rounded p-1">
+      <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+    </form>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
       aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarScroll">
+      <ul class="navbar-nav ms-auto me-4 my-2 my-lg-0 navbar-nav-scroll">
 
-
-      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll " style="--bs-scroll-height: 110px">
         <li class="nav-item">
           <a class="nav-link" href="/iniciarSesion" sec:authorize="isAnonymous()">Iniciar Sesión</a>
         </li>
@@ -17,10 +20,22 @@
           <a class="nav-link" href="/registrar" sec:authorize="isAnonymous()">Registrarse</a>
         </li>
 
+        <li sec:authorize="isAuthenticated()" class="nav-item dropdown ">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Usuario
+          </a>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/perfil">Perfil</a>
+            <a class="dropdown-item" href="/dashboard">Dashboard</a>
+            <div class="dropdown-divider"></div>
 
-        <li class="nav-item">
-          <a class="nav-link" href="/perfil" sec:authorize="isAuthenticated()">Perfil</a>
+            
+            <a sec:authorize="hasRole('CLIENTE')" class="dropdown-item" th:href="'/cliente/modificarPerfil/' + '__${usuario.id}__'">Configuracion</a>
+            <a sec:authorize="hasRole('PROPIETARIO')" class="dropdown-item" th:href="'/propietario/modificarPerfil/' + '__${usuario.id}__'">Configuracion</a>
+          </div>
         </li>
+
         <li class="nav-item">
           <a class="nav-link" href="/logout" sec:authorize="isAuthenticated()">Salir</a>
         </li>
@@ -30,5 +45,5 @@
 
   </div>
 
-  
+
 </nav>
