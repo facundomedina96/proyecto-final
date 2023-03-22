@@ -170,11 +170,11 @@ public class PropiedadServicio {
     }
 
     @Transactional(readOnly = true)
-    public Propiedad listarPropiedadesPorPropietario(String id) throws MiException {
+    public List<Propiedad> listarPropiedadesPorPropietario(String id) throws MiException {
 
         List<Propiedad> respuesta = propiedadRepositorio.buscarPorPropietario(id);
 
-        return (Propiedad) respuesta;
+        return respuesta;
     }
 
     public Propiedad getOne(String id) {
