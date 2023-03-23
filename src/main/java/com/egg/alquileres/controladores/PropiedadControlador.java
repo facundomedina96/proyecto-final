@@ -47,7 +47,7 @@ public class PropiedadControlador {
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             model.put("usuario", usuario);
 
-            return "propiedadRegistro.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+            return "propiedad_registro.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
 
         } catch (Exception e) {
             model.put("error", e.getMessage());

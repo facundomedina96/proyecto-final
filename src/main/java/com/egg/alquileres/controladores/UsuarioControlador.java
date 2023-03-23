@@ -29,61 +29,67 @@ public class UsuarioControlador {
     @GetMapping("/registrar") // especificamos la ruta donde interactua el usuario
     public String registrar(ModelMap model) {
         try {
-            return "usuarioFormulario"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+            return "usuario_formulario.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {
             model.put("error", e.getMessage());
-            return "error"; // mas tarde crearemos un html para mostrar si surge errores
+            return "error.html"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
 
     @PostMapping("/registro") // especificamos la ruta donde interactua el usuario
-    public String registro(ModelMap model, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String email, @RequestParam String password, @RequestParam String password2, @RequestParam String telefono, @RequestParam Rol rol, @RequestParam MultipartFile foto_perfil) throws MiException {
+    public String registro(ModelMap modelo, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String email, @RequestParam String password, @RequestParam String password2, @RequestParam String telefono, @RequestParam(required = false) Rol rol, @RequestParam MultipartFile foto_perfil) throws MiException {
         try {
 
-
-           usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol);
-
-
             usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol, foto_perfil);
 
-
-
-            usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol, foto_perfil);
-
-
-            model.put("exito", "Ya puedes ingresar con tu correo y contraseña");
+            modelo.put("exito", "Ya puedes ingresar con tu correo y contraseña");
 
             return "inicio.html";
         } catch (MiException e) {
-            model.put("error", e.getMessage());
-            return "usuarioFormulario"; // mas tarde crearemos un html para mostrar si surge errores
+            modelo.put("error", e.getMessage());
+
+            modelo.put("nombre", nombre);
+            modelo.put("apellido", apellido);
+            modelo.put("email", email);
+            modelo.put("telefono", telefono);
+            return "usuario_formulario.html"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
-    
     @GetMapping("/dashboard")
-    public String panel(ModelMap modelo) {
-        return "panel.html";
+    public String panel(ModelMap modelo, HttpSession session) {
+        Usuario sesionActual = (Usuario) session.getAttribute("usuarioSession");
+        if (!sesionActual.getActivo()) {
+            modelo.put("error", "Su cuenta ha sido dada de baja por infringir las normas");
+            session.invalidate();
+            return "iniciarSesion";
+        } else {
+            return "panel";
+        }
     }
 
-    @GetMapping("/login") // especificamos la ruta donde interactua el usuario
+    // trabajo desde el ultimo commit 
+    @GetMapping("/iniciarSesion") // especificamos la ruta donde interactua el usuario
     public String login(@RequestParam(required = false) String error, ModelMap modelo) {
         try {
             if (error != null) {
                 modelo.put("error", "Usuario o contraseña invalido!");
             }
-            return "iniciarSesion"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+            return "iniciar_sesion"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {
             modelo.put("error", e.getMessage());
-            return "inicio"; // mas tarde crearemos un html para mostrar si surge errores
+            return "iniciar_sesion"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
+    
+    
+   
 
     @GetMapping("/perfil")
     public String perfil(ModelMap modelo, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
 
         modelo.put("usuario", usuario);
-        return "usuarioPerfil.html";
+        return "usuario_perfil.html";
     }
     
     @GetMapping("/modificarPerfil/{id}")
@@ -99,7 +105,7 @@ public class UsuarioControlador {
             usuarioServicio.modificar(id, nombre, apellido, email, password, password2, telefono, foto_perfil);
             modelo.put("exito", "Se ha modificado su perfil con exito");
 
-            return "redirect:/login";
+            return "redirect:/perfil";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
             return "usuarioModificarPerfil.html";
@@ -107,15 +113,16 @@ public class UsuarioControlador {
     }
 
     @GetMapping("/eliminarPerfil/{id}")
-    public String eliminarPerfil(ModelMap modelo, @PathVariable String id) {
+    public String eliminarPerfil(ModelMap modelo, @PathVariable String id, HttpSession session) {
         try {
             // inyeccion en el html del usuario para mostrar sus datos.
             usuarioServicio.eliminar(id);
             modelo.put("exito", "Se ha eliminado su perfil con exito");
-            return "redirect:/";
+            session.invalidate();
+            return "inicio.html";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
-            return "redirect:../perfil";
+            return "usuarioModificarPerfil.html";
         }
     }
 }

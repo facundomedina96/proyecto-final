@@ -24,5 +24,5 @@ public class ClienteControlador {
 
     public ClienteControlador(UsuarioServicio usuarioServicio) {
         this.usuarioServicio = usuarioServicio;
-    } 
+    }
 }
