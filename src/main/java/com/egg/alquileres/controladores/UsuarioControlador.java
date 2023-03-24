@@ -61,9 +61,9 @@ public class UsuarioControlador {
         if (!sesionActual.getActivo()) {
             modelo.put("error", "Su cuenta ha sido dada de baja por infringir las normas");
             session.invalidate();
-            return "iniciarSesion";
+            return "iniciar_sesion.html";
         } else {
-            return "panel";
+            return "panel.html";
         }
     }
 
@@ -74,10 +74,10 @@ public class UsuarioControlador {
             if (error != null) {
                 modelo.put("error", "Usuario o contraseña invalido!");
             }
-            return "iniciar_sesion"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+            return "iniciar_sesion.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {
             modelo.put("error", e.getMessage());
-            return "iniciar_sesion"; // mas tarde crearemos un html para mostrar si surge errores
+            return "iniciar_sesion.html"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
     
@@ -96,7 +96,7 @@ public class UsuarioControlador {
     public String modificarPerfil(ModelMap modelo, @PathVariable String id) {
         // inyeccion en el html del usuario para mostrar sus datos.
         modelo.put("usuario", usuarioServicio.getOne(id));
-        return "usuarioModificarPerfil.html";
+        return "usuario_modificar_perfil.html";
     }
 
     @PostMapping("/modificarPerfil/{id}")
@@ -108,7 +108,7 @@ public class UsuarioControlador {
             return "redirect:/perfil";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
-            return "usuarioModificarPerfil.html";
+            return "usuario_modificar_perfil.html";
         }
     }
 
@@ -122,7 +122,7 @@ public class UsuarioControlador {
             return "inicio.html";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
-            return "usuarioModificarPerfil.html";
+            return "usuario_modificar_perfil.html";
         }
     }
 }

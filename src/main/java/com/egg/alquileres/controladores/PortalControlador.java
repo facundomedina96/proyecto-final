@@ -42,7 +42,7 @@ public class PortalControlador {
             return "inicio.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {
             model.put("error", e.getMessage());
-            return "error"; // mas tarde crearemos un html para mostrar si surge errores
+            return "error.html"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
 
@@ -55,7 +55,7 @@ public class PortalControlador {
             return "inicio.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {
             model.put("error", e.getMessage());
-            return "error"; // mas tarde crearemos un html para mostrar si surge errores
+            return "error.html"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
     
@@ -73,7 +73,7 @@ public class PortalControlador {
            
         } catch (Exception e) {
             model.put("error", e.getMessage());
-            return "error"; // mas tarde crearemos un html para mostrar si surge errores
+            return "error.html"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
 
@@ -87,7 +87,7 @@ public class PortalControlador {
 
         } catch (Exception e) {
             model.put("error", e.getMessage());
-            return "error";
+            return "error.html";
         }
     }
    

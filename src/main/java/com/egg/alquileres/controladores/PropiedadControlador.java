@@ -86,7 +86,7 @@ public class PropiedadControlador {
             return "propiedadesCRUD.html";
         } catch (MiException e) {
             model.put("error", e.getMessage());
-            return "error";
+            return "error.html";
         }
     }
 
@@ -97,7 +97,7 @@ public class PropiedadControlador {
         // obtengo informacion de la session y lo almaceno en sesionActual
         Propiedad propiedad = propiedadServicio.getOne(id);
         model.put("propiedad", propiedad);
-        return "propiedadModificar.html";
+        return "propiedad_modificar.html";
     }
 
     @PostMapping("/modificando/{id}")
@@ -111,7 +111,7 @@ public class PropiedadControlador {
 
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
-            return "propiedadesCRUD.html";
+            return "propiedades_crud.html";
         }
     }
 
