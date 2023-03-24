@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,7 +48,7 @@ public class UsuarioControlador {
 
             modelo.put("exito", "Ya puedes ingresar con tu correo y contraseña");
 
-            return "inicio";
+            return "inicio.html";
         } catch (MiException e) {
             modelo.put("error", e.getMessage());
 
@@ -56,6 +57,17 @@ public class UsuarioControlador {
             modelo.put("email", email);
             modelo.put("telefono", telefono);
             return "usuario_formulario.html"; // mas tarde crearemos un html para mostrar si surge errores
+        }
+    }
+    @GetMapping("/dashboard")
+    public String panel(ModelMap modelo, HttpSession session) {
+        Usuario sesionActual = (Usuario) session.getAttribute("usuarioSession");
+        if (!sesionActual.getActivo()) {
+            modelo.put("error", "Su cuenta ha sido dada de baja por infringir las normas");
+            session.invalidate();
+            return "iniciarSesion";
+        } else {
+            return "panel";
         }
     }
 
@@ -69,30 +81,12 @@ public class UsuarioControlador {
             return "iniciar_sesion.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {
             modelo.put("error", e.getMessage());
-            return "inicio.html"; // mas tarde crearemos un html para mostrar si surge errores
+            return "iniciar_sesion"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
-
-    @GetMapping("/dashboard")
-    public String panel(ModelMap modelo, HttpSession session) throws MiException {
-        Usuario sesionActual = (Usuario) session.getAttribute("usuarioSession");
-        if (!sesionActual.getActivo()) {
-            modelo.put("error", "Su cuenta ha sido dada de baja por infringir las normas");
-            session.invalidate();
-            return "iniciar_sesion.html";
-        } else {
-
-            modelo.put("usuario", (Usuario) session.getAttribute("usuarioSession"));
-            if(sesionActual.getRol().toString().equals("PROPIETARIO")){
-                
-                List<Propiedad> propiedades = propiedadServicio.listarPropiedadesPorPropietario(sesionActual.getId()); 
-                modelo.put("propiedades", propiedades); 
-            }
-            
-            modelo.put("usuario", sesionActual);
-            return "panel";
-        }
-    }
+    
+    
+   
 
     @GetMapping("/perfil")
     public String perfil(ModelMap modelo, HttpSession session) {
@@ -101,5 +95,38 @@ public class UsuarioControlador {
         modelo.put("usuario", usuario);
         return "usuario_perfil.html";
     }
+    
+    @GetMapping("/modificarPerfil/{id}")
+    public String modificarPerfil(ModelMap modelo, @PathVariable String id) {
+        // inyeccion en el html del usuario para mostrar sus datos.
+        modelo.put("usuario", usuarioServicio.getOne(id));
+        return "usuarioModificarPerfil.html";
+    }
 
+    @PostMapping("/modificarPerfil/{id}")
+    public String modificarPerfil(ModelMap modelo, @RequestParam String id, String nombre, String apellido, String email, String password, String password2, String telefono, MultipartFile foto_perfil) {
+        try {
+            usuarioServicio.modificar(id, nombre, apellido, email, password, password2, telefono, foto_perfil);
+            modelo.put("exito", "Se ha modificado su perfil con exito");
+
+            return "redirect:/perfil";
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+            return "usuarioModificarPerfil.html";
+        }
+    }
+
+    @GetMapping("/eliminarPerfil/{id}")
+    public String eliminarPerfil(ModelMap modelo, @PathVariable String id, HttpSession session) {
+        try {
+            // inyeccion en el html del usuario para mostrar sus datos.
+            usuarioServicio.eliminar(id);
+            modelo.put("exito", "Se ha eliminado su perfil con exito");
+            session.invalidate();
+            return "inicio.html";
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+            return "usuarioModificarPerfil.html";
+        }
+    }
 }

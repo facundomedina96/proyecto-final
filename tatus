@@ -1,0 +1,31 @@
+[33mdaf83cc[m[33m ([m[1;36mHEAD -> [m[1;32mdevelopment[m[33m, [m[1;31morigin/facundoBackend[m[33m, [m[1;32mfacundoBackend[m[33m)[m se agrego metodos al servicio de propiedad
+[33m5a1df4d[m se agrego metodo listar propiedades por id al servicio
+[33ma97cdea[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmaster[m[33m)[m Merge pull request #4 from facundomedina96/tomasnuin
+[33m246aa03[m Nombre de proyecto y BD modificados
+[33m7a66247[m El boton de perfil se mostrará si hay un usuario logueado, ruta de dashboard y perfil modificadas para aceptar cualquier usuario
+[33m6669f75[m Metodos perfil y panel movidos a UsuarioControlador
+[33m18cbee5[m defaultSuccessUrl ahora te lleva al dashboard
+[33m254e9de[m Resources modificados, Propiedad modificada
+[33m44bd823[m Entidades FechasDisponibles, Prestacion y reserva modificadas
+[33ma868d04[m Propiedad y Usuario modificados
+[33mcf2494e[m Imagen modificada
+[33m77990ba[m Controladores Modificados
+[33mc717658[m SeguridadWeb y AlquileresApplicacion modificadas
+[33m6165b9e[m Cliente y propietario borrados, modificado MiExcepcion -> MiExeption
+[33m587017e[m Borrado Enumeraciones.
+[33mdc67187[m Cambios al modelo y controlador
+[33m78755c4[m Modelo Imagen creado, renombrado MiException a MiExcepcion, Rol movido a Enumeraciones
+[33m803dafd[m Delete AlquileresApplication.java
+[33m52e25b8[m Delete src/main/java/com/egg/alquileres/enumeraciones directory
+[33mb7128c2[m Delete src/main/java/com/egg/alquileres/repositorio directory
+[33mcb0be8a[m modificamos el los paquetes del proyecto
+[33m36a5d3b[m Merge branch 'dev' of https://github.com/facundomedina96/proyecto-final into dev
+[33mfcf2414[m Merge pull request #2 from facundomedina96/dev
+[33mea01cd4[m Entidades creadas.
+[33m5070a15[m Carpeta 'Alquileres' eliminada.
+[33m96d212f[m se realizo un pull de la rama remota dev
+[33mb13b52d[m Carpetas, Usuario y controlador portal agregados.
+[33me4332bf[m Merge branch 'dev' of https://github.com/facundomedina96/proyecto-final into dev
+[33m1802f5a[m Agregamos archivo alquileres al repo
+[33md8c84c0[m Initial commit
+[33m6172529[m Primer archivo del proyecto final

@@ -9,17 +9,12 @@ import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.repositorios.ReservaRepositorio;
 import com.egg.alquileres.repositorios.UsuarioRepositorio;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.TreeSet;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -38,12 +33,18 @@ public class UsuarioServicio implements UserDetailsService {
 
     private final UsuarioRepositorio usuarioRepositorio;
     private final ImagenServicio imagenServicio;
+
     private final ReservaRepositorio reservaRepositorio;
 
-    public UsuarioServicio(UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio, ReservaRepositorio reservaRepositorio) {
+    private final PropiedadServicio propiedadServicio;
+
+    public UsuarioServicio(UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio, ReservaRepositorio reservaRepositorio, PropiedadServicio propiedadServicio) {
         this.usuarioRepositorio = usuarioRepositorio;
         this.imagenServicio = imagenServicio;
+
         this.reservaRepositorio = reservaRepositorio;
+
+        this.propiedadServicio = propiedadServicio;
     }
 
     public void validar(String nombre, String apellido, String email, String password, String password2, String telefono, MultipartFile foto_perfil) throws MiException {
@@ -115,6 +116,10 @@ public class UsuarioServicio implements UserDetailsService {
             usuario.setEmail(email);
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
             usuario.setTelefono(telefono);
+            
+            // se crea la imagen para luego setearla al usuario
+            Imagen imagen = imagenServicio.crearImagen(foto_perfil);
+            usuario.setFoto_perfil(imagen);
 
             usuarioRepositorio.save(usuario);
         } else {
@@ -122,6 +127,24 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
+    /* Metodo eliminar(usuario) si bien cambia el estado del Usuario(Propietario o Cliente) a FALSE; 
+       El usuario todavia tiene capacidad para ingresar al sitio; 
+       Soluciones: O lo eliminamos directamente de la BBDD para que ya no exista o tenemos que agregar 
+       condiciones en el inicio de sesion; para evitar que ingresen los usuarios con estado activo.FALSE;
+    
+       Tambien falta desarrollar mas el metodo ya que tanto Cliente como Propietario (Y Admin) 
+       apuntaran al mismo metodo para eliminar su perfil(O en el caso del admin el perfil de alguien);
+    
+       Aqui otro inconvenniente; Un cliente deberia darse de baja y quedar sin acceso a la plataforma 
+       sin mas, pero un Propetario al darse de baja, sus propiedades y todo lo relacionado a el tambien 
+       deberian hacerlo(es decir sus propiedades ya no deberian estar disponiblies, ni las reservas);
+    
+       Soluciones: Podemos agregar mas metodos eliminar, es decir seguiremos usando eliminar
+       pero a la hora de buscar el usuario preguntaremos por el rol que tiene segun su rol
+       redireccionar al metodo eliminarPropietario o eliminarCliente que desarrolaran la logica 
+       adecuada para cada caso; La otra solucion seria desarrollar todo el codigo con validaciones
+       dentro del metodo eliminar; 
+    */
     @Transactional
     public void eliminar(String id) throws MiException {
 
@@ -175,35 +198,24 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
+
     @Transactional
-    public void crearReserva(String id, String nombre, String apellido, String email, String password, String password2, String telefono, Date Date, Usuario cliente, Date fechaDesde, Propiedad propiedad, Date fechaHasta, MultipartFile foto_perfil) throws MiException, ParseException {
+    public void crearReserva(String id_propiedad, Usuario cliente, Date fechaDesde, Date fechaHasta) throws MiException, ParseException {
 
-        validar(nombre, apellido, email, password, password2, telefono, foto_perfil);
-
-        Set<Date> fechasDisponibles = new TreeSet();
-
-        Calendar fechaActual = Calendar.getInstance();
-
-        Calendar finDeAnio = Calendar.getInstance();
-        finDeAnio.set(Calendar.MONTH, Calendar.DECEMBER);
-        finDeAnio.set(Calendar.DAY_OF_MONTH, 31);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        while (fechaActual.before(finDeAnio)) {
-            fechaActual.add(Calendar.DATE, 1);
-            fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
-        }
-
-        Reserva reserva = new Reserva();
-
-        reserva.setCliente(cliente);
-        reserva.setFechaDesde(fechaDesde);
-        reserva.setFechaHasta(fechaHasta);
-        reserva.setId(id);
-        reserva.setPrecio(Double.NaN);
-        reserva.setPropiedad(propiedad);
-
+        ReservaServicio reservaServicio = new ReservaServicio();
+        
+        
+        Reserva reserva = reservaServicio.crearReserva(fechaDesde, fechaHasta, cliente, id_propiedad);
+        
+        Propiedad propiedad = propiedadServicio.buscarPropiedadPorId(id_propiedad);
+        
+        List <Reserva> reservasActivas  = propiedad.getReservasActivas();
+        
+        reservasActivas.add(reserva);
+        
         reservaRepositorio.save(reserva);
+        
+        
 
     }
 
@@ -219,8 +231,7 @@ public class UsuarioServicio implements UserDetailsService {
 
             cliente = reserva.getCliente();
 
-            // para poder eliminar una propiedad primeramente debo eliminar la relacion que existe con el propietario
-            // es decir eliminar la FK de la tabla lista noticias.
+
             List<Reserva> reservas = reservaRepositorio.buscarPorCliente(cliente.getId());
 
             Iterator<Reserva> it = reservas.iterator();
@@ -235,12 +246,23 @@ public class UsuarioServicio implements UserDetailsService {
 
             reservaRepositorio.save(reserva);
 
-            // <<ELIMINACION DE LA NOTICIA DE LA BASE DE DATOS>>
             reservaRepositorio.deleteById(reserva.getId());
 
         } else {
             throw new MiException("No existe una reserva con ese ID");
         }
+    }
+    // Metodo agregado para que los Usuarios-Propietarios puedan ver sus propiedades
+    public List<Propiedad> listarPropiedades(String idPropietario) throws MiException {
 
+        List<Propiedad> propiedades = new ArrayList();
+
+
+        propiedades = propiedadServicio.listarPropiedadesPorPropietario(idPropietario);
+        return propiedades;
+    }
+
+    public void registrar(String nombre, String apellido, String email, String password, String password2, String telefono, Rol rol) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

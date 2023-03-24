@@ -35,16 +35,19 @@ public class Propiedad implements Serializable {
 
     @OneToOne
     private Usuario propietario;
-    
+
     @ElementCollection
     @Temporal(TemporalType.DATE) // Agregar la anotación @Temporal(TemporalType.DATE)
     private Set<Date> fechasDisponibles; // Cambiar la lista a un conjunto Set
 
     @OneToMany
     private List<Reserva> reservasActivas;
-    
+
     @OneToMany
     private Set<Imagen> fotos;
+
+    @OneToMany
+    private List<Prestacion> prestaciones;
 
     public Propiedad() {
     }
@@ -127,5 +130,13 @@ public class Propiedad implements Serializable {
 
     public void setFotos(Set<Imagen> fotos) {
         this.fotos = fotos;
+    }
+
+    public List<Prestacion> getPrestaciones() {
+        return prestaciones;
+    }
+
+    public void setPrestaciones(List<Prestacion> prestaciones) {
+        this.prestaciones = prestaciones;
     }
 }

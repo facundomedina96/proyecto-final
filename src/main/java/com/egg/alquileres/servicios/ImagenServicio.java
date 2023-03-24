@@ -31,7 +31,8 @@ public class ImagenServicio {
                 imagen.setFormato(archivo.getContentType());
                 imagen.setNombre(archivo.getName());
 
-                return imagenRepositorio.save(imagen);
+                imagenRepositorio.save(imagen);
+                return imagen;
 
             } catch (IOException e) {
 

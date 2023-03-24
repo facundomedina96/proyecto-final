@@ -38,72 +38,19 @@
                 <div class="col-md-7 col-lg-8">
 
 
-                    <div class="row g-3">
-                        <div class="col-sm-6">
-                            <label for="nombre" class="form-label">Nombre</label>
-                            <p class="container border rounded bg-light py-1" id="nombre" th:text="${usuario.nombre}">
-                            </p>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <label for="nombre" class="form-label">Apellido</label>
-                            <p class="container border rounded bg-light py-1" id="apellido"
-                                th:text="${usuario.apellido}"></p>
-                        </div>
-
-
-                        <div class="col-12">
-                            <label for="nombre" class="form-label">Email</label>
-                            <p class="container border rounded bg-light py-1" id="email" th:text="${usuario.email}"></p>
-                        </div>
-
-
-                        <div class="col-12">
-                            <label for="nombre" class="form-label">Teléfono</label>
-                            <p class="container border rounded bg-light py-1" id="telefono"
-                                th:text="${usuario.telefono}"></p>
-                        </div>
-                        <div class="col-12">
-                            <label for="nombre" class="form-label">activo</label>
-                            <p class="container border rounded bg-light py-1" id="telefono"
-                                th:text="${usuario.activo}"></p>
-                        </div>
-
-
-
-                        <hr class="my-4">
-
-                        <div class="row g-3 text-center">
-                            <div class="col" sec:authorize=" hasRole('CLIENTE')">
-                                <a class="btn btn-warning shadow border border-2 border-dark"
-                                    th:href="@{/cliente/modificarPerfil/__${usuario.id}__}">
-                                    Modificar Perfil
-                                </a>
-                            </div>
-                            <div class="col-md-6" sec:authorize="hasRole('PROPIETARIO')">
-                                <a class="btn btn-warning shadow border border-2 border-dark"
-                                    th:href="@{/propietario/modificarPerfil/__${usuario.id}__}">
-                                    Modificar Perfil
-                                </a>
-                            </div>
-                            <div class="col" sec:authorize="hasRole('CLIENTE')">
-                                <a class="btn btn-danger shadow border border-2 border-dark"
-                                    th:href="@{/cliente/eliminarPerfil/__${usuario.id}__}">Dar de Baja
-                                </a>
-                            </div>
-                            <div class="col-md-6" sec:authorize="hasRole('PROPIETARIO')">
-                                <a class="btn btn-danger shadow border border-2 border-dark"
-                                    th:href="@{/propietario/eliminarPerfil/__${usuario.id}__}">Dar de Baja
-                                </a>
-                            </div>
-
-
-                        </div>
-                        </form>
-                    </div>
-                </div>
-
-            </div>
+                    <td>
+                        <a class="btn btn-warning btn-sm col-sm-12"
+                            th:href="@{/modificarPerfil/__${usuario.id}__}"
+                            sec:authorize="isAuthenticated()">Modificar</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger btn-sm col-sm-12"
+                            th:href="@{/eliminarPerfil/__${usuario.id}__}"
+                            sec:authorize="isAuthenticated()">Eliminar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
             <section class="py-3 text-center container">
                 <div class="row py-lg-5">
