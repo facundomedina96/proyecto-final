@@ -10,7 +10,7 @@
 
     <div th:replace="fragments/error_exito :: _error_exito"></div>
 
-    <section class="pb-3">
+    <main class="pb-3">
 
         <div class="container w-75 bg-light mt-2 rounded shadow">
             <div class="row align-items-stretch">
@@ -39,14 +39,16 @@
 
                             <div class="col ">
                                 <label for="ciudad" class="form-label">Ciudad</label>
-                                <input type="text" class="form-control" name="ciudad" th:value="${ciudad}" placeholder="Misiones">
+                                <input type="text" class="form-control" name="ciudad" th:value="${ciudad}"
+                                    placeholder="Misiones">
                             </div>
                         </div>
 
                         <div class="row mt-2">
                             <div class="col">
                                 <label for="precio" class="form-label mt-1">Precio</label>
-                                <input type="number" class="form-control" name="precio" th:value="${precio}" placeholder="25.800">
+                                <input type="number" class="form-control" name="precio" th:value="${precio}"
+                                    placeholder="25.800">
                             </div>
                         </div>
 
@@ -68,8 +70,9 @@
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
+    <nav th:replace="/fragments/footer :: _footer"></nav>
 
 </body>
 
