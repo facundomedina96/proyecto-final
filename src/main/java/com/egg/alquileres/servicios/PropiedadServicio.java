@@ -9,16 +9,15 @@ import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.repositorios.PropiedadRepositorio;
 import com.egg.alquileres.repositorios.UsuarioRepositorio;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.TreeSet;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,42 +65,19 @@ public class PropiedadServicio {
 
         validar(nombre, direccion, ciudad, precio, propietario, fotos);
 
-        // Crear una lista para guardar las fechas disponibles
-        Set<Date> fechasDisponibles = new TreeSet();
-
         // Obtener la fecha actual
-        Calendar fechaActual = Calendar.getInstance();
+        LocalDate fecha = LocalDate.now();
+        Date fechaActual = Date.from(fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        // Obtener el último día del año
-        Calendar finDeAnio = Calendar.getInstance();
-        finDeAnio.set(Calendar.MONTH, Calendar.DECEMBER);
-        finDeAnio.set(Calendar.DAY_OF_MONTH, 31);
-
-        // Agregar todas las fechas desde la fecha actual hasta el fin de año a la lista de fechas disponibles
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-
-        fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
-        fechasDisponibles.add(sdf.parse(sdf.format(finDeAnio.getTime())));
-        
-
-        while (fechaActual.before(finDeAnio)) {
-            fechaActual.add(Calendar.DATE, 1);
-            fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
-        }
+        // Obtener ultimo dia del año;
+        LocalDate ultimoDiaDelAnio = LocalDate.of(LocalDate.now().getYear(), 12, 31);
+        Date fechaFinAnio = Date.from(ultimoDiaDelAnio.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         Imagen imagen = imagenServicio.crearImagen(fotos);
-
-
-        fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
-        fechasDisponibles.add(sdf.parse(sdf.format(finDeAnio.getTime())));
-
-
 
         Prestacion prestacion1 = prestacionServicio.crearPrestacion(nombreD, precioD, activoD);
         Prestacion prestacion2 = prestacionServicio.crearPrestacion(nombreC, precioC, activoC);
         Prestacion prestacion3 = prestacionServicio.crearPrestacion(nombreP, precioP, activoP);
-
 
         // Retornar una nueva instancia de Casa con los parámetros proporcionados y las fechas disponible
         Propiedad propiedad = new Propiedad();
@@ -113,7 +89,8 @@ public class PropiedadServicio {
         propiedad.setPrecio_base(precio);
         propiedad.setEstado(Boolean.TRUE);
         propiedad.setPropietario(propietario);
-        propiedad.setFechasDisponibles((Set<Date>) fechasDisponibles);
+        propiedad.setFechaCreacion(fechaActual);
+        propiedad.setFechaFinAnio(fechaFinAnio);
 
         propiedad.setFotos(new HashSet<>());
         propiedad.getFotos().add(imagen);
@@ -220,7 +197,7 @@ public class PropiedadServicio {
 
     /* Por ahora el propietario solo puede modificar estos atributos, Si se opta por darle la opcion 
        de modificar mas atributos, Modificar el HTML para pedir los datos, el controlador, y por ultimo este servicio.
-    */
+     */
     public void modificarPropiedad(String id, String nombre, String direccion, String ciudad, Double precio, MultipartFile fotos) throws MiException {
 
         // Buscar la propiedad en la BBDD y la guardamos en respuesta

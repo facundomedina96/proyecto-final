@@ -7,9 +7,7 @@ import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.repositorios.ReservaRepositorio;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,14 +30,9 @@ public class ReservaServicio {
         Propiedad propiedad = propiedadServicio.buscarPropiedadPorId(idPropiedad);
 
         // Obtener las fechas de creación y fin de año de la propiedad desde el Set de fechas disponibles
-        Set<Date> fechasDisponibles = propiedad.getFechasDisponibles();
-
-        Iterator<Date> it = fechasDisponibles.iterator();
-        Date fechaCreacion = it.next();
-        Date fechaFinAnio = it.next();
+        Date fechaCreacion = propiedad.getFechaCreacion();
+        Date fechaFinAnio = propiedad.getFechaFinAnio();
         
-        
-
         // Verificar si las fechas de la reserva están dentro del rango de fechas disponibles de la propiedad
         if (fechaDesde.before(fechaCreacion) || fechaHasta.after(fechaFinAnio)) {
             throw new MiException("Las fechas seleccionadas no están disponibles");
