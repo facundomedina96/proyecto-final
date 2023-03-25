@@ -53,11 +53,11 @@ public class PropietarioControlador {
             
             //Retornar la tabla con las propiedades para que el Propietario las vea; 
             model.put("propiedades", propiedades);
-            return "propiedadesTable.html";
+            return "propiedades_table.html";
 
         } catch (MiException e) {
             model.put("error", e.getMessage());
-            return "error";
+            return "error.html";
         }
     }
 
@@ -71,11 +71,11 @@ public class PropietarioControlador {
             
             // inyeccion de las propiedades en una Tabla CRUD;
             model.put("propiedades", propiedades);
-            return "propiedadesCRUD.html";
+            return "propiedades_crud.html";
             
         } catch (MiException e) {
             model.put("error", e.getMessage());
-            return "error";
+            return "error.html";
         }
     }
 
@@ -89,7 +89,7 @@ public class PropietarioControlador {
         //Inyeccion en el HTML de los datos de la propiedad a modificar
         model.put("propiedad", propiedad);
         // Retorno del Formulario de modificacion con los valores inyecetados
-        return "propiedadModificar.html";
+        return "propiedad_modificar.html";
     }
 
     //Metodo POST modificarPropiedad recepcion de los datos nuevos

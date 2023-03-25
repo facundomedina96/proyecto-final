@@ -106,6 +106,7 @@ public class PropiedadServicio {
         // Retornar una nueva instancia de Casa con los parámetros proporcionados y las fechas disponible
         Propiedad propiedad = new Propiedad();
 
+        System.out.println("Proximo paso setear los valores");
         propiedad.setNombre(nombre);
         propiedad.setDireccion(direccion);
         propiedad.setCiudad(ciudad);
@@ -124,6 +125,7 @@ public class PropiedadServicio {
 
         // Si es un admin el que crea la noticia la guardo sin idCreador la relacion es con periodista
         propiedadRepositorio.save(propiedad);
+        System.out.println("Propiedad persistida");
     }
 
     public Propiedad getOne(String id) {

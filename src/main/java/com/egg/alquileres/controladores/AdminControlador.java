@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author milip
  */
 @Controller
-//@PreAuthorize("hasRole('ROLE_ADMIN')")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequestMapping("/admin")
 public class AdminControlador {
 
@@ -37,7 +37,7 @@ public class AdminControlador {
     public String listarUsuarios(ModelMap modelo) {
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
         modelo.addAttribute("usuarios", usuarios);
-        return "usuario_list";
+        return "usuario_list.html";
     }
 
     @GetMapping("/eliminaruser/{id}")
@@ -51,13 +51,6 @@ public class AdminControlador {
             return "redirect:/admin/usuarios";
         }
     }
-
-    //@GetMapping("/propiedades")
-//    public String listarPropiedades(ModelMap modelo) {
-//        List<Propiedad> propiedades = propiedadServicio.listarPropiedades();
-//        modelo.addAttribute("propiedades", propiedades);
-//        return "index.html";
-//    }  ACA REUTILICE EL INDEX
 
     @GetMapping("/eliminarpropiedad/{id}")
     public String eliminarPropiedad(ModelMap modelo, @PathVariable String id){

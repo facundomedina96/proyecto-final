@@ -46,7 +46,8 @@ public class PropiedadControlador {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             model.put("usuario", usuario);
-            return "propiedadRegistro.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+
+            return "propiedad_registro.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
 
         } catch (Exception e) {
             model.put("error", e.getMessage());
@@ -55,13 +56,17 @@ public class PropiedadControlador {
     }
 
     @PostMapping("/registro/{id}") // especificamos la ruta donde interactua el usuario
-    public String registro(ModelMap model, @RequestParam String nombre, @RequestParam String direccion, @RequestParam String ciudad, @RequestParam Double precio, @RequestParam MultipartFile fotos, @PathVariable("id") String id,
-            NombrePrestacion nombreD, Double precioD, Boolean activoD, NombrePrestacion nombreC, Double precioC, Boolean activoC, NombrePrestacion nombreP, Double precioP, Boolean activoP) {
+    public String registro(ModelMap model, @RequestParam String nombre, @RequestParam String direccion,
+            @RequestParam String ciudad, @RequestParam Double precio, @RequestParam MultipartFile fotos,
+            @PathVariable("id") String id,
+            NombrePrestacion nombreD, Double precioD, Boolean activoD, NombrePrestacion nombreC, Double precioC,
+            Boolean activoC, NombrePrestacion nombreP, Double precioP, Boolean activoP) {
         try {
             Usuario propietario = usuarioServicio.getOne(id);
             System.out.println("El nombre del propietario es: " + propietario.getNombre());
 
-            propiedadServicio.crearPropiedad(nombre, direccion, ciudad, precio, propietario, fotos, nombreD, precioD, activoD, nombreC, precioC, activoC, nombreP, precioP, activoP);
+            propiedadServicio.crearPropiedad(nombre, direccion, ciudad, precio, propietario, fotos, nombreD, precioD,
+                    activoD, nombreC, precioC, activoC, nombreP, precioP, activoP);
             model.put("exito", "Propiedad registrada con exito");
 
             return "redirect:/dashboard";
@@ -73,7 +78,8 @@ public class PropiedadControlador {
         }
     }
 
-    //Metodo listarPropiedades toma un usuario y lista sus porpiedads en una tabla crud;
+    // Metodo listarPropiedades toma un usuario y lista sus porpiedads en una tabla
+    // crud;
     @GetMapping("/listar")
     public String listar(ModelMap model, HttpSession session) {
         try {
@@ -84,22 +90,23 @@ public class PropiedadControlador {
             return "propiedadesCRUD.html";
         } catch (MiException e) {
             model.put("error", e.getMessage());
-            return "error";
+            return "error.html";
         }
     }
 
-    //Metodo listarPropiedades toma un usuario y lista sus porpiedads en una tabla;
+    // Metodo listarPropiedades toma un usuario y lista sus porpiedads en una tabla;
     @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap model) {
 
         // obtengo informacion de la session y lo almaceno en sesionActual
         Propiedad propiedad = propiedadServicio.getOne(id);
         model.put("propiedad", propiedad);
-        return "propiedadModificar.html";
+        return "propiedad_modificar.html";
     }
 
     @PostMapping("/modificando/{id}")
-    public String modificando(ModelMap modelo, @PathVariable String id, String nombre, String direccion, String ciudad, Double precio, MultipartFile fotos) {
+    public String modificando(ModelMap modelo, @PathVariable String id, String nombre, String direccion, String ciudad,
+            Double precio, MultipartFile fotos) {
         try {
 
             propiedadServicio.modificarPropiedad(id, nombre, direccion, ciudad, precio, fotos);
@@ -109,7 +116,7 @@ public class PropiedadControlador {
 
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
-            return "propiedadesCRUD.html";
+            return "propiedades_crud.html";
         }
     }
 

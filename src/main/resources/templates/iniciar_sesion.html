@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="/fragments/head :: _head('Inicio', 'inicio.css')"></head>
+
+<body>
+    <nav th:replace="/fragments/navbar :: _navbar"></nav>
+
+    <p th:replace="fragments/error_exito :: _error_exito"></p>
+
+    <main class="div">
+
+        <div
+            class="container p-4 my-4 shadow rounded bg-light bg-opacity-75 border border-info border-opacity-50 border-2">
+            <form class="form" th:action="@{/logincheck}" method="POST">
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail</label>
+                    <input type="email" name="email" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp">
+                    <div id="emailHelp" class="form-text">Ingrese el correo con el que se registro.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+                </div>
+                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+            </form>
+        </div>
+    </main>
+
+    <nav th:replace="/fragments/footer :: _footer"></nav>
+
+</body>
+
+</html>

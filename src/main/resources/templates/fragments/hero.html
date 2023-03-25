@@ -1,16 +1,16 @@
 <!-- hero -->
 <section class="hero" th:fragment="_hero">
-    <div class="titleh">
-        <h1>Bienvenidos a Egg Alquileres</h1>
-        <p class="container">
-            Aquí encontraras una plataforma en la que podrás 
-            reservar quinchos, casas de fin de semana, quintas, 
-            casas con pileta para hacer asados y encuentros 
-            casuales con tus amigos u otros eventos similares!
-        </p>
+
+    <div class="px-4 pt-5 my-5 text-center border-bottom">
+        <h1 class="display-4 fw-bold" th:text="'Bienvenido ' + ${session.usuarioSession.nombre}"></h1>
+        <img class="img-thumbnail thumbnail" th:src="@{/imagen/perfil/__${session.usuarioSession.id}__}">
+        <div class="col-lg-6 mx-auto mb-4">
+            <p class="lead mb-4" sec:authorize="hasRole('PROPIETARIO')">En esta pagina encontrarás todas tus propiedades y sus correspondientes reservas.</p>
+            <button class="btn btn-primary" sec:authorize="hasRole('PROPIETARIO')">
+                <a class="nav-link" href="/propiedad/registrar">Agregar Propiedad</a>
+              </button>
+        </div>
     </div>
-    
-    <div class="hero-btn">
-        <a href="/registrar">Registrarse</a>
-    </div>
+
+
 </section>

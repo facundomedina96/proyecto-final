@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<head th:replace="/fragments/head :: _head('Inicio', 'inicio.css')"></head>
+
+<body>
+    <nav th:replace="/fragments/navbar :: _navbar"></nav>
+
+    <div th:replace="/fragments/error_exito :: _error_exito"></div>
+
+    <div class="container text-center p-3">
+        <div th:if="${exito}!=null" class="card text-white bg-success mb-3 mt-3 mensajeExito">
+            <div class="card-body">
+                <h5 class="card-title">Exito</h5>
+                <p class="card-text" th:text="${exito}"></p>
+            </div>
+        </div>
+        <div th:if="${error}!=null" class="card text-white bg-danger mb-3 mensajeError">
+            <div class="card-body">
+                <h5 class="card-title">Error</h5>
+                <p class="card-text" th:text="${error}"></p>
+            </div>
+        </div>
+    </div>
+
+    <main class="mx-4">
+        <div class="m-5 text-center">
+            <h1 style="font-size: 3.2em"><strong>Propiedades</strong></h1>
+        </div>
+
+        <div class=" table-responsive m-2">
+
+            <table class="table table-bordered text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Direccion</th>
+                        <th scope="col">Ciudad</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Estado</th>
+
+                    </tr>
+                </thead>
+
+                <tbody th:each="propiedad : ${propiedades}"> <!-- recorremos la lista que inyectamos en el modelo -->
+                    <tr>
+                        <td th:text="${propiedad.nombre}"></td>
+                        <td th:text="${propiedad.direccion}"></td>
+                        <td th:text="${propiedad.ciudad}"></td>
+                        <td th:text="${propiedad.precio_base}"></td>
+                        <td th:text="${propiedad.estado}"></td>
+
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <section class="py-3 text-center container">
+                <div class="row py-lg-5">
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                        <a th:href="@{/dashboard}" class="btn btn-primary">Volver</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <nav th:replace="/fragments/footer :: _footer"></nav>
+
+</body>
+
+
+</html>
