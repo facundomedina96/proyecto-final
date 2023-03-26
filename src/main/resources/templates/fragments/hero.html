@@ -2,8 +2,8 @@
 <section class="hero" th:fragment="_hero">
 
     <div class="px-4 pt-5 my-5 text-center border-bottom">
-        <h1 class="display-4 fw-bold" th:text="'Bienvenido ' + ${usuario.nombre}"></h1>
-        <img class="img-thumbnail thumbnail" th:src="@{/imagen/perfil/__${usuario.id}__}">
+        <h1 class="display-4 fw-bold" th:text="'Bienvenido ' + ${session.usuarioSession.nombre}"></h1>
+        <img class="img-thumbnail thumbnail" th:src="@{/imagen/perfil/__${session.usuarioSession.id}__}">
         <div class="col-lg-6 mx-auto mb-4">
             <p class="lead mb-4" sec:authorize="hasRole('PROPIETARIO')">En esta pagina encontrarás todas tus propiedades y sus correspondientes reservas.</p>
             <button class="btn btn-primary" sec:authorize="hasRole('PROPIETARIO')">

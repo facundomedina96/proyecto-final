@@ -1,0 +1,24 @@
+<div class="container" th:fragment="_footer">
+    <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top justify-content-evenly">
+        <div class="col-md-4 d-flex align-items-center">
+            <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" fill="currentColor"
+                    class="bi bi-houses me-2" viewBox="0 0 16 16">
+                    <path
+                        d="M5.793 1a1 1 0 0 1 1.414 0l.647.646a.5.5 0 1 1-.708.708L6.5 1.707 2 6.207V12.5a.5.5 0 0 0 .5.5.5.5 0 0 1 0 1A1.5 1.5 0 0 1 1 12.5V7.207l-.146.147a.5.5 0 0 1-.708-.708L5.793 1Zm3 1a1 1 0 0 1 1.414 0L12 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l1.854 1.853a.5.5 0 0 1-.708.708L15 8.207V13.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 4 13.5V8.207l-.146.147a.5.5 0 1 1-.708-.708L8.793 2Zm.707.707L5 7.207V13.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V7.207l-4.5-4.5Z" />
+                </svg>
+            </a>
+            <span class="mb-3 mb-md-0 text-muted">&copy; 2022 Compañia, Inc</span>
+        </div>
+
+        <div class="col mb-3">
+            <h5>Section</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a th:href="${#httpServletRequest.requestURI == '/'} ? '#' : '/'" class="nav-link p-0 text-muted">Home</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Preguntas frecuentes (TO_DO)</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Términos y condiciones (TO_DO)</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Contacto (TO_DO)</a></li>
+            </ul>
+        </div>
+    </footer>
+</div>

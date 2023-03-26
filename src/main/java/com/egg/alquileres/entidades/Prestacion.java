@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,6 +6,7 @@
  */
 package com.egg.alquileres.entidades;
 
+import com.egg.alquileres.enumeraciones.NombrePrestacion;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,10 +25,13 @@ import org.hibernate.annotations.GenericGenerator;
 @AllArgsConstructor
 @Getter
 @Setter
-class Prestacion {
+public class Prestacion {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    protected String id;
+    private String id;
     
+    private NombrePrestacion nombre;
+    private Double precio;
+    private Boolean activo;  
 }

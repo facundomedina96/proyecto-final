@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<head th:replace="/fragments/head :: _head('Inicio', 'inicio.css')"></head>
+
+<body>
+    <nav th:replace="/fragments/navbar :: _navbar"></nav>
+
+    <div th:replace="/fragments/error_exito :: _error_exito"></div>
+
+
+    <section class="pb-3">
+        <div class="container w-75 bg-light mt-2 rounded shadow">
+            <div class="row align-items-stretch">
+                <!-- fila -->
+                <div class="col-md-4 img-bg d-none d-md-block rounded"></div>
+
+                <div class="col mx-1">
+                    <h3 class="fw-bol text-center py-2 mt-2">Formulario de Modificacion</h3>
+
+                    <form th:action="@{/propiedad/modificando/__${id}__}" method="POST" enctype="multipart/form-data">
+
+                        <input hidden th:value="${propiedad.id}" name="id">
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="nombre" class="form-label">Nombre de la propiedad</label>
+                                <input type="text" class="form-control" name="nombre" th:value="${propiedad.nombre}"
+                                    aria-label="Nombre" required>
+                            </div>
+                            <div class="col">
+                                <label for="apellido" class="form-label">Direccion</label>
+                                <input type="text" class="form-control" name="direccion"
+                                    th:value="${propiedad.direccion}" aria-label="Direccion" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="email" class="form-label mt-1">Ciudad</label>
+                            <input type="text" class="form-control" name="ciudad" required
+                                th:value="${propiedad.ciudad}">
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col">
+                                <label for="precio" class="form-label mt-1">Precio</label>
+                                <input type="number" class="form-control" name="precio"
+                                    th:value="${propiedad.precio_base}" required>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <label for="foto" class="form-label mt-1">Fotos</label>
+                            <input type="file" class="form-control" multiple="true" name="fotos" alt="Subi tu imagen"
+                                required>
+                        </div>
+
+                        <div class="row my-4">
+                            <div class="col">
+                                <button type="submit" class="btn btn-success col-md-12">Enviar</button>
+                            </div>
+                            <div class="col">
+                                <button type="reset" class="btn btn-danger col-md-12">Borrar</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <nav th:replace="/fragments/footer :: _footer"></nav>
+
+</body>
+
+
+</html>
