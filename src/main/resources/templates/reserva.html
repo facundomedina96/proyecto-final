@@ -22,6 +22,7 @@
           crossorigin="anonymous"
           defer
         ></script>
+        <!--hacer js de sub total de la reserva-->
       </head>
 <body>
     <nav
@@ -65,41 +66,64 @@
       </div>
     </div>
   </nav>
-  <div>
+  <div id="divcar">
     <h3>Quincho Villa Tomas</h3>
-    <p>Combinando lo rústico con lo sofisticado, este quincho es el ambiente ideal para festejar cualquier tipo de eventos. Además de ser acogedor, ofrece una impresionante vista a las montañas, perfecto para disfrutar con amigos o la familia.</p>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3346.1908887913028!2d-68.91411068525217!3d-32.99874248185638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x967e75f028bc0c0f%3A0xdb9f3d1213ec3fcf!2sQUINCHO%20VILLA%20TOMAS!5e0!3m2!1ses-419!2sar!4v1679442985568!5m2!1ses-419!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-</div>
-<article>
-    <div>
-        <h5>¿Que ofrece este lugar?</h5>
-        <ul>
-            <li type="circle">Wifi</li>
-            <li type="circle">Cocina</li>
-            <li type="circle">Estacionamiento gratis en la propiedad</li>
-            <li type="circle">Aire acondicionado</li>
-            <li type="circle">Se permiten mascotas</li>
-            <li type="circle">Tv HD</li>
-        </ul>
+    <div id="carouselExample"  class="carousel slide">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="https://images.pexels.com/photos/1619317/pexels-photo-1619317.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="https://thumbs.dreamstime.com/b/paisajes-de-yosemite-46208063.jpg" class="d-block w-100" alt="...">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     </div>
+    <p>Combinando lo rústico con lo sofisticado, este quincho es el ambiente ideal para festejar cualquier tipo de eventos. Además de ser acogedor, ofrece una impresionante vista a las montañas, perfecto para disfrutar con amigos o la familia.</p>
+</div>
+<article class="location_info">
+  <div>
+    <h3>¿Que ofrece este lugar?</h3>
+    <ul>
+        <li type="circle">Wifi</li>
+        <li type="circle">Cocina</li>
+        <li type="circle">Estacionamiento gratis en la propiedad</li>
+        <li type="circle">Aire acondicionado</li>
+        <li type="circle">Se permiten mascotas</li>
+        <li type="circle">Tv HD</li>
+    </ul>
+</div>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3346.1908887913028!2d-68.91411068525217!3d-32.99874248185638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x967e75f028bc0c0f%3A0xdb9f3d1213ec3fcf!2sQUINCHO%20VILLA%20TOMAS!5e0!3m2!1ses-419!2sar!4v1679442985568!5m2!1ses-419!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 </article>
 
-<aside>
-    <div class="form">
-        <form action="">
-            <h5>Hace tu reserva!</h5>
-            <p>Fecha desde:</p>
-            <input type="date" name="fecha desde">
-            <p>Fecha hasta:</p>
-            <input type="date" name="fecha hasta">
-          
-            <div class="col-sm-3">
-                <p>Cantidad de días</p>
-              <label class="visually-hidden" for="specificSizeInputName"></label>
-              <input type="number" class="form-control" id="specificSizeInputName" placeholder="Días">
+<section class="formReserva">
+        <form  id ="formulario" action="">
+          <!--id propiedad oculto -->
+          <input id="propiedad_id" name="prodId" type="hidden" th: value="${id_propiedad}">
+
+            <h3>Hace tu reserva!</h3>
+            <label for="fechaDesde">Fecha desde:</label>
+            <div class="col-sm-10 mb-3">
+              <input type="date" id="fechaDesde" name="fechaDesde">
             </div>
-          
+            <label for="fechaHasta">Fecha hasta:</label>
+            <div class="col-sm-10 mb-3">
+              <input type="date" id="fechaHasta" name="fechaHasta">
+            </div>
             <p>Servicios a contratar</p>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked disabled>
+              <label class="form-check-label" for="flexCheckDefault">
+                Servicio Base $15.0000
+              </label>
+            </div>
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
               <label class="form-check-label" for="flexCheckDefault">
@@ -118,17 +142,24 @@
                 DJ $10.000
               </label>
             </div>
-            <div class="col-sm-3">
-                <p>Nombre de Usuario</p>
-              <label class="visually-hidden" for="specificSizeInputName">Nombre de Usuario</label>
-              <input type="text" class="form-control" id="specificSizeInputName" placeholder="Nombre">
-            </div><br>
+
             <div class="col-12">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Enviar</button>
               </div>
           </form>
-    </aside>
-  </div>
-</aside>
+        </section>
+        <footer class="footer d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+          <div class="col-md-4 d-flex align-items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-whatsapp"
+                  viewBox="0 0 16 16">
+                  <path
+                      d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />
+              </svg>
+              <p>2612587616</p>
+              <span class="mb-3 mb-md-0 text-muted">&copy; Company EGG</span>
+          </div>
+        
+        </footer>
 </body>
+
 </html>
