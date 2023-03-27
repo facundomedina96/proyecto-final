@@ -41,7 +41,10 @@ public class UsuarioControlador {
     }
 
     @PostMapping("/registro") // especificamos la ruta donde interactua el usuario
-    public String registro(ModelMap modelo, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String email, @RequestParam String password, @RequestParam String password2, @RequestParam String telefono, @RequestParam(required = false) Rol rol, @RequestParam MultipartFile foto_perfil) throws MiException {
+    public String registro(ModelMap modelo, @RequestParam String nombre, @RequestParam String apellido,
+            @RequestParam String email, @RequestParam String password, @RequestParam String password2,
+            @RequestParam String telefono, @RequestParam(required = false) Rol rol,
+            @RequestParam MultipartFile foto_perfil) throws MiException {
         try {
 
             usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol, foto_perfil);
@@ -59,19 +62,20 @@ public class UsuarioControlador {
             return "usuario_formulario.html"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
+
     @GetMapping("/dashboard")
     public String panel(ModelMap modelo, HttpSession session) {
         Usuario sesionActual = (Usuario) session.getAttribute("usuarioSession");
         if (!sesionActual.getActivo()) {
             modelo.put("error", "Su cuenta ha sido dada de baja por infringir las normas");
             session.invalidate();
-            return "iniciarSesion";
+            return "iniciar_sesion.html";
         } else {
-            return "panel";
+            return "panel.html";
         }
     }
 
-    // trabajo desde el ultimo commit 
+    // trabajo desde el ultimo commit
     @GetMapping("/iniciarSesion") // especificamos la ruta donde interactua el usuario
     public String login(@RequestParam(required = false) String error, ModelMap modelo) {
         try {
@@ -81,12 +85,9 @@ public class UsuarioControlador {
             return "iniciar_sesion.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {
             modelo.put("error", e.getMessage());
-            return "iniciar_sesion"; // mas tarde crearemos un html para mostrar si surge errores
+            return "iniciar_sesion.html"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
-    
-    
-   
 
     @GetMapping("/perfil")
     public String perfil(ModelMap modelo, HttpSession session) {
@@ -95,16 +96,17 @@ public class UsuarioControlador {
         modelo.put("usuario", usuario);
         return "usuario_perfil.html";
     }
-    
+
     @GetMapping("/modificarPerfil/{id}")
     public String modificarPerfil(ModelMap modelo, @PathVariable String id) {
         // inyeccion en el html del usuario para mostrar sus datos.
         modelo.put("usuario", usuarioServicio.getOne(id));
-        return "usuarioModificarPerfil.html";
+        return "usuario_modificar_perfil.html";
     }
 
     @PostMapping("/modificarPerfil/{id}")
-    public String modificarPerfil(ModelMap modelo, @RequestParam String id, String nombre, String apellido, String email, String password, String password2, String telefono, MultipartFile foto_perfil) {
+    public String modificarPerfil(ModelMap modelo, @RequestParam String id, String nombre, String apellido,
+            String email, String password, String password2, String telefono, MultipartFile foto_perfil) {
         try {
             usuarioServicio.modificar(id, nombre, apellido, email, password, password2, telefono, foto_perfil);
             modelo.put("exito", "Se ha modificado su perfil con exito");
@@ -112,7 +114,7 @@ public class UsuarioControlador {
             return "redirect:/perfil";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
-            return "usuarioModificarPerfil.html";
+            return "usuario_modificar_perfil.html";
         }
     }
 
@@ -126,7 +128,7 @@ public class UsuarioControlador {
             return "inicio.html";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
-            return "usuarioModificarPerfil.html";
+            return "usuario_modificar_perfil.html";
         }
     }
 }

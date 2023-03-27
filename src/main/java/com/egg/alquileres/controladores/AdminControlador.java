@@ -37,7 +37,7 @@ public class AdminControlador {
     public String listarUsuarios(ModelMap modelo) {
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
         modelo.addAttribute("usuarios", usuarios);
-        return "usuario_list";
+        return "usuario_list.html";
     }
 
     @GetMapping("/eliminaruser/{id}")
