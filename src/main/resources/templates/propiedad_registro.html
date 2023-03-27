@@ -10,13 +10,13 @@
 
     <div th:replace="fragments/error_exito :: _error_exito"></div>
 
-    <section class="pb-3">
+    <main class="pb-3">
 
         <div class="container w-75 bg-light mt-2 rounded shadow">
             <div class="row align-items-stretch">
 
                 <div class="col mx-1">
-                    <h3 class="fw-bold text-center py-2 mt-2">Registro de Propiedad</h3>
+                    <h3 class="fw-bold text-center py-2 mt-2">Formulario de registro</h3>
                     <!---Login -->
 
                     <form th:action="@{/propiedad/registro/__${usuario.id}__}" method="POST"
@@ -39,14 +39,16 @@
 
                             <div class="col ">
                                 <label for="ciudad" class="form-label">Ciudad</label>
-                                <input type="text" class="form-control" name="ciudad" th:value="${ciudad}" placeholder="Misiones">
+                                <input type="text" class="form-control" name="ciudad" th:value="${ciudad}"
+                                    placeholder="Misiones">
                             </div>
                         </div>
 
                         <div class="row mt-2">
                             <div class="col">
                                 <label for="precio" class="form-label mt-1">Precio</label>
-                                <input type="number" class="form-control" name="precio" th:value="${precio}" placeholder="25.800">
+                                <input type="number" class="form-control" name="precio" th:value="${precio}"
+                                    placeholder="25.800">
                             </div>
                         </div>
 
@@ -68,19 +70,9 @@
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
-    <div th:replace="/fragments/footer :: _footer"></div>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <nav th:replace="/fragments/footer :: _footer"></nav>
 
 </body>
 
