@@ -19,9 +19,7 @@
     </div>
 
     <div class="album">
-
-        <div class="container p-5 bg-light bg-opacity-50">
-
+        <div class="container p-5 bg-light bg-opacity-50 contenedor">
             <div class="row">
 
                 <div class="col-md-4 mb-4 d-flex justify-content-center" th:each="propiedad : ${propiedades}">
@@ -112,16 +110,6 @@
                                                 <li class="list-group-item" th:text="${propiedad.precio_base}"></li>
                                                 <li class="list-group-item"
                                                     th:text="${propiedad.propietario.nombre} + ' ' + ${propiedad.propietario.apellido}">
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>Servicios opcionales:</span>
-                                                    <ul>
-                                                        <li th:each="prestacion : ${propiedad.prestaciones}"
-                                                            th:if="${prestacion.activo}">
-                                                            <span th:text="${prestacion.nombre}"></span>
-                                                            <span th:text="${prestacion.precio}"></span>
-                                                        </li>
-                                                    </ul>
                                                 </li>
                                             </ul>
                                         </div>

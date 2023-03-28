@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 
-<head th:replace="/fragments/head :: _head('Propiedad registro', 'inicio.css')"></head>
+<head th:replace="/fragments/head :: _head('Inicio', 'inicio.css')"></head>
 
 <body>
 
@@ -57,25 +57,6 @@
                             <input type="file" class="form-control" multiple="true" name="fotos" alt="Subi tu imagen">
                         </div>
 
-                        <div>
-                            <label> Que servicios desea agregar? </label> <br>
-                            <label for="dj">DJ:</label>
-                            <input hidden value="DJ" name="nombreD">
-                            <input type="checkbox" name="activoD" id="dj" value="true">
-                            <label for="dj_precio">Precio:</label>
-                            <input type="number" name="precioD" id="dj_precio" step="0.01"><br>
-                            <label for="cat">Catering:</label>
-                            <input hidden value="CATERING" name="nombreC">
-                            <input type="checkbox" name="activoC" id="cat" value="true">
-                            <label for="cat_precio">Precio:</label>
-                            <input type="number" name="precioC" id="cat_precio" step="0.01"><br>
-                            <label for="pile">Pileta:</label>
-                            <input hidden value="PILETA" name="nombreP">
-                            <input type="checkbox" name="activoP" id="pile" value="true">
-                            <label for="pile_precio">Precio:</label>
-                            <input type="number" name="precioP" id="pile_precio" step="0.01">
-                        </div>
-
                         <div class="row my-4">
                             <div class="col">
                                 <button type="submit" class="btn btn-success col-md-12">Registar</button>
@@ -92,6 +73,16 @@
     </main>
 
     <nav th:replace="/fragments/footer :: _footer"></nav>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
 </body>
 

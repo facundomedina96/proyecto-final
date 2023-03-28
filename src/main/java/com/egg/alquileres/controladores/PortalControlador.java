@@ -54,36 +54,10 @@ public class PortalControlador {
             // retorno del HTML
             return "inicio.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
         } catch (Exception e) {
-<<<<<<< HEAD
-            model.addAttribute("error", e.getMessage());
-            return "error"; // mas tarde crearemos un html para mostrar si surge errores
-        }
-    }
-    
-    @GetMapping("/inicio") // especificamos la ruta donde interactua el usuario
-    public String inicioLogueado(ModelMap model, HttpSession session) {
-        
-        try {             
-            Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
-            
-            if(logueado.getRol().toString().equals("PROPIETARIO")){
-                return "redirect:/propietario/panel"; ////error manda a un controlador que no existe
-            }else{
-                return "redirect:/usuario/panel";// si es usuario va a inicio sino dashboard
-            }
-           
-        } catch (Exception e) {
-            model.put("error", e.getMessage());
-            return "error"; // mas tarde crearemos un html para mostrar si surge errores
-        }
-    }
-
-=======
             model.put("error", e.getMessage());
             return "error.html"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
->>>>>>> development
 
 //    @GetMapping("/inicio") // especificamos la ruta donde interactua el usuario
 //    public String inicio(ModelMap model, HttpSession session) {
