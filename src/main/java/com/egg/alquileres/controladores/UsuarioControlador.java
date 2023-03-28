@@ -76,8 +76,8 @@ public class UsuarioControlador {
         }
     }
 
-    // trabajo desde el ultimo commit
-    @GetMapping("/iniciarSesion") // especificamos la ruta donde interactua el usuario
+    // trabajo desde el ultimo commit 
+    @GetMapping("/iniciar-sesion") // especificamos la ruta donde interactua el usuario
     public String login(@RequestParam(required = false) String error, ModelMap modelo) {
         try {
             if (error != null) {
