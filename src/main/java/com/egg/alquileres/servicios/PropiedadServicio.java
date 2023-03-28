@@ -32,14 +32,16 @@ public class PropiedadServicio {
     private final ImagenServicio imagenServicio;
     private final PrestacionServicio prestacionServicio;
 
-    public PropiedadServicio(PropiedadRepositorio propiedadRepositorio, UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio, PrestacionServicio prestacionServicio) {
+    public PropiedadServicio(PropiedadRepositorio propiedadRepositorio, UsuarioRepositorio usuarioRepositorio,
+            ImagenServicio imagenServicio, PrestacionServicio prestacionServicio) {
         this.propiedadRepositorio = propiedadRepositorio;
         this.usuarioRepositorio = usuarioRepositorio;
         this.imagenServicio = imagenServicio;
         this.prestacionServicio = prestacionServicio;
     }
 
-    private void validar(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos) throws MiException {
+    private void validar(String nombre, String direccion, String ciudad, Double precio, Usuario propietario,
+            MultipartFile fotos) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre no puede ser nulo ni estar vacio.");
         }
@@ -61,8 +63,11 @@ public class PropiedadServicio {
     }
 
     @Transactional
-    public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile fotos,
-            NombrePrestacion nombreD, Double precioD, Boolean activoD, NombrePrestacion nombreC, Double precioC, Boolean activoC, NombrePrestacion nombreP, Double precioP, Boolean activoP) throws MiException, ParseException {
+    public void crearPropiedad(String nombre, String direccion, String ciudad, Double precio, Usuario propietario,
+            MultipartFile fotos,
+            NombrePrestacion nombreD, Double precioD, Boolean activoD, NombrePrestacion nombreC, Double precioC,
+            Boolean activoC, NombrePrestacion nombreP, Double precioP, Boolean activoP)
+            throws MiException, ParseException {
 
         validar(nombre, direccion, ciudad, precio, propietario, fotos);
 
@@ -77,13 +82,12 @@ public class PropiedadServicio {
         finDeAnio.set(Calendar.MONTH, Calendar.DECEMBER);
         finDeAnio.set(Calendar.DAY_OF_MONTH, 31);
 
-        // Agregar todas las fechas desde la fecha actual hasta el fin de año a la lista de fechas disponibles
+        // Agregar todas las fechas desde la fecha actual hasta el fin de año a la lista
+        // de fechas disponibles
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
 
         fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
         fechasDisponibles.add(sdf.parse(sdf.format(finDeAnio.getTime())));
-        
 
         while (fechaActual.before(finDeAnio)) {
             fechaActual.add(Calendar.DATE, 1);
@@ -92,18 +96,15 @@ public class PropiedadServicio {
 
         Imagen imagen = imagenServicio.crearImagen(fotos);
 
-
         fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
         fechasDisponibles.add(sdf.parse(sdf.format(finDeAnio.getTime())));
-
-
 
         Prestacion prestacion1 = prestacionServicio.crearPrestacion(nombreD, precioD, activoD);
         Prestacion prestacion2 = prestacionServicio.crearPrestacion(nombreC, precioC, activoC);
         Prestacion prestacion3 = prestacionServicio.crearPrestacion(nombreP, precioP, activoP);
 
-
-        // Retornar una nueva instancia de Casa con los parámetros proporcionados y las fechas disponible
+        // Retornar una nueva instancia de Casa con los parámetros proporcionados y las
+        // fechas disponible
         Propiedad propiedad = new Propiedad();
 
         System.out.println("Proximo paso setear los valores");
@@ -123,7 +124,8 @@ public class PropiedadServicio {
         propiedad.getPrestaciones().add(prestacion2);
         propiedad.getPrestaciones().add(prestacion3);
 
-        // Si es un admin el que crea la noticia la guardo sin idCreador la relacion es con periodista
+        // Si es un admin el que crea la noticia la guardo sin idCreador la relacion es
+        // con periodista
         propiedadRepositorio.save(propiedad);
         System.out.println("Propiedad persistida");
     }
@@ -157,7 +159,8 @@ public class PropiedadServicio {
         return propiedades;
     }
 
-    // modifique este metodo estaba mal devolvia una sola propiedad en vez de una lista
+    // modifique este metodo estaba mal devolvia una sola propiedad en vez de una
+    // lista
     @Transactional(readOnly = true)
     public List<Propiedad> listarPropiedadesPorPropietario(String id) throws MiException {
 
@@ -180,7 +183,7 @@ public class PropiedadServicio {
         if (respuesta.isPresent()) {
             Propiedad propiedad = respuesta.get();
 
-            //A desarrollar 
+            // A desarrollar
         } else {
             throw new MiException("No se encontro el ID de la noticia solicitado");
         }
@@ -218,10 +221,14 @@ public class PropiedadServicio {
         }
     }
 
-    /* Por ahora el propietario solo puede modificar estos atributos, Si se opta por darle la opcion 
-       de modificar mas atributos, Modificar el HTML para pedir los datos, el controlador, y por ultimo este servicio.
-    */
-    public void modificarPropiedad(String id, String nombre, String direccion, String ciudad, Double precio, MultipartFile fotos) throws MiException {
+    /*
+     * Por ahora el propietario solo puede modificar estos atributos, Si se opta por
+     * darle la opcion
+     * de modificar mas atributos, Modificar el HTML para pedir los datos, el
+     * controlador, y por ultimo este servicio.
+     */
+    public void modificarPropiedad(String id, String nombre, String direccion, String ciudad, Double precio,
+            MultipartFile fotos) throws MiException {
 
         // Buscar la propiedad en la BBDD y la guardamos en respuesta
         Optional<Propiedad> respuesta = propiedadRepositorio.findById(id);
