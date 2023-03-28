@@ -71,6 +71,7 @@ public class UsuarioControlador {
             session.invalidate();
             return "iniciar_sesion.html";
         } else {
+            modelo.addAttribute("usuario", usuarioServicio.getOne(sesionActual.getId()));
             modelo.addAttribute("propiedades", propiedadServicio.buscarPropiedadPorPropietario(sesionActual.getId()));
             return "panel.html";
         }
