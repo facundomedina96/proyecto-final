@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 
-<head th:replace="/fragments/head :: _head('Inicio', 'inicio.css')"></head>
+<head th:replace="/fragments/head :: _head('Propiedad registro', 'inicio.css')"></head>
 
 <body>
 
@@ -10,7 +10,7 @@
 
     <div th:replace="fragments/error_exito :: _error_exito"></div>
 
-    <section class="pb-3">
+    <main class="pb-3">
 
         <div class="container w-75 bg-light mt-2 rounded shadow">
             <div class="row align-items-stretch">
@@ -39,14 +39,16 @@
 
                             <div class="col ">
                                 <label for="ciudad" class="form-label">Ciudad</label>
-                                <input type="text" class="form-control" name="ciudad" th:value="${ciudad}" placeholder="Misiones">
+                                <input type="text" class="form-control" name="ciudad" th:value="${ciudad}"
+                                    placeholder="Misiones">
                             </div>
                         </div>
 
                         <div class="row mt-2">
                             <div class="col">
                                 <label for="precio" class="form-label mt-1">Precio</label>
-                                <input type="number" class="form-control" name="precio" th:value="${precio}" placeholder="25.800">
+                                <input type="number" class="form-control" name="precio" th:value="${precio}"
+                                    placeholder="25.800">
                             </div>
                         </div>
 
@@ -75,6 +77,25 @@
                         </div>
                         
 
+                        <div>
+                            <label> Que servicios desea agregar? </label> <br>
+                            <label for="dj">DJ:</label>
+                            <input hidden value="DJ" name="nombreD">
+                            <input type="checkbox" name="activoD" id="dj" value="true">
+                            <label for="dj_precio">Precio:</label>
+                            <input type="number" name="precioD" id="dj_precio" step="0.01"><br>
+                            <label for="cat">Catering:</label>
+                            <input hidden value="CATERING" name="nombreC">
+                            <input type="checkbox" name="activoC" id="cat" value="true">
+                            <label for="cat_precio">Precio:</label>
+                            <input type="number" name="precioC" id="cat_precio" step="0.01"><br>
+                            <label for="pile">Pileta:</label>
+                            <input hidden value="PILETA" name="nombreP">
+                            <input type="checkbox" name="activoP" id="pile" value="true">
+                            <label for="pile_precio">Precio:</label>
+                            <input type="number" name="precioP" id="pile_precio" step="0.01">
+                        </div>
+
                         <div class="row my-4">
                             <div class="col">
                                 <button type="submit" class="btn btn-success col-md-12">Registar</button>
@@ -88,8 +109,9 @@
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
+    <nav th:replace="/fragments/footer :: _footer"></nav>
 
 </body>
 
