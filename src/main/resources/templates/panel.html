@@ -11,9 +11,10 @@
     <main th:replace="/fragments/hero :: _hero"></main>
 
 
-    <div id="album" class="album py-5 bg-light">
+    <div id="album" class="album py-5">
 
-        <div class="container">
+
+        <div class="container p-5 bg-light bg-opacity-50 contenedor">
             <div class="row">
                 <div class="col-md-4 mb-4" th:each="propiedad : ${propiedades}">
                     <div class="card shadow" style="width: 18rem">
