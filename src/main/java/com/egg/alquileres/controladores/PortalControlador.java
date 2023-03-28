@@ -6,11 +6,8 @@
 package com.egg.alquileres.controladores;
 
 import com.egg.alquileres.entidades.Propiedad;
-import com.egg.alquileres.entidades.Usuario;
-import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.servicios.PropiedadServicio;
 import java.util.List;
-import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;

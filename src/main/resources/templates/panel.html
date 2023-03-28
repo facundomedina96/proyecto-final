@@ -24,27 +24,8 @@
                     <div class="card shadow" style="width: 18rem">
 
 
-                        <div th:id="__${propiedad.id}__" class="carousel slide" data-interval="false">
-                            <div class="carousel-inner">
-
-                                <div th:each="imagen, iterstat: ${propiedad.fotos}"
-                                    th:class="${iterstat.first} ? 'carousel-item active':'carousel-item' ">
-                                    <img class="d-block w-100 rounded p-1" th:src=" @{/imagen/__${imagen.id}__}"
-                                        alt="slide">
-                                </div>
-
-                            </div>
-                            <button class="carousel-control-prev" type="button"
-                                th:attr="data-bs-target='#__${propiedad.id}__'" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button"
-                                th:attr="data-bs-target='#__${propiedad.id}__'" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
+                        <nav th:replace="/fragments/carousel_generico :: _carousel_propiedades"></nav>
+                        
 
                         <div class="card-body">
                             <h5 class="card-title" th:text="${propiedad.nombre}"></h5>
@@ -57,7 +38,7 @@
                             </li>
                         </ul>
                         <div class="card-body">
-                            <a href="#" class="card-link">Ver más</a>
+                            <a th:href="'/detalle/' + '__${propiedad.id}__'" class="card-link">Ver más</a>
                         </div>
                     </div>
                 </div>

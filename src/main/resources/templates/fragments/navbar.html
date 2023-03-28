@@ -20,7 +20,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link text-nowrap" href="/iniciarSesion" sec:authorize="isAnonymous()">Iniciar Sesión</a>
+          <a class="nav-link text-nowrap" href="/iniciar-sesion" sec:authorize="isAnonymous()">Iniciar Sesión</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/registrar" sec:authorize="isAnonymous()">Registrarse</a>
@@ -33,6 +33,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="/admin/usuarios">Usuarios</a>
+
             <a sec:authorize="hasRole('PROPIETARIO')" class="dropdown-item" href="/propietario/listarPropiedades">Tus
               Propiedades</a>
             <div class="dropdown-divider"></div>
