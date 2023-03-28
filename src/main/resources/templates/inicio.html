@@ -113,12 +113,22 @@
                                                 <li class="list-group-item"
                                                     th:text="${propiedad.propietario.nombre} + ' ' + ${propiedad.propietario.apellido}">
                                                 </li>
+                                                <li class="list-group-item">
+                                                    <span>Servicios opcionales:</span>
+                                                    <ul>
+                                                        <li th:each="prestacion : ${propiedad.prestaciones}"
+                                                            th:if="${prestacion.activo}">
+                                                            <span th:text="${prestacion.nombre}"></span>
+                                                            <span th:text="${prestacion.precio}"></span>
+                                                        </li>
+                                                    </ul>
+                                                </li>
                                             </ul>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-dismiss="modal">Cerrar</button>
-                                            <button type="button" class="btn btn-primary">Reservar</button>
+                                            <a type="button" class="btn btn-primary" th:href="@{/reserva/__${propiedad.id}__}">Reservar</a>
                                         </div>
                                     </div>
                                 </div>
