@@ -26,16 +26,17 @@
           <a class="nav-link" href="/registrar" sec:authorize="isAnonymous()">Registrarse</a>
         </li>
 
+        
         <li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown ">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-            Usuario
+            Admin
           </a>
           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="/admin/usuarios">Usuarios</a>
-
-            <a sec:authorize="hasRole('PROPIETARIO')" class="dropdown-item" href="/propietario/listarPropiedades">Tus
-              Propiedades</a>
+            <a class="dropdown-item" href="/dashboard">Propiedades</a>
+            <a class="dropdown-item" href="/dashboard">Reservas</a>
+            <a class="dropdown-item" href="/admin/dashboard">Dashboard</a>
             <div class="dropdown-divider"></div>
 
             <a class="dropdown-item"
