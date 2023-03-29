@@ -1,7 +1,7 @@
 <!-- hero -->
 <section class="hero" th:fragment="_hero">
 
-    <div class="px-4 pt-5 my-5 text-center border-bottom">
+    <div class="px-4 pt-5 my-5 text-center">
         <h1 class="display-4 fw-bold" th:text="'Bienvenido ' + ${session.usuarioSession.nombre}"></h1>
         <img th:if="${session.usuarioSession.foto_perfil == null}"
             src="https://thumbs.dreamstime.com/b/vector-de-icono-plano-perfil-avatar-predeterminado-ilustraci%C3%B3n-s%C3%ADmbolo-contacto-184752213.jpg"
