@@ -29,7 +29,6 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
     public SeguridadWeb(UsuarioServicio usuarioServicio) {
         this.usuarioServicio = usuarioServicio;
     }
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(usuarioServicio).passwordEncoder(new BCryptPasswordEncoder());
@@ -43,7 +42,7 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/*", "/js/*", "/img/*", "/**")
                 .permitAll()
                 .and().formLogin()
-                .loginPage("/iniciarSesion")
+                .loginPage("/iniciar-sesion")
                 .loginProcessingUrl("/logincheck")
                 .usernameParameter("email")
                 .passwordParameter("password")
