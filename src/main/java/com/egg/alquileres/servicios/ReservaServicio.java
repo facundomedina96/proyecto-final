@@ -1,5 +1,6 @@
 package com.egg.alquileres.servicios;
 
+import com.egg.alquileres.entidades.Comentario;
 import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Reserva;
 import com.egg.alquileres.entidades.Usuario;
@@ -22,8 +23,10 @@ public class ReservaServicio {
 
     @Autowired
     private PropiedadServicio propiedadServicio;
+    @Autowired
+    private ComentarioServicio comentarioServicio;
 
-    public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String idPropiedad) throws MiException {
+    public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String idPropiedad, String opinion) throws MiException {
         
         // El precio no lo necesitaria si recibiria el objeto propiedad y podria consultar todo
         // lo que quisiera.
@@ -64,6 +67,10 @@ public class ReservaServicio {
         reserva.setPrecio(precioCalculado);
         reserva.setPropiedad(propiedad);
         reserva.setCliente(cliente);
+        
+        String comentario = comentarioServicio.crearComentario(opinion);
+        
+        reserva.setOpinion(comentario);
         
         //Una vez que esta todo seteado procedo a llamar al repositorio
         reservaRepositorio.save(reserva);

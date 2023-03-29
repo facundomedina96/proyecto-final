@@ -29,6 +29,18 @@ public class Reserva implements Serializable {
 
     @OneToOne
     private Propiedad propiedad;
+    
+    @OneToOne
+    private Comentario opinion;
+
+    public Comentario getOpinion() {
+        return opinion;
+    }
+
+    public void setOpinion(Comentario opinion) {
+        this.opinion = opinion;
+    }
+    
 
     public Reserva() {
     }
@@ -79,5 +91,9 @@ public class Reserva implements Serializable {
 
     public void setPropiedad(Propiedad propiedad) {
         this.propiedad = propiedad;
+    }
+
+    public void setOpinion(String comentario) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

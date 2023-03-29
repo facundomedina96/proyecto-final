@@ -194,11 +194,11 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void crearReserva(String id_propiedad, Usuario cliente, Date fechaDesde, Date fechaHasta) throws MiException, ParseException {
+    public void crearReserva(String id_propiedad, Usuario cliente, Date fechaDesde, Date fechaHasta, String opinion) throws MiException, ParseException {
 
         ReservaServicio reservaServicio = new ReservaServicio();
 
-        Reserva reserva = reservaServicio.crearReserva(fechaDesde, fechaHasta, cliente, id_propiedad);
+        Reserva reserva = reservaServicio.crearReserva(fechaDesde, fechaHasta, cliente, id_propiedad,opinion);
 
         Propiedad propiedad = propiedadServicio.buscarPropiedadPorId(id_propiedad);
 
