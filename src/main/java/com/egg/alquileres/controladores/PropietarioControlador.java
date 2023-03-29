@@ -38,29 +38,6 @@ public class PropietarioControlador {
         this.propiedadServicio = propiedadServicio;
     }
 
-    // Agregando...(capacidad del propietario pueda listar sus propiedades, modificar y eliminarlas).
-    
-    // metodo listarPropiedades toma un propietario y devuelve la informacion de sus propiedades en una tabla;
-    @GetMapping("/listarPropiedades")
-    public String listarPropiedades(ModelMap model, HttpSession session) {  
-        try {
-            
-            // obtener la sesion actual y guardarla en usuario;
-            Usuario sesionActual = (Usuario) session.getAttribute("usuarioSession");
-
-            // Buscar las propiedades del usuario y almacenarla en la lista "propiedades"
-            List<Propiedad> propiedades = usuarioServicio.listarPropiedades(sesionActual.getId());
-            
-            //Retornar la tabla con las propiedades para que el Propietario las vea; 
-            model.put("propiedades", propiedades);
-            return "propiedades_table.html";
-
-        } catch (MiException e) {
-            model.put("error", e.getMessage());
-            return "error.html";
-        }
-    }
-
     //Metodo propiedadesCRUD lista las porpiedads en una tabla crud(puede modificar y eliminar);
     @GetMapping("/propiedadesCRUD")
     public String propiedadesCRUD(ModelMap model, HttpSession session) {

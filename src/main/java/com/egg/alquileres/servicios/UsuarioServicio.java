@@ -39,7 +39,8 @@ public class UsuarioServicio implements UserDetailsService {
 
     private final PropiedadServicio propiedadServicio;
 
-    public UsuarioServicio(UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio, ReservaRepositorio reservaRepositorio, PropiedadServicio propiedadServicio) {
+    public UsuarioServicio(UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio,
+            ReservaRepositorio reservaRepositorio, PropiedadServicio propiedadServicio) {
         this.usuarioRepositorio = usuarioRepositorio;
         this.imagenServicio = imagenServicio;
 
@@ -48,7 +49,8 @@ public class UsuarioServicio implements UserDetailsService {
         this.propiedadServicio = propiedadServicio;
     }
 
-    public void validar(String nombre, String apellido, String email, String password, String password2, String telefono, MultipartFile foto_perfil) throws MiException {
+    public void validar(String nombre, String apellido, String email, String password, String password2,
+            String telefono) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre no puede ser nulo ni estar vacio.");
         }
@@ -68,15 +70,12 @@ public class UsuarioServicio implements UserDetailsService {
             throw new MiException("El numero de telefono no puede ser nulo ni estar vacio.");
         }
 
-        //En vez de validar la foto de perfil, se le podria asignar una foto de perfil base
-        if (foto_perfil == null || foto_perfil.isEmpty()) {
-            throw new MiException("Error: No se ha logrado cargar la foto de perfil.");
-        }
     }
 
-    public void registrar(String nombre, String apellido, String email, String password, String password2, String telefono, Rol rol, MultipartFile foto_perfil) throws MiException {
+    public void registrar(String nombre, String apellido, String email, String password, String password2,
+            String telefono, Rol rol, MultipartFile foto_perfil) throws MiException {
 
-        validar(nombre, apellido, email, password, password2, telefono, foto_perfil);
+        validar(nombre, apellido, email, password, password2, telefono);
 
         if (rol == null) {
             throw new MiException("El rol no puede ser nulo.");
@@ -93,10 +92,12 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setActivo(Boolean.TRUE);
         usuario.setRol(rol);
 
-        Imagen imagen = imagenServicio.crearImagen(foto_perfil);
-
-        usuario.setFoto_perfil(imagen);
-
+        if (foto_perfil == null || foto_perfil.isEmpty()) {
+            usuario.setFoto_perfil(null);
+        } else {
+            Imagen imagen = imagenServicio.crearImagen(foto_perfil);
+            usuario.setFoto_perfil(imagen);
+        }
         usuarioRepositorio.save(usuario);
     }
 
@@ -104,9 +105,11 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarioRepositorio.getById(id);
     }
 
-    public void modificar(String id, String nombre, String apellido, String email, String password, String password2, String telefono, MultipartFile foto_perfil) throws MiException {
+    @Transactional
+    public void modificar(String id, String nombre, String apellido, String email, String password, String password2,
+            String telefono, MultipartFile foto_perfil) throws MiException {
 
-        validar(nombre, apellido, email, password, password2, telefono, foto_perfil);
+        validar(nombre, apellido, email, password, password2, telefono);
 
         Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
 
@@ -119,32 +122,48 @@ public class UsuarioServicio implements UserDetailsService {
             usuario.setTelefono(telefono);
 
             // se crea la imagen para luego setearla al usuario
-            Imagen imagen = imagenServicio.crearImagen(foto_perfil);
-            usuario.setFoto_perfil(imagen);
-
+            if (foto_perfil == null || foto_perfil.isEmpty()) {
+                usuario.setFoto_perfil(null);
+            } else {
+                Imagen imagen = imagenServicio.crearImagen(foto_perfil);
+                usuario.setFoto_perfil(imagen);
+            }
             usuarioRepositorio.save(usuario);
         } else {
             throw new MiException("No se encontro ningún usuario con ese ID");
         }
     }
 
-    /* Metodo eliminar(usuario) si bien cambia el estado del Usuario(Propietario o Cliente) a FALSE; 
-       El usuario todavia tiene capacidad para ingresar al sitio; 
-       Soluciones: O lo eliminamos directamente de la BBDD para que ya no exista o tenemos que agregar 
-       condiciones en el inicio de sesion; para evitar que ingresen los usuarios con estado activo.FALSE;
-    
-       Tambien falta desarrollar mas el metodo ya que tanto Cliente como Propietario (Y Admin) 
-       apuntaran al mismo metodo para eliminar su perfil(O en el caso del admin el perfil de alguien);
-    
-       Aqui otro inconvenniente; Un cliente deberia darse de baja y quedar sin acceso a la plataforma 
-       sin mas, pero un Propetario al darse de baja, sus propiedades y todo lo relacionado a el tambien 
-       deberian hacerlo(es decir sus propiedades ya no deberian estar disponiblies, ni las reservas);
-    
-       Soluciones: Podemos agregar mas metodos eliminar, es decir seguiremos usando eliminar
-       pero a la hora de buscar el usuario preguntaremos por el rol que tiene segun su rol
-       redireccionar al metodo eliminarPropietario o eliminarCliente que desarrolaran la logica 
-       adecuada para cada caso; La otra solucion seria desarrollar todo el codigo con validaciones
-       dentro del metodo eliminar; 
+    /*
+     * Metodo eliminar(usuario) si bien cambia el estado del Usuario(Propietario o
+     * Cliente) a FALSE;
+     * El usuario todavia tiene capacidad para ingresar al sitio;
+     * Soluciones: O lo eliminamos directamente de la BBDD para que ya no exista o
+     * tenemos que agregar
+     * condiciones en el inicio de sesion; para evitar que ingresen los usuarios con
+     * estado activo.FALSE;
+     * 
+     * Tambien falta desarrollar mas el metodo ya que tanto Cliente como Propietario
+     * (Y Admin)
+     * apuntaran al mismo metodo para eliminar su perfil(O en el caso del admin el
+     * perfil de alguien);
+     * 
+     * Aqui otro inconvenniente; Un cliente deberia darse de baja y quedar sin
+     * acceso a la plataforma
+     * sin mas, pero un Propetario al darse de baja, sus propiedades y todo lo
+     * relacionado a el tambien
+     * deberian hacerlo(es decir sus propiedades ya no deberian estar disponiblies,
+     * ni las reservas);
+     * 
+     * Soluciones: Podemos agregar mas metodos eliminar, es decir seguiremos usando
+     * eliminar
+     * pero a la hora de buscar el usuario preguntaremos por el rol que tiene segun
+     * su rol
+     * redireccionar al metodo eliminarPropietario o eliminarCliente que
+     * desarrolaran la logica
+     * adecuada para cada caso; La otra solucion seria desarrollar todo el codigo
+     * con validaciones
+     * dentro del metodo eliminar;
      */
     @Transactional
     public void eliminar(String id) throws MiException {
@@ -166,6 +185,11 @@ public class UsuarioServicio implements UserDetailsService {
         List<Usuario> usuarios = new ArrayList();
         usuarios = usuarioRepositorio.buscarUsuarios();
         return usuarios;
+    }
+    
+    public Usuario buscarPorEmail(String email){
+        Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
+        return usuario;
     }
 
     @Override
@@ -194,8 +218,11 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
+    
     @Transactional
+
     public void crearReserva(String id_propiedad, Usuario cliente, Date fechaDesde, Date fechaHasta, Comentario opinion, int calificacion) throws MiException, ParseException {
+
 
         ReservaServicio reservaServicio = new ReservaServicio();
 
@@ -251,9 +278,5 @@ public class UsuarioServicio implements UserDetailsService {
 
         propiedades = propiedadServicio.listarPropiedadesPorPropietario(idPropietario);
         return propiedades;
-    }
-
-    public void registrar(String nombre, String apellido, String email, String password, String password2, String telefono, Rol rol) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

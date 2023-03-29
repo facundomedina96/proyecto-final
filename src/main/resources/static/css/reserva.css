@@ -9,6 +9,9 @@ body {
     display: flex;
     flex-direction: column;
 }
+#padre{
+  display: flex; 
+}
 .location_info {
   display: flex;
   align-items: center;
@@ -46,14 +49,23 @@ body {
 }
 #carouselExample{
   margin:0px auto;
-  width: 50%;
+  width: 80%;
   display: flex;
-  justify-content: space-between;
+  justify-content:left;
+}
+#divcar{
+  width: 775px;
+}
+#divcar img{
+  width:100%;
+ 
+  
 }
 #divcar h3 {
   margin-top: 40px;
   margin-left: 10px;
   margin-bottom: 40px;
+  text-align: center;
   
 }
 #divcar p {
@@ -62,5 +74,14 @@ body {
   margin-right: 20px;
   text-align: left;
 
+}
+
+#article{
+  display: flex;
+  justify-content:left;
+}
+.location_info{
+  margin-top: 40px;
+  justify-content:space-evenly;
 }
 

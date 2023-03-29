@@ -1,9 +1,12 @@
 package com.egg.alquileres.controladores;
 
+import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.enumeraciones.Rol;
 import com.egg.alquileres.excepciones.MiException;
+import com.egg.alquileres.servicios.PropiedadServicio;
 import com.egg.alquileres.servicios.UsuarioServicio;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,9 +24,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class UsuarioControlador {
 
     private final UsuarioServicio usuarioServicio;
-
-    public UsuarioControlador(UsuarioServicio usuarioServicio) {
+    private final PropiedadServicio propiedadServicio;
+    public UsuarioControlador(UsuarioServicio usuarioServicio, PropiedadServicio propiedadServicio) {
         this.usuarioServicio = usuarioServicio;
+        this.propiedadServicio = propiedadServicio;
     }
 
     @GetMapping("/registrar") // especificamos la ruta donde interactua el usuario
@@ -40,7 +44,7 @@ public class UsuarioControlador {
     public String registro(ModelMap modelo, @RequestParam String nombre, @RequestParam String apellido,
             @RequestParam String email, @RequestParam String password, @RequestParam String password2,
             @RequestParam String telefono, @RequestParam(required = false) Rol rol,
-            @RequestParam MultipartFile foto_perfil) throws MiException {
+            @RequestParam(required = false) MultipartFile foto_perfil) throws MiException {
         try {
 
             usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol, foto_perfil);
@@ -67,6 +71,8 @@ public class UsuarioControlador {
             session.invalidate();
             return "iniciar_sesion.html";
         } else {
+            modelo.addAttribute("usuario", usuarioServicio.getOne(sesionActual.getId()));
+            modelo.addAttribute("propiedades", propiedadServicio.buscarPropiedadPorPropietario(sesionActual.getId()));
             return "panel.html";
         }
     }
@@ -88,8 +94,8 @@ public class UsuarioControlador {
     @GetMapping("/perfil")
     public String perfil(ModelMap modelo, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
-
-        modelo.put("usuario", usuario);
+        Usuario userbbdd = usuarioServicio.getOne(usuario.getId());
+        modelo.put("usuario", userbbdd);
         return "usuario_perfil.html";
     }
 
