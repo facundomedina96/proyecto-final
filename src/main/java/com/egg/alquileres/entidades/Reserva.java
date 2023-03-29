@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import org.hibernate.annotations.GenericGenerator;
@@ -29,6 +30,18 @@ public class Reserva implements Serializable {
 
     @OneToOne
     private Propiedad propiedad;
+    
+    @OneToMany
+    private Comentario opinion;
+
+    public Comentario getOpinion() {
+        return opinion;
+    }
+
+    public void setOpinion(Comentario opinion) {
+        this.opinion = opinion;
+    }
+    
 
     public Reserva() {
     }
@@ -79,5 +92,9 @@ public class Reserva implements Serializable {
 
     public void setPropiedad(Propiedad propiedad) {
         this.propiedad = propiedad;
+    }
+
+    public void setOpinion(String comentario) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
