@@ -29,6 +29,4 @@ public class Comentario implements Serializable {
     private String opinion;
     private int calificacion;
     
-    @ManyToOne
-    private Reserva reserva;
 }
