@@ -93,8 +93,4 @@ public class Reserva implements Serializable {
     public void setPropiedad(Propiedad propiedad) {
         this.propiedad = propiedad;
     }
-
-    public void setOpinion(String comentario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
