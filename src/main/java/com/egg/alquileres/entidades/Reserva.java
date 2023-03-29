@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import org.hibernate.annotations.GenericGenerator;
@@ -30,7 +31,7 @@ public class Reserva implements Serializable {
     @OneToOne
     private Propiedad propiedad;
     
-    @OneToOne
+    @OneToMany
     private Comentario opinion;
 
     public Comentario getOpinion() {

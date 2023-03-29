@@ -26,7 +26,7 @@ public class ReservaServicio {
     @Autowired
     private ComentarioServicio comentarioServicio;
 
-    public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String idPropiedad, String opinion) throws MiException {
+    public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String idPropiedad, Comentario opinion,int calificacion) throws MiException {
         
         // El precio no lo necesitaria si recibiria el objeto propiedad y podria consultar todo
         // lo que quisiera.
@@ -68,7 +68,7 @@ public class ReservaServicio {
         reserva.setPropiedad(propiedad);
         reserva.setCliente(cliente);
         
-        String comentario = comentarioServicio.crearComentario(opinion);
+        Comentario comentario = comentarioServicio.crearComentario(opinion);
         
         reserva.setOpinion(comentario);
         

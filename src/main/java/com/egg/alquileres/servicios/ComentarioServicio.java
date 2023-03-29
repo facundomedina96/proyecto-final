@@ -20,20 +20,22 @@ public class ComentarioServicio {
     @Autowired
     ComentarioRepositorio comentarioRepositorio;
     
-    public String crearComentario(String opinion){
+    public Comentario crearComentario(String opinion, int calificacion){
         Comentario comentario = new Comentario();
         comentario.setOpinion(opinion);
+        comentario.setCalificacion(calificacion);
         
         comentarioRepositorio.save(opinion);
-        return opinion;
+        return comentario;
     }
     
-    public void modificarComentario(String id, String opinion){
+    public void modificarComentario(String id, String opinion, int calificacion){
         Optional <Comentario> respuesta = comentarioRepositorio.findById(id);
         
         if(respuesta.isPresent()){
             Comentario comentario = respuesta.get();
             comentario.setOpinion(opinion);
+            comentario.setCalificacion(calificacion);
      
             comentarioRepositorio.save(comentario);
         }
@@ -54,4 +56,6 @@ public class ComentarioServicio {
     Comentario crearComentario(Comentario opinion) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+
 }
