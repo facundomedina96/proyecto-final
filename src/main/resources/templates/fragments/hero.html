@@ -1,7 +1,7 @@
 <!-- hero -->
 <section class="hero" th:fragment="_hero">
 
-    <div class="px-4 pt-5 my-5 text-center border-bottom">
+    <div class="px-4 pt-5 my-5 text-center">
         <h1 class="display-4 fw-bold" th:text="'Bienvenido ' + ${session.usuarioSession.nombre}"></h1>
         <img class="img-thumbnail thumbnail" th:src="@{/imagen/perfil/__${session.usuarioSession.id}__}">
         <div class="col-lg-6 mx-auto mb-4">
