@@ -7,6 +7,7 @@ import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.repositorios.ReservaRepositorio;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -70,7 +71,7 @@ public class ReservaServicio {
         
         Comentario comentario = comentarioServicio.crearComentario(opinion);
         
-        reserva.setOpinion(comentario);
+        reserva.setOpinion((new ArrayList()));
         
         //Una vez que esta todo seteado procedo a llamar al repositorio
         reservaRepositorio.save(reserva);
