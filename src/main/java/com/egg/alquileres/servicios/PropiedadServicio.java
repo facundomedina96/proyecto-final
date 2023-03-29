@@ -31,8 +31,9 @@ public class PropiedadServicio {
     private final UsuarioRepositorio usuarioRepositorio;
     private final ImagenServicio imagenServicio;
     private final PrestacionServicio prestacionServicio;
-    
-    public PropiedadServicio(PropiedadRepositorio propiedadRepositorio, UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio, PrestacionServicio prestacionServicio) {
+
+    public PropiedadServicio(PropiedadRepositorio propiedadRepositorio, UsuarioRepositorio usuarioRepositorio,
+            ImagenServicio imagenServicio, PrestacionServicio prestacionServicio) {
         this.propiedadRepositorio = propiedadRepositorio;
         this.usuarioRepositorio = usuarioRepositorio;
         this.imagenServicio = imagenServicio;
@@ -80,7 +81,8 @@ public class PropiedadServicio {
         finDeAnio.set(Calendar.MONTH, Calendar.DECEMBER);
         finDeAnio.set(Calendar.DAY_OF_MONTH, 31);
 
-        // Agregar todas las fechas desde la fecha actual hasta el fin de año a la lista de fechas disponibles
+        // Agregar todas las fechas desde la fecha actual hasta el fin de año a la lista
+        // de fechas disponibles
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         
         fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
@@ -121,7 +123,8 @@ public class PropiedadServicio {
         propiedad.getPrestaciones().add(prestacion2);
         propiedad.getPrestaciones().add(prestacion3);
 
-        // Si es un admin el que crea la noticia la guardo sin idCreador la relacion es con periodista
+        // Si es un admin el que crea la noticia la guardo sin idCreador la relacion es
+        // con periodista
         propiedadRepositorio.save(propiedad);
         System.out.println("Propiedad persistida");
     }
@@ -155,7 +158,8 @@ public class PropiedadServicio {
         return propiedades;
     }
 
-    // modifique este metodo estaba mal devolvia una sola propiedad en vez de una lista
+    // modifique este metodo estaba mal devolvia una sola propiedad en vez de una
+    // lista
     @Transactional(readOnly = true)
     public List<Propiedad> listarPropiedadesPorPropietario(String id) throws MiException {
         
@@ -178,7 +182,7 @@ public class PropiedadServicio {
         if (respuesta.isPresent()) {
             Propiedad propiedad = respuesta.get();
 
-            //A desarrollar 
+            // A desarrollar
         } else {
             throw new MiException("No se encontro el ID de la noticia solicitado");
         }
