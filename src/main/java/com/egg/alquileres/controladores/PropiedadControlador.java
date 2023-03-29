@@ -90,7 +90,7 @@ public class PropiedadControlador {
             List<Propiedad> propiedades = usuarioServicio.listarPropiedades(sesionActual.getId());
             model.put("propiedades", propiedades);
 
-            return "propiedadesCRUD.html";
+            return "propiedades_crud.html";
         } catch (MiException e) {
             model.put("error", e.getMessage());
             return "error.html";
