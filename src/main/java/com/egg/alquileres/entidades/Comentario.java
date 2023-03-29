@@ -1,5 +1,6 @@
 
 package com.egg.alquileres.entidades;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,7 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Comentario {
+public class Comentario implements Serializable {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
