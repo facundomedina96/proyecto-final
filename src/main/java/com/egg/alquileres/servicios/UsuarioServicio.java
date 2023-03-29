@@ -1,5 +1,6 @@
 package com.egg.alquileres.servicios;
 
+import com.egg.alquileres.entidades.Comentario;
 import com.egg.alquileres.entidades.Imagen;
 import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Reserva;
@@ -217,13 +218,15 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
+    
     @Transactional
-    public void crearReserva(String id_propiedad, Usuario cliente, Date fechaDesde, Date fechaHasta)
-            throws MiException, ParseException {
+
+    public void crearReserva(String id_propiedad, Usuario cliente, Date fechaDesde, Date fechaHasta, Comentario opinion, int calificacion) throws MiException, ParseException {
+
 
         ReservaServicio reservaServicio = new ReservaServicio();
 
-        Reserva reserva = reservaServicio.crearReserva(fechaDesde, fechaHasta, cliente, id_propiedad);
+        Reserva reserva = reservaServicio.crearReserva(fechaDesde, fechaHasta, cliente, id_propiedad,opinion,calificacion);
 
         Propiedad propiedad = propiedadServicio.buscarPropiedadPorId(id_propiedad);
 
