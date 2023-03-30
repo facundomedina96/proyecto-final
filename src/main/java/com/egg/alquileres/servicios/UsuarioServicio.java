@@ -198,7 +198,7 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    @Transactional
+   /* @Transactional ------ESTO YA ESTA EN EL SERVICIO DE LA RESERVA.-----------
     public void crearReserva(String id_propiedad, Usuario cliente, Date fechaDesde, Date fechaHasta) throws MiException, ParseException {
 
         ReservaServicio reservaServicio = new ReservaServicio();
@@ -213,7 +213,7 @@ public class UsuarioServicio implements UserDetailsService {
 
         reservaRepositorio.save(reserva);
 
-    }
+    }*/
 
     @Transactional
     public void eliminarReserva(String id) throws MiException {

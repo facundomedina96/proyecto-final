@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ReservaServicio {
@@ -22,8 +23,8 @@ public class ReservaServicio {
 
     @Autowired
     private PropiedadServicio propiedadServicio;
-
-    public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String idPropiedad) throws MiException {
+   @Transactional  ///LE AGREGUE LA LISTA DE PRESTACIONES, NO SE CONTEMPLAN PARA LA SUMA DEL VALOR TOTAL DEL ALQUILER?
+    public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String idPropiedad, List<String>id_prestaciones) throws MiException {
         
         // El precio no lo necesitaria si recibiria el objeto propiedad y podria consultar todo
         // lo que quisiera.
@@ -72,6 +73,10 @@ public class ReservaServicio {
         // le corresponderia al servicioPropiedad junto con persistir la propiedad con 
         // los cambios.
         return reserva;
+    }
+
+    public Reserva getOne(String propiedad_id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
     

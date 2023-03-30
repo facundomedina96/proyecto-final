@@ -54,17 +54,15 @@
         </article>
       </div>
     </div>
-
-
-
     <section class="formReserva">
-      <form id="formulario" action="">
+      <form id="formulario" th:action="@{/reservar}" method="POST">
         <!--id propiedad oculto -->
         <input
           th:id="__${propiedad.id}__"
           id="propiedad_id"
           name="prodId"
           type="hidden"
+          th:value="${propiedad.id}"
         />
 
         <h3>Hace tu reserva!</h3>
@@ -96,7 +94,8 @@
             <input
               class="form-check-input"
               type="checkbox"
-              value=""
+              name="prestaciones"
+              th:value="${prestacion.id}"
               id="flexCheckDefault"
             />
             <label
@@ -110,6 +109,7 @@
           <button type="submit" class="btn btn-primary">Enviar</button>
         </div>
       </form>
+      <p th:replace="fragments/error_exito :: _error_exito"></p>
     </section>
     <nav th:replace="/fragments/footer :: _footer"></nav>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
