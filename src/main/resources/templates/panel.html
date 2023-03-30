@@ -11,9 +11,7 @@
     <main>
         <div th:replace="/fragments/hero :: _hero"></div>
 
-    <hr class="my-4">
-
-    <div id="album" class="album py-5">
+    <div id="album" class="album py-5" sec:authorize="hasAnyRole('PROPIETARIO', 'CLIENTE')" >
 
         <div class="container p-5 bg-light bg-opacity-50 contenedor">
             <div class="row">
