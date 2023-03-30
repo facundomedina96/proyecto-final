@@ -276,4 +276,8 @@ public class UsuarioServicio implements UserDetailsService {
         propiedades = propiedadServicio.listarPropiedadesPorPropietario(idPropietario);
         return propiedades;
     }
+
+    public List<Usuario> buscarPropietarios() {
+        return usuarioRepositorio.buscarPropietarios(Rol.PROPIETARIO);
+    }
 }
