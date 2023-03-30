@@ -1,11 +1,13 @@
 package com.egg.alquileres.servicios;
 
+import com.egg.alquileres.entidades.Comentario;
 import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Reserva;
 import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.repositorios.ReservaRepositorio;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -23,6 +25,8 @@ public class ReservaServicio {
 
     @Autowired
     private PropiedadServicio propiedadServicio;
+    @Autowired
+    private ComentarioServicio comentarioServicio;
    @Transactional  ///LE AGREGUE LA LISTA DE PRESTACIONES, NO SE CONTEMPLAN PARA LA SUMA DEL VALOR TOTAL DEL ALQUILER?
     public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String idPropiedad, List<String>id_prestaciones) throws MiException {
         
@@ -65,6 +69,9 @@ public class ReservaServicio {
         reserva.setPrecio(precioCalculado);
         reserva.setPropiedad(propiedad);
         reserva.setCliente(cliente);
+        
+        reserva.setOpinion(opinion);
+
         
         //Una vez que esta todo seteado procedo a llamar al repositorio
         reservaRepositorio.save(reserva);
