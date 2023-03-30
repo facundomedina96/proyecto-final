@@ -221,7 +221,7 @@ public class UsuarioServicio implements UserDetailsService {
     
     @Transactional
 
-    public void crearReserva(String id_propiedad, Usuario cliente, Date fechaDesde, Date fechaHasta, Comentario opinion, int calificacion) throws MiException, ParseException {
+    public void crearReserva(String id_propiedad, Usuario cliente, Date fechaDesde, Date fechaHasta, List<Comentario> opinion, int calificacion) throws MiException, ParseException {
 
 
         ReservaServicio reservaServicio = new ReservaServicio();

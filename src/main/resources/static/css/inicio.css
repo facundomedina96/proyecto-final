@@ -54,3 +54,7 @@ footer p {
 .contenedor {
   min-height: 25rem;
 }
+
+.checkboxInput{
+  min-width: 3.8rem;
+}
