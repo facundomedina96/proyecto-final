@@ -72,6 +72,7 @@ public class ReservaServicio {
         Comentario comentario = comentarioServicio.crearComentario(opinion);
         
         reserva.setOpinion((new ArrayList()));
+        reserva.getOpinion().add(opinion);
         
         //Una vez que esta todo seteado procedo a llamar al repositorio
         reservaRepositorio.save(reserva);
