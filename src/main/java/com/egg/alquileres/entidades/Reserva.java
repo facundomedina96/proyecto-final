@@ -2,6 +2,7 @@ package com.egg.alquileres.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -32,17 +33,16 @@ public class Reserva implements Serializable {
     private Propiedad propiedad;
     
     @OneToMany
-    private Comentario opinion;
+    private List<Comentario> opinion;
 
-    public Comentario getOpinion() {
+    public List<Comentario> getOpinion() {
         return opinion;
     }
 
-    public void setOpinion(Comentario opinion) {
+    public void setOpinion(List<Comentario> opinion) {
         this.opinion = opinion;
     }
     
-
     public Reserva() {
     }
 
@@ -92,9 +92,5 @@ public class Reserva implements Serializable {
 
     public void setPropiedad(Propiedad propiedad) {
         this.propiedad = propiedad;
-    }
-
-    public void setOpinion(String comentario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

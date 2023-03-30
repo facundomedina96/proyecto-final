@@ -82,7 +82,7 @@ public class PropietarioControlador {
 
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
-            return "propiedadesCRUD.html";
+            return "propiedades_crud.html";
         }
     }
 

@@ -34,23 +34,6 @@ footer p {
   margin:auto;
 }
 
-.thumbnail {
-  width: 150px;
-  height: auto;
-}
-
-.carousel-item img {
-  height: 400px;
-  width: 100%;
-  object-fit: cover;
-}
-
-.modal-body .carousel-item img {
-  height: 400px;
-  width: 100%;
-  object-fit: cover;
-}
-
 .contenedor {
   min-height: 25rem;
 }

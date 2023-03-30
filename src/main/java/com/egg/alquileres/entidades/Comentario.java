@@ -27,7 +27,4 @@ public class Comentario {
    
     private String opinion;
     private int calificacion;
-    
-    @ManyToOne
-    private Reserva reserva;
 }
