@@ -27,7 +27,7 @@ public class ReservaServicio {
     @Autowired
     private ComentarioServicio comentarioServicio;
 
-    public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String idPropiedad, Comentario opinion,int calificacion) throws MiException {
+    public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String idPropiedad, List<Comentario> opinion,int calificacion) throws MiException {
         
         // El precio no lo necesitaria si recibiria el objeto propiedad y podria consultar todo
         // lo que quisiera.
@@ -69,10 +69,8 @@ public class ReservaServicio {
         reserva.setPropiedad(propiedad);
         reserva.setCliente(cliente);
         
-        Comentario comentario = comentarioServicio.crearComentario(opinion);
-        
-        reserva.setOpinion((new ArrayList()));
-        reserva.getOpinion().add(opinion);
+        reserva.setOpinion(opinion);
+
         
         //Una vez que esta todo seteado procedo a llamar al repositorio
         reservaRepositorio.save(reserva);
