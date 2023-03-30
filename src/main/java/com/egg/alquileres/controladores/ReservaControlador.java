@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.egg.alquileres.controladores;
+import com.egg.alquileres.entidades.Comentario;
 import com.egg.alquileres.servicios.ReservaServicio;
 import com.egg.alquileres.entidades.Prestacion;
 import com.egg.alquileres.entidades.Propiedad;
@@ -56,7 +57,8 @@ public class ReservaControlador {
             @RequestParam("fechaDesde") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fecha_desde,
             @RequestParam("fechaHasta") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fecha_hasta,
             @RequestParam String prodId,
-            @RequestParam String prestaciones){
+            @RequestParam String prestaciones
+            @RequestParam List<Comentario> opinion){
         Usuario cliente;
         try {
             cliente = (Usuario) session.getAttribute("usuarioSession");//////preguntar si se termina la sesion....
@@ -67,15 +69,13 @@ public class ReservaControlador {
         try {
             String[] ids_prestaciones = prestaciones.split(",");
             List<String> list_ids_prestaciones = new ArrayList(Arrays.asList(ids_prestaciones));
-            reservaServicio.crearReserva( fecha_desde, fecha_hasta,cliente, prodId,list_ids_prestaciones);
+            reservaServicio.crearReserva(fecha_desde,fecha_hasta, cliente, prodId, ids_prestaciones, opinion);
             modelo.put("exito", "Se ha creado correctamente su reserva.");
 
             return "redirect:/dashboard";
-        } catch (MiException ex) {
+        } catch (MiException e) {
             modelo.put("error", ex.getMessage());
             return "reserva.html";
         }
-         
-    }
-
+    }   
 }

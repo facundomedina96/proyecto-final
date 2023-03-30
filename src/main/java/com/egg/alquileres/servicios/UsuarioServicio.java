@@ -218,7 +218,7 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    
+    /*
     @Transactional
 
     public void crearReserva(String id_propiedad, Usuario cliente, Date fechaDesde, Date fechaHasta, List<Comentario> opinion, int calificacion) throws MiException, ParseException {
@@ -237,6 +237,7 @@ public class UsuarioServicio implements UserDetailsService {
         reservaRepositorio.save(reserva);
 
     }
+*/
 
     @Transactional
     public void eliminarReserva(String id) throws MiException {

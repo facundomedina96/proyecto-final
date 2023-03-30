@@ -28,7 +28,7 @@ public class ReservaServicio {
     @Autowired
     private ComentarioServicio comentarioServicio;
    @Transactional  ///LE AGREGUE LA LISTA DE PRESTACIONES, NO SE CONTEMPLAN PARA LA SUMA DEL VALOR TOTAL DEL ALQUILER?
-    public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String idPropiedad, List<String>id_prestaciones) throws MiException {
+    public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String idPropiedad, List<String>id_prestaciones, List<Comentario> opinion) throws MiException {
         
         // El precio no lo necesitaria si recibiria el objeto propiedad y podria consultar todo
         // lo que quisiera.
