@@ -33,18 +33,16 @@ public class UsuarioServicio implements UserDetailsService {
 
     private final UsuarioRepositorio usuarioRepositorio;
     private final ImagenServicio imagenServicio;
-
     private final ReservaRepositorio reservaRepositorio;
-
     private final PropiedadServicio propiedadServicio;
+    private final ReservaServicio reservaServicio;
 
-    public UsuarioServicio(UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio, ReservaRepositorio reservaRepositorio, PropiedadServicio propiedadServicio) {
+    public UsuarioServicio(UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio, ReservaRepositorio reservaRepositorio, PropiedadServicio propiedadServicio, ReservaServicio reservaServicio) {
         this.usuarioRepositorio = usuarioRepositorio;
         this.imagenServicio = imagenServicio;
-
         this.reservaRepositorio = reservaRepositorio;
-
         this.propiedadServicio = propiedadServicio;
+        this.reservaServicio = reservaServicio;
     }
 
     public void validar(String nombre, String apellido, String email, String password, String password2, String telefono, MultipartFile foto_perfil) throws MiException {
@@ -166,8 +164,8 @@ public class UsuarioServicio implements UserDetailsService {
         usuarios = usuarioRepositorio.buscarUsuarios();
         return usuarios;
     }
-    
-    public Usuario buscarPorEmail(String email){
+
+    public Usuario buscarPorEmail(String email) {
         Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
         return usuario;
     }
@@ -199,20 +197,10 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void crearReserva(String id_propiedad, Usuario cliente, Date fechaDesde, Date fechaHasta) throws MiException, ParseException {
-
-        ReservaServicio reservaServicio = new ReservaServicio();
-
-        Reserva reserva = reservaServicio.crearReserva(fechaDesde, fechaHasta, cliente, id_propiedad);
-
-        Propiedad propiedad = propiedadServicio.buscarPropiedadPorId(id_propiedad);
-
-        List<Reserva> reservasActivas = propiedad.getReservasActivas();
-
-        reservasActivas.add(reserva);
-
-        reservaRepositorio.save(reserva);
-
+    public void crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String id_propiedad, boolean dj, boolean catering, boolean pileta) throws MiException, ParseException {
+       
+        Reserva reserva = reservaServicio.crearReserva(fechaDesde, fechaHasta, cliente, id_propiedad, dj, catering, pileta); 
+        propiedadServicio.actualizarYGuardarReservas(reserva, id_propiedad);
     }
 
     @Transactional

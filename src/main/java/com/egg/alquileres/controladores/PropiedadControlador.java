@@ -7,7 +7,6 @@ package com.egg.alquileres.controladores;
 
 import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Usuario;
-import com.egg.alquileres.enumeraciones.NombrePrestacion;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.servicios.PropiedadServicio;
 import com.egg.alquileres.servicios.UsuarioServicio;
@@ -59,14 +58,12 @@ public class PropiedadControlador {
     public String registro(ModelMap model, @RequestParam String nombre, @RequestParam String direccion,
             @RequestParam String ciudad, @RequestParam Double precio, @RequestParam MultipartFile[] fotos,
             @PathVariable("id") String id,
-            
-            NombrePrestacion nombreD, Double precioD, Boolean activoD, 
-            NombrePrestacion nombreC, Double precioC, Boolean activoC, 
-            NombrePrestacion nombreP, Double precioP, Boolean activoP) {
-        
+            String nombreD, Double precioD, Boolean activoD,
+            String nombreC, Double precioC, Boolean activoC,
+            String nombreP, Double precioP, Boolean activoP) {
+
         try {
             Usuario propietario = usuarioServicio.getOne(id);
-            System.out.println("El nombre del propietario es: " + propietario.getNombre());
 
             propiedadServicio.crearPropiedad(nombre, direccion, ciudad, precio, propietario, fotos, nombreD, precioD,
                     activoD, nombreC, precioC, activoC, nombreP, precioP, activoP);
