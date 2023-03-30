@@ -42,6 +42,7 @@ public class Reserva implements Serializable {
     public void setOpinion(List<Comentario> opinion) {
         this.opinion = opinion;
     }
+
     
     public Reserva() {
     }
