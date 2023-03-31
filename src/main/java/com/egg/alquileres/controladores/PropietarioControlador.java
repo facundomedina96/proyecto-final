@@ -39,8 +39,8 @@ public class PropietarioControlador {
     }
 
     //Metodo propiedadesCRUD lista las porpiedads en una tabla crud(puede modificar y eliminar);
-    @GetMapping("/propiedadesCRUD")
-    public String propiedadesCRUD(ModelMap model, HttpSession session) {
+    @GetMapping("/misPropiedades")
+    public String misPropiedades(ModelMap model, HttpSession session) {
         try {
             
             Usuario sesionActual = (Usuario) session.getAttribute("usuarioSession");
@@ -82,7 +82,7 @@ public class PropietarioControlador {
 
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
-            return "propiedadesCRUD.html";
+            return "propiedades_crud.html";
         }
     }
 

@@ -2,14 +2,43 @@
 <section class="hero" th:fragment="_hero">
 
     <div class="px-4 pt-5 my-5 text-center">
-        <h1 class="display-4 fw-bold" th:text="'Bienvenido ' + ${session.usuarioSession.nombre}"></h1>
-        <img class="img-thumbnail thumbnail" th:src="@{/imagen/perfil/__${session.usuarioSession.id}__}">
-        <div class="col-lg-6 mx-auto mb-4">
-            <p class="lead mb-4" sec:authorize="hasRole('PROPIETARIO')">En esta pagina encontrarás todas tus propiedades y sus correspondientes reservas.</p>
-            <button class="btn btn-primary" sec:authorize="hasRole('PROPIETARIO')">
+
+        <h1 class="display-4 fw-bold" th:text="'Bienvenido ' + ${usuario.nombre}"></h1>
+
+        <img th:if="${session.usuarioSession.foto_perfil == null}"
+            src="https://thumbs.dreamstime.com/b/vector-de-icono-plano-perfil-avatar-predeterminado-ilustraci%C3%B3n-s%C3%ADmbolo-contacto-184752213.jpg"
+            alt="Foto de perfil por defecto" class="img-thumbnail thumbnail">
+
+        <img th:if="${session.usuarioSession.foto_perfil != null}"
+            th:src="@{/imagen/perfil/__${session.usuarioSession.id}__}" alt="Foto de perfil"
+            class="img-thumbnail thumbnail" />
+
+        <div class="col-lg-6 mx-auto mb-4" sec:authorize="hasRole('PROPIETARIO')">
+            <p class="lead mb-4">En esta pagina encontrarás todas tus propiedades
+                y sus correspondientes reservas.</p>
+            <button class="btn btn-primary">
                 <a class="nav-link" href="/propiedad/registrar">Agregar Propiedad</a>
-              </button>
+            </button>
         </div>
+
+        <div class="col-lg-6 mx-auto mb-4" sec:authorize="hasRole('CLIENTE')">
+            <p class="lead mb-4">En esta pagina encontrarás todas tus reservas hechas.</p>
+        </div>
+
+        <div class="col-lg-6 mx-auto mb-4" sec:authorize="hasRole('ADMIN')">
+            <p class="lead mb-4"> Panel de administrador.</p>
+
+            <button class="btn btn-primary">
+                <a class="nav-link" href="/admin/usuarios">Lista de Usuarios.</a>
+            </button>
+            <button class="btn btn-primary">
+                <a class="nav-link" href="/propiedad/propiedades">Lista de propiedades.</a>
+            </button>
+            <button class="btn btn-primary">
+                <a class="nav-link" href="/propiedad/reservas">Lista de reservas.</a>
+            </button>
+        </div>
+
     </div>
 
 

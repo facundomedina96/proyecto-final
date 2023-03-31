@@ -13,17 +13,24 @@
 
 
     <main>
+        <div class="m-5 text-center">
+            <h1 style="font-size: 3.2em"><strong>Perfil</strong></h1>
+        </div>
+        <div class="px-4 pt-5 my-5 text-center border-bottom">
+            <img th:if="${usuario.foto_perfil == null}"
+                src="https://thumbs.dreamstime.com/b/vector-de-icono-plano-perfil-avatar-predeterminado-ilustraci%C3%B3n-s%C3%ADmbolo-contacto-184752213.jpg"
+                alt="Foto de perfil por defecto" class="img-thumbnail thumbnail">
+            <th:block th:if="${usuario.foto_perfil != null}">
+                <img th:src="@{/imagen/perfil/__${usuario.id}__}" alt="Foto de perfil"
+                    class="img-thumbnail thumbnail" />
+            </th:block>
+        </div>
 
         <div class="container rounded p-2 mt-3 bg-light bg-opacity-50">
 
             <div class="m-3 text-center">
                 <h1>Perfil</h1>
             </div>
-
-            <div class="px-4 my-3 text-center ">
-                <img class="img-thumbnail rounded thumbnail" th:src="@{/imagen/perfil/__${usuario.id}__}">
-            </div>
-
 
             <div class="row justify-content-center g-3">
 

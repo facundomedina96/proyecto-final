@@ -28,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Hernan E Encizo
  */
 @Controller
-@PreAuthorize("hasAnyRole('ROLE_PROPIETARIO')")
+@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 @RequestMapping("/propiedad")
 public class PropiedadControlador {
 
@@ -82,16 +82,9 @@ public class PropiedadControlador {
     // crud;
     @GetMapping("/listar")
     public String listar(ModelMap model, HttpSession session) {
-        try {
-            Usuario sesionActual = (Usuario) session.getAttribute("usuarioSession");
-            List<Propiedad> propiedades = usuarioServicio.listarPropiedades(sesionActual.getId());
-            model.put("propiedades", propiedades);
-
-            return "propiedadesCRUD.html";
-        } catch (MiException e) {
-            model.put("error", e.getMessage());
-            return "error.html";
-        }
+        List<Propiedad> propiedades = propiedadServicio.listarPropiedades();
+        model.put("propiedades", propiedades);
+        return "propiedades_crud.html";
     }
 
     // Metodo listarPropiedades toma un usuario y lista sus porpiedads en una tabla;

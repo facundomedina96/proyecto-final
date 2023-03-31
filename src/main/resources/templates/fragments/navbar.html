@@ -9,13 +9,13 @@
     <div class="collapse navbar-collapse" id="navbarScroll">
       <ul class="navbar-nav ms-auto me-4 my-2 my-lg-0 navbar-nav-scroll">
 
-        <li class="nav-item dropdown ">
+        <li class="nav-item dropdown " sec:authorize="hasRole('PROPIETARIO')">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             Buscar
           </a>
           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/listarPropiedades">Propiedades</a>
+            <a class="dropdown-item" href="/propietario/misPropiedades">Propiedades</a>
           </div>
         </li>
 
@@ -34,7 +34,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="/admin/usuarios">Usuarios</a>
-            <a class="dropdown-item" href="/dashboard">Propiedades</a>
+            <a class="dropdown-item" href="/propiedad/listar">Propiedades</a>
             <a class="dropdown-item" href="/dashboard">Reservas</a>
             <a class="dropdown-item" href="/admin/dashboard">Dashboard</a>
             <div class="dropdown-divider"></div>

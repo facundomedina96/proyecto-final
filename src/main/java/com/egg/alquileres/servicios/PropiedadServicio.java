@@ -31,7 +31,8 @@ public class PropiedadServicio {
     private final ImagenServicio imagenServicio;
     private final PrestacionServicio prestacionServicio;
 
-    public PropiedadServicio(PropiedadRepositorio propiedadRepositorio, UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio, PrestacionServicio prestacionServicio) {
+    public PropiedadServicio(PropiedadRepositorio propiedadRepositorio, UsuarioRepositorio usuarioRepositorio,
+            ImagenServicio imagenServicio, PrestacionServicio prestacionServicio) {
         this.propiedadRepositorio = propiedadRepositorio;
         this.usuarioRepositorio = usuarioRepositorio;
         this.imagenServicio = imagenServicio;
@@ -160,7 +161,8 @@ public class PropiedadServicio {
         return propiedades;
     }
 
-    // modifique este metodo estaba mal devolvia una sola propiedad en vez de una lista
+    // modifique este metodo estaba mal devolvia una sola propiedad en vez de una
+    // lista
     @Transactional(readOnly = true)
     public List<Propiedad> listarPropiedadesPorPropietario(String id) throws MiException {
 
@@ -183,7 +185,7 @@ public class PropiedadServicio {
         if (respuesta.isPresent()) {
             Propiedad propiedad = respuesta.get();
 
-            //A desarrollar 
+            // A desarrollar
         } else {
             throw new MiException("No se encontro el ID de la noticia solicitado");
         }

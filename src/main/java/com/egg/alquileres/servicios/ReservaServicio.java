@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReservaServicio {
 
+
     private final ReservaRepositorio reservaRepositorio;
     private final PropiedadServicio propiedadServicio;
 

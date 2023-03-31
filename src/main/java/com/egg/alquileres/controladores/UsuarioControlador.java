@@ -44,7 +44,7 @@ public class UsuarioControlador {
     public String registro(ModelMap modelo, @RequestParam String nombre, @RequestParam String apellido,
             @RequestParam String email, @RequestParam String password, @RequestParam String password2,
             @RequestParam String telefono, @RequestParam(required = false) Rol rol,
-            @RequestParam MultipartFile foto_perfil) throws MiException {
+            @RequestParam(required = false) MultipartFile foto_perfil) throws MiException {
         try {
 
             usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol, foto_perfil);
@@ -94,8 +94,8 @@ public class UsuarioControlador {
     @GetMapping("/perfil")
     public String perfil(ModelMap modelo, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
-
-        modelo.put("usuario", usuario);
+        Usuario userbbdd = usuarioServicio.getOne(usuario.getId());
+        modelo.put("usuario", userbbdd);
         return "usuario_perfil.html";
     }
 

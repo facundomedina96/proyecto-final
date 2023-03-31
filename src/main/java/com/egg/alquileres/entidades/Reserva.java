@@ -2,9 +2,11 @@ package com.egg.alquileres.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import org.hibernate.annotations.GenericGenerator;
@@ -29,7 +31,19 @@ public class Reserva implements Serializable {
 
     @OneToOne
     private Propiedad propiedad;
+    
+    @OneToMany
+    private List<Comentario> opinion;
 
+    public List<Comentario> getOpinion() {
+        return opinion;
+    }
+
+    public void setOpinion(List<Comentario> opinion) {
+        this.opinion = opinion;
+    }
+
+    
     public Reserva() {
     }
 

@@ -68,6 +68,7 @@ public class ClienteControlador {
             try {
                 usuarioServicio.crearReserva(fechaDesde, fechaHasta, cliente, propiedad_id, DJ, CATERING, PILETA);
                 modelo.put("exito", "Se ha creado la reserva con exito");
+                modelo.put("usuario", cliente);
                 
             } catch (MiException ex) {
                 modelo.put("error", ex.getMessage());

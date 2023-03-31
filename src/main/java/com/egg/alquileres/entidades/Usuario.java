@@ -33,6 +33,7 @@ public class Usuario implements Serializable {
     
     @OneToOne
     private Imagen foto_perfil;
+    
 
     public Usuario() {
     }
