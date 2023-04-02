@@ -7,6 +7,7 @@ import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.repositorios.ReservaRepositorio;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -15,13 +16,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReservaServicio {
 
-
     private final ReservaRepositorio reservaRepositorio;
     private final PropiedadServicio propiedadServicio;
+    private final PrestacionServicio prestacionServicio;
 
-    public ReservaServicio(ReservaRepositorio reservaRepositorio, PropiedadServicio propiedadServicio) {
+    public ReservaServicio(ReservaRepositorio reservaRepositorio, PropiedadServicio propiedadServicio, PrestacionServicio prestacionServicio) {
         this.reservaRepositorio = reservaRepositorio;
         this.propiedadServicio = propiedadServicio;
+        this.prestacionServicio = prestacionServicio;
     }
 
     public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String idPropiedad,
@@ -42,26 +44,34 @@ public class ReservaServicio {
         // Obtener las prestaciones de la propiedad
         List<Prestacion> prestaciones = propiedad.getPrestaciones();
 
+        // Crear una lista de prestaciones en la reserva;
+        List<Prestacion> prestacionesReserva = new ArrayList();
+
         // Validar los checkbox
         if (dj) {
             precioCalculado += obtenerCostoPrestacion("DJ", prestaciones);
+            Prestacion prestacion = obtenerPrestacion("DJ", prestaciones);
+            prestacionesReserva.add(prestacionServicio.crearPrestacion(prestacion.getNombre(), prestacion.getPrecio(), Boolean.TRUE));
         }
 
         if (catering) {
             precioCalculado += obtenerCostoPrestacion("CATERING", prestaciones);
+            Prestacion prestacion = obtenerPrestacion("CATERING", prestaciones);
+            prestacionesReserva.add(prestacionServicio.crearPrestacion(prestacion.getNombre(), prestacion.getPrecio(), Boolean.TRUE));
         }
 
         if (pileta) {
             precioCalculado += obtenerCostoPrestacion("PILETA", prestaciones);
+            Prestacion prestacion = obtenerPrestacion("PILETA", prestaciones);
+            prestacionesReserva.add(prestacionServicio.crearPrestacion(prestacion.getNombre(), prestacion.getPrecio(), Boolean.TRUE));
         }
 
-        return crearYPersistirReserva(fechaDesde, fechaHasta, precioCalculado, propiedad, cliente);
+        return crearYPersistirReserva(fechaDesde, fechaHasta, precioCalculado, propiedad, cliente, prestacionesReserva);
     }
 
     private void validarFechasDisponibles(Date fechaDesde, Date fechaHasta, Propiedad propiedad) throws MiException {
         Date fechaActual = obtenerFechaActual();
         Date fechaFinAnio = propiedad.getFechaFinAnio();
-        
 
         // Validar que fechaDesde sea menor a fechaHasta
         if (fechaDesde.after(fechaHasta)) {
@@ -124,14 +134,38 @@ public class ReservaServicio {
         return 0.0;
     }
 
-    private Reserva crearYPersistirReserva(Date fechaDesde, Date fechaHasta, Double precioCalculado, Propiedad propiedad, Usuario cliente) {
+    private Prestacion obtenerPrestacion(String nombrePrestacion, List<Prestacion> prestaciones) {
+        for (Prestacion prestacion : prestaciones) {
+            if (prestacion.getNombre().equalsIgnoreCase(nombrePrestacion)) {
+                return prestacion;
+            }
+        }
+        return null;
+    }
+
+    private Reserva crearYPersistirReserva(Date fechaDesde, Date fechaHasta, Double precioCalculado, Propiedad propiedad, Usuario cliente, List<Prestacion> prestaciones) {
         Reserva reserva = new Reserva();
         reserva.setFechaDesde(fechaDesde);
         reserva.setFechaHasta(fechaHasta);
         reserva.setPrecio(precioCalculado);
         reserva.setPropiedad(propiedad);
         reserva.setCliente(cliente);
+        if (prestaciones != null || !prestaciones.isEmpty()) {
+            reserva.setPrestaciones(prestaciones);
+        }
         reservaRepositorio.save(reserva);
         return reserva;
+    }
+
+    public List<Reserva> listarReservasDeUnUsuario(String idUsuario) throws MiException {
+
+        List<Reserva> reservas = new ArrayList();
+
+        reservas = reservaRepositorio.buscarPorCliente(idUsuario);
+        return reservas;
+    }
+
+    public void eliminarReserva(String id) {
+        reservaRepositorio.deleteById(id);
     }
 }

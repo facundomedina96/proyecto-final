@@ -214,12 +214,12 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    
     @Transactional
-    public void crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String id_propiedad, boolean dj, boolean catering, boolean pileta) throws MiException, ParseException {
-       
-        Reserva reserva = reservaServicio.crearReserva(fechaDesde, fechaHasta, cliente, id_propiedad, dj, catering, pileta); 
+    public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String id_propiedad, boolean dj, boolean catering, boolean pileta) throws MiException, ParseException {
+
+        Reserva reserva = reservaServicio.crearReserva(fechaDesde, fechaHasta, cliente, id_propiedad, dj, catering, pileta);
         propiedadServicio.actualizarYGuardarReservas(reserva, id_propiedad);
+        return reserva;
     }
 
     @Transactional
@@ -227,29 +227,14 @@ public class UsuarioServicio implements UserDetailsService {
         Optional<Reserva> respuesta = reservaRepositorio.findById(id);
 
         if (respuesta.isPresent()) {
-
+            // si la respuesta esta presente buscar la reserva en la propiedad y eliminarla
             Reserva reserva = respuesta.get();
-
-            Usuario cliente = new Usuario();
-
-            cliente = reserva.getCliente();
-
-            List<Reserva> reservas = reservaRepositorio.buscarPorCliente(cliente.getId());
-
-            Iterator<Reserva> it = reservas.iterator();
-
-            while (it.hasNext()) {
-                Reserva aux = it.next();
-                if (aux.getId().equals(id)) {
-                    it.remove();
-                    break;
-                }
-            }
-
-            reservaRepositorio.save(reserva);
-
-            reservaRepositorio.deleteById(reserva.getId());
-
+            
+            Propiedad propiedad = reserva.getPropiedad();
+            
+            propiedadServicio.eliminarReserva(propiedad, id);
+            reservaServicio.eliminarReserva(id);
+            
         } else {
             throw new MiException("No existe una reserva con ese ID");
         }
@@ -262,5 +247,10 @@ public class UsuarioServicio implements UserDetailsService {
 
         propiedades = propiedadServicio.listarPropiedadesPorPropietario(idPropietario);
         return propiedades;
+    }
+
+    //Metodo para que listar las reservas de un Cliente
+    public List<Reserva> listarReservasDeUnUsuario(String idUsuario) throws MiException {
+        return reservaServicio.listarReservasDeUnUsuario(idUsuario);
     }
 }

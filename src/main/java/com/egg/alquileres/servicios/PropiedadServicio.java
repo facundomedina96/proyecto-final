@@ -117,17 +117,17 @@ public class PropiedadServicio {
         return null;
     }
 
-    public List<Prestacion> agregarPrestacionesAPropiedad(List<Prestacion> prestaciones, 
-            Prestacion prestacion1, Prestacion prestacion2, Prestacion prestacion3 ) {
-        
+    public List<Prestacion> agregarPrestacionesAPropiedad(List<Prestacion> prestaciones,
+            Prestacion prestacion1, Prestacion prestacion2, Prestacion prestacion3) {
+
         if (prestacion1 != null) {
-           prestaciones.add(prestacion1);
+            prestaciones.add(prestacion1);
         }
         if (prestacion2 != null) {
-           prestaciones.add(prestacion2);
+            prestaciones.add(prestacion2);
         }
         if (prestacion3 != null) {
-           prestaciones.add(prestacion3);
+            prestaciones.add(prestacion3);
         }
         return prestaciones;
     }
@@ -250,12 +250,27 @@ public class PropiedadServicio {
             throw new MiException("No se encontro ningúna Propiedad con ese ID");
         }
     }
-    
-    public void actualizarYGuardarReservas(Reserva reserva, String id_propiedad) throws MiException{
+
+    public void actualizarYGuardarReservas(Reserva reserva, String id_propiedad) throws MiException {
         Propiedad propiedad = buscarPropiedadPorId(id_propiedad);
         List<Reserva> reservas = propiedad.getReservasActivas();
         reservas.add(reserva);
         propiedad.setReservasActivas(reservas);
         propiedadRepositorio.save(propiedad);
+    }
+
+    @Transactional
+    public void eliminarReserva(Propiedad propiedad, String idReserva) {
+        List<Reserva> reservasActivas = propiedad.getReservasActivas();
+
+        for (Reserva reserva : reservasActivas) {
+            if (reserva.getId().equals(idReserva)) {
+                reservasActivas.remove(reserva);
+                propiedad.setReservasActivas(reservasActivas);
+                propiedadRepositorio.save(propiedad);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("No se encontró la reserva con id " + idReserva);
     }
 }

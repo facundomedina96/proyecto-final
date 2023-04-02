@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -26,12 +27,15 @@ public class Reserva implements Serializable {
 
     private Double precio;
 
+    @ManyToMany
+    private List<Prestacion> prestaciones;
+
     @OneToOne
     private Usuario cliente;
 
     @OneToOne
     private Propiedad propiedad;
-    
+
     @OneToMany
     private List<Comentario> opinion;
 
@@ -43,7 +47,6 @@ public class Reserva implements Serializable {
         this.opinion = opinion;
     }
 
-    
     public Reserva() {
     }
 
@@ -93,5 +96,13 @@ public class Reserva implements Serializable {
 
     public void setPropiedad(Propiedad propiedad) {
         this.propiedad = propiedad;
+    }
+
+    public List<Prestacion> getPrestaciones() {
+        return prestaciones;
+    }
+
+    public void setPrestaciones(List<Prestacion> prestaciones) {
+        this.prestaciones = prestaciones;
     }
 }
