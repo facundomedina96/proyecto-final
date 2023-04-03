@@ -5,6 +5,7 @@ import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.enumeraciones.Rol;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.servicios.PropiedadServicio;
+import com.egg.alquileres.servicios.ReservaServicio;
 import com.egg.alquileres.servicios.UsuarioServicio;
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -25,9 +26,12 @@ public class UsuarioControlador {
 
     private final UsuarioServicio usuarioServicio;
     private final PropiedadServicio propiedadServicio;
-    public UsuarioControlador(UsuarioServicio usuarioServicio, PropiedadServicio propiedadServicio) {
+    private final ReservaServicio reservaServicio;
+
+    public UsuarioControlador(UsuarioServicio usuarioServicio, PropiedadServicio propiedadServicio, ReservaServicio reservaServicio) {
         this.usuarioServicio = usuarioServicio;
         this.propiedadServicio = propiedadServicio;
+        this.reservaServicio = reservaServicio;
     }
 
     @GetMapping("/registrar") // especificamos la ruta donde interactua el usuario
@@ -50,7 +54,7 @@ public class UsuarioControlador {
             usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol, foto_perfil);
 
             modelo.put("exito", "Ya puedes ingresar con tu correo y contraseña");
-            
+
             List<Propiedad> propiedades = propiedadServicio.listarPropiedades();
             modelo.put("propiedades", propiedades);
 
@@ -68,15 +72,21 @@ public class UsuarioControlador {
 
     @GetMapping("/dashboard")
     public String panel(ModelMap modelo, HttpSession session) {
-        Usuario sesionActual = (Usuario) session.getAttribute("usuarioSession");
-        if (!sesionActual.getActivo()) {
-            modelo.put("error", "Su cuenta ha sido dada de baja por infringir las normas");
-            session.invalidate();
-            return "iniciar_sesion.html";
-        } else {
-            modelo.addAttribute("usuario", usuarioServicio.getOne(sesionActual.getId()));
-            modelo.addAttribute("propiedades", propiedadServicio.buscarPropiedadPorPropietario(sesionActual.getId()));
-            return "panel.html";
+        try {
+            Usuario sesionActual = (Usuario) session.getAttribute("usuarioSession");
+            if (!sesionActual.getActivo()) {
+                modelo.put("error", "Su cuenta ha sido dada de baja por infringir las normas");
+                session.invalidate();
+                return "iniciar_sesion.html";
+            } else {
+                modelo.addAttribute("usuario", usuarioServicio.getOne(sesionActual.getId()));
+                modelo.addAttribute("propiedades", propiedadServicio.buscarPropiedadPorPropietario(sesionActual.getId()));
+                modelo.addAttribute("reservas", reservaServicio.listarReservasDeUnUsuario(sesionActual.getId()));
+                return "panel.html";
+            }
+        } catch (MiException e) {
+            modelo.put("error", e.getMessage());
+            return "iniciar_sesion.html"; // mas tarde crearemos un html para mostrar si surge errores
         }
     }
 

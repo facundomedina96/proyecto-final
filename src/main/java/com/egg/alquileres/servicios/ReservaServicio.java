@@ -184,4 +184,8 @@ public class ReservaServicio {
             reservaRepositorio.save(reserva);
         }
     }
+    
+    public List<Reserva> listarReservas(){
+        return reservaRepositorio.findAll();
+    }
 }
