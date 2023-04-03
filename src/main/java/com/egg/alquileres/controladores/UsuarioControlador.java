@@ -50,6 +50,9 @@ public class UsuarioControlador {
             usuarioServicio.registrar(nombre, apellido, email, password, password2, telefono, rol, foto_perfil);
 
             modelo.put("exito", "Ya puedes ingresar con tu correo y contraseña");
+            
+            List<Propiedad> propiedades = propiedadServicio.listarPropiedades();
+            modelo.put("propiedades", propiedades);
 
             return "inicio.html";
         } catch (MiException e) {
