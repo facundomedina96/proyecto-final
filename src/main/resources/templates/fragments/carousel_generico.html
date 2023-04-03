@@ -23,10 +23,8 @@
     </button>
 </div>
 
-
 <div th:fragment="_carousel_unico" id="carousel_propiedad" class="carousel slide m-1 img-thumbnail" data-interval="false">
     <div class="carousel-inner">
-      
         <div th:each="imagen, iterstat: ${propiedad.fotos}"
             th:class="${iterstat.first} ? 'carousel-item active':'carousel-item' ">
             <img class="d-block w-100 rounded p-1" th:src=" @{/imagen/__${imagen.id}__}"
