@@ -3,22 +3,21 @@ package com.egg.alquileres.servicios;
 import com.egg.alquileres.entidades.Imagen;
 import com.egg.alquileres.entidades.Prestacion;
 import com.egg.alquileres.entidades.Propiedad;
+import com.egg.alquileres.entidades.Reserva;
 import com.egg.alquileres.entidades.Usuario;
-import com.egg.alquileres.enumeraciones.NombrePrestacion;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.repositorios.PropiedadRepositorio;
 import com.egg.alquileres.repositorios.UsuarioRepositorio;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.TreeSet;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,8 +39,8 @@ public class PropiedadServicio {
         this.prestacionServicio = prestacionServicio;
     }
 
-    private void validar(String nombre, String direccion, String ciudad, Double precio, Usuario propietario,
-            MultipartFile[] fotos) throws MiException {
+    private void validar(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile[] fotos) throws MiException {
+
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre no puede ser nulo ni estar vacio.");
         }
@@ -65,54 +64,33 @@ public class PropiedadServicio {
     @Transactional
     public void crearPropiedad(String nombre, String direccion, String ciudad,
             Double precio, Usuario propietario, MultipartFile[] fotos,
-            NombrePrestacion nombreD, Double precioD, Boolean activoD,
-            NombrePrestacion nombreC, Double precioC, Boolean activoC,
-            NombrePrestacion nombreP, Double precioP, Boolean activoP) throws MiException, ParseException {
+            String nombreD, Double precioD, Boolean activoD,
+            String nombreC, Double precioC, Boolean activoC,
+            String nombreP, Double precioP, Boolean activoP) throws MiException, ParseException {
 
         validar(nombre, direccion, ciudad, precio, propietario, fotos);
 
-        // Crear una lista para guardar las fechas disponibles
-        Set<Date> fechasDisponibles = new TreeSet();
-
         // Obtener la fecha actual
-        Calendar fechaActual = Calendar.getInstance();
+        LocalDate fecha = LocalDate.now();
+        Date fechaActual = Date.from(fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        // Obtener el último día del año
-        Calendar finDeAnio = Calendar.getInstance();
-        finDeAnio.set(Calendar.MONTH, Calendar.DECEMBER);
-        finDeAnio.set(Calendar.DAY_OF_MONTH, 31);
-
-        // Agregar todas las fechas desde la fecha actual hasta el fin de año a la lista
-        // de fechas disponibles
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-        fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
-        fechasDisponibles.add(sdf.parse(sdf.format(finDeAnio.getTime())));
-
-        while (fechaActual.before(finDeAnio)) {
-            fechaActual.add(Calendar.DATE, 1);
-            fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
-        }
-
-        fechasDisponibles.add(sdf.parse(sdf.format(fechaActual.getTime())));
-        fechasDisponibles.add(sdf.parse(sdf.format(finDeAnio.getTime())));
-
-        Prestacion prestacion1 = prestacionServicio.crearPrestacion(nombreD, precioD, activoD);
-        Prestacion prestacion2 = prestacionServicio.crearPrestacion(nombreC, precioC, activoC);
-        Prestacion prestacion3 = prestacionServicio.crearPrestacion(nombreP, precioP, activoP);
+        // Obtener ultimo dia del año;
+        LocalDate ultimoDiaDelAnio = LocalDate.of(LocalDate.now().getYear(), 12, 31);
+        Date fechaFinAnio = Date.from(ultimoDiaDelAnio.atStartOfDay(ZoneId.systemDefault()).toInstant())
 
         // Retornar una nueva instancia de Casa con los parámetros proporcionados y las
         // fechas disponible
         Propiedad propiedad = new Propiedad();
 
-        System.out.println("Proximo paso setear los valores");
         propiedad.setNombre(nombre);
         propiedad.setDireccion(direccion);
         propiedad.setCiudad(ciudad);
         propiedad.setPrecio_base(precio);
         propiedad.setEstado(Boolean.TRUE);
         propiedad.setPropietario(propietario);
-        propiedad.setFechasDisponibles((Set<Date>) fechasDisponibles);
+
+        propiedad.setFechaCreacion(fechaActual);
+        propiedad.setFechaFinAnio(fechaFinAnio);
 
         propiedad.setFotos(new HashSet<>());
 
@@ -120,15 +98,41 @@ public class PropiedadServicio {
             propiedad.getFotos().add(imagenServicio.crearImagen(foto));
         }
 
-        propiedad.setPrestaciones(new ArrayList());
-        propiedad.getPrestaciones().add(prestacion1);
-        propiedad.getPrestaciones().add(prestacion2);
-        propiedad.getPrestaciones().add(prestacion3);
+        // Falta validar que los valores de las prestaciones no venga nulos 
+        // si no se persisten servicios vacios. 
+        Prestacion prestacion1 = crearPrestacion(nombreD, precioD, activoD);
+        Prestacion prestacion2 = crearPrestacion(nombreC, precioC, activoC);
+        Prestacion prestacion3 = crearPrestacion(nombreP, precioP, activoP);
 
-        // Si es un admin el que crea la noticia la guardo sin idCreador la relacion es
-        // con periodista
+        if (prestacion1 != null || prestacion2 != null || prestacion2 != null) {
+            List<Prestacion> prestaciones = new ArrayList();
+            propiedad.setPrestaciones(agregarPrestacionesAPropiedad(prestaciones, prestacion1, prestacion2, prestacion3));
+        }
+
         propiedadRepositorio.save(propiedad);
         System.out.println("Propiedad persistida");
+    }
+
+    private Prestacion crearPrestacion(String nombre, Double precio, Boolean activo) {
+        if (activo != null && precio != null) {
+            return prestacionServicio.crearPrestacion(nombre, precio, activo);
+        }
+        return null;
+    }
+
+    public List<Prestacion> agregarPrestacionesAPropiedad(List<Prestacion> prestaciones,
+            Prestacion prestacion1, Prestacion prestacion2, Prestacion prestacion3) {
+
+        if (prestacion1 != null) {
+            prestaciones.add(prestacion1);
+        }
+        if (prestacion2 != null) {
+            prestaciones.add(prestacion2);
+        }
+        if (prestacion3 != null) {
+            prestaciones.add(prestacion3);
+        }
+        return prestaciones;
     }
 
     public Propiedad getOne(String id) {
@@ -236,8 +240,7 @@ public class PropiedadServicio {
      * de modificar mas atributos, Modificar el HTML para pedir los datos, el
      * controlador, y por ultimo este servicio.
      */
-    public void modificarPropiedad(String id, String nombre, String direccion,
-            String ciudad, Double precio, MultipartFile fotos) throws MiException {
+    public void modificarPropiedad(String id, String nombre, String direccion, String ciudad, Double precio, MultipartFile fotos) throws MiException {
 
         // Buscar la propiedad en la BBDD y la guardamos en respuesta
         Optional<Propiedad> respuesta = propiedadRepositorio.findById(id);
@@ -260,5 +263,28 @@ public class PropiedadServicio {
         } else {
             throw new MiException("No se encontro ningúna Propiedad con ese ID");
         }
+    }
+
+    public void actualizarYGuardarReservas(Reserva reserva, String id_propiedad) throws MiException {
+        Propiedad propiedad = buscarPropiedadPorId(id_propiedad);
+        List<Reserva> reservas = propiedad.getReservasActivas();
+        reservas.add(reserva);
+        propiedad.setReservasActivas(reservas);
+        propiedadRepositorio.save(propiedad);
+    }
+
+    @Transactional
+    public void eliminarReserva(Propiedad propiedad, String idReserva) {
+        List<Reserva> reservasActivas = propiedad.getReservasActivas();
+
+        for (Reserva reserva : reservasActivas) {
+            if (reserva.getId().equals(idReserva)) {
+                reservasActivas.remove(reserva);
+                propiedad.setReservasActivas(reservasActivas);
+                propiedadRepositorio.save(propiedad);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("No se encontró la reserva con id " + idReserva);
     }
 }
