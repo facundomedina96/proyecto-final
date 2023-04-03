@@ -4,6 +4,7 @@ import com.egg.alquileres.entidades.Prestacion;
 import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Reserva;
 import com.egg.alquileres.entidades.Usuario;
+import com.egg.alquileres.enumeraciones.EstadoReserva;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.repositorios.ReservaRepositorio;
 import java.time.temporal.ChronoUnit;
@@ -153,6 +154,7 @@ public class ReservaServicio {
         if (prestaciones != null || !prestaciones.isEmpty()) {
             reserva.setPrestaciones(prestaciones);
         }
+        reserva.setEstado(EstadoReserva.ACTIVA);
         reservaRepositorio.save(reserva);
         return reserva;
     }
@@ -160,12 +162,26 @@ public class ReservaServicio {
     public List<Reserva> listarReservasDeUnUsuario(String idUsuario) throws MiException {
 
         List<Reserva> reservas = new ArrayList();
-
         reservas = reservaRepositorio.buscarPorCliente(idUsuario);
+
+        // Actualizar el estado de las reservas del usuario
+        for (Reserva reserva : reservas) {
+            actualizarEstado(reserva);
+        }
         return reservas;
     }
 
     public void eliminarReserva(String id) {
         reservaRepositorio.deleteById(id);
+    }
+
+    public void actualizarEstado(Reserva reserva) {
+        Date fechaFinalizacion = reserva.getFechaHasta();
+        Date fechaActual = obtenerFechaActual();
+
+        if (fechaActual.after(fechaFinalizacion)) {
+            reserva.setEstado(EstadoReserva.COMPLETADA);
+            reservaRepositorio.save(reserva);
+        }
     }
 }

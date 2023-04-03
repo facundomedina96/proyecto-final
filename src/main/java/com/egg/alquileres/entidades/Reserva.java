@@ -1,5 +1,6 @@
 package com.egg.alquileres.entidades;
 
+import com.egg.alquileres.enumeraciones.EstadoReserva;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +40,16 @@ public class Reserva implements Serializable {
     @OneToMany
     private List<Comentario> opinion;
 
+    private EstadoReserva estado;
+
+    public EstadoReserva getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoReserva estado) {
+        this.estado = estado;
+    }
+    
     public List<Comentario> getOpinion() {
         return opinion;
     }

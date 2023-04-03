@@ -34,7 +34,7 @@
                             <td th:text="${reserva.fechaHasta}">Fecha Final</td>
                             <td th:text="${reserva.precio}">Precio Total</td>
                             <td th:text="${reserva.propiedad.nombre}">Nombre de la Propiedad</td>
-                            <td>Activo</td>
+                            <td th:text="${reserva.estado}">Activo</td>
 
                             <td>
 
@@ -153,9 +153,14 @@
                                     </div>
                                     <!-- Fin del modal -->
                             </td>
+
+                            <!--BOTON ELIMINAR O AGREGAR EXPERIENCIA DEPENDIENDO DEL ESTADO DE LA RESERVA-->
                             <td>
-                                <a class="btn btn-danger text-black" 
+                                <a class="btn btn-danger text-black" th:if="${reserva.estado == T(com.egg.alquileres.enumeraciones.EstadoReserva).ACTIVA}"
                                    th:href="@{/cliente/eliminarReserva/__${reserva.id}__}">Cancelar
+                                </a>
+                                <a th:if="${reserva.estado == T(com.egg.alquileres.enumeraciones.EstadoReserva).COMPLETADA}" class="btn btn-success" href="#">
+                                    Agregar Experiencia
                                 </a>
                             </td>
                         </tr>
