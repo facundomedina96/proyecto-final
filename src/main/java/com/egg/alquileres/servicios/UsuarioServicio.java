@@ -1,6 +1,5 @@
 package com.egg.alquileres.servicios;
 
-import com.egg.alquileres.entidades.Comentario;
 import com.egg.alquileres.entidades.Imagen;
 import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Reserva;
@@ -34,19 +33,16 @@ public class UsuarioServicio implements UserDetailsService {
 
     private final UsuarioRepositorio usuarioRepositorio;
     private final ImagenServicio imagenServicio;
-
     private final ReservaRepositorio reservaRepositorio;
-
     private final PropiedadServicio propiedadServicio;
+    private final ReservaServicio reservaServicio;
 
-    public UsuarioServicio(UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio,
-            ReservaRepositorio reservaRepositorio, PropiedadServicio propiedadServicio) {
+    public UsuarioServicio(UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio, ReservaRepositorio reservaRepositorio, PropiedadServicio propiedadServicio, ReservaServicio reservaServicio) {
         this.usuarioRepositorio = usuarioRepositorio;
         this.imagenServicio = imagenServicio;
-
         this.reservaRepositorio = reservaRepositorio;
-
         this.propiedadServicio = propiedadServicio;
+        this.reservaServicio = reservaServicio;
     }
 
     public void validar(String nombre, String apellido, String email, String password, String password2,
@@ -186,8 +182,8 @@ public class UsuarioServicio implements UserDetailsService {
         usuarios = usuarioRepositorio.buscarUsuarios();
         return usuarios;
     }
-    
-    public Usuario buscarPorEmail(String email){
+
+    public Usuario buscarPorEmail(String email) {
         Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
         return usuario;
     }
@@ -218,24 +214,12 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    
     @Transactional
+    public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String id_propiedad, boolean dj, boolean catering, boolean pileta) throws MiException, ParseException {
 
-    public void crearReserva(String id_propiedad, Usuario cliente, Date fechaDesde, Date fechaHasta, List<Comentario> opinion, int calificacion) throws MiException, ParseException {
-
-
-        ReservaServicio reservaServicio = new ReservaServicio();
-
-        Reserva reserva = reservaServicio.crearReserva(fechaDesde, fechaHasta, cliente, id_propiedad,opinion,calificacion);
-
-        Propiedad propiedad = propiedadServicio.buscarPropiedadPorId(id_propiedad);
-
-        List<Reserva> reservasActivas = propiedad.getReservasActivas();
-
-        reservasActivas.add(reserva);
-
-        reservaRepositorio.save(reserva);
-
+        Reserva reserva = reservaServicio.crearReserva(fechaDesde, fechaHasta, cliente, id_propiedad, dj, catering, pileta);
+        propiedadServicio.actualizarYGuardarReservas(reserva, id_propiedad);
+        return reserva;
     }
 
     @Transactional
@@ -243,29 +227,14 @@ public class UsuarioServicio implements UserDetailsService {
         Optional<Reserva> respuesta = reservaRepositorio.findById(id);
 
         if (respuesta.isPresent()) {
-
+            // si la respuesta esta presente buscar la reserva en la propiedad y eliminarla
             Reserva reserva = respuesta.get();
-
-            Usuario cliente = new Usuario();
-
-            cliente = reserva.getCliente();
-
-            List<Reserva> reservas = reservaRepositorio.buscarPorCliente(cliente.getId());
-
-            Iterator<Reserva> it = reservas.iterator();
-
-            while (it.hasNext()) {
-                Reserva aux = it.next();
-                if (aux.getId().equals(id)) {
-                    it.remove();
-                    break;
-                }
-            }
-
-            reservaRepositorio.save(reserva);
-
-            reservaRepositorio.deleteById(reserva.getId());
-
+            
+            Propiedad propiedad = reserva.getPropiedad();
+            
+            propiedadServicio.eliminarReserva(propiedad, id);
+            reservaServicio.eliminarReserva(id);
+            
         } else {
             throw new MiException("No existe una reserva con ese ID");
         }
@@ -278,5 +247,10 @@ public class UsuarioServicio implements UserDetailsService {
 
         propiedades = propiedadServicio.listarPropiedadesPorPropietario(idPropietario);
         return propiedades;
+    }
+
+    //Metodo para que listar las reservas de un Cliente
+    public List<Reserva> listarReservasDeUnUsuario(String idUsuario) throws MiException {
+        return reservaServicio.listarReservasDeUnUsuario(idUsuario);
     }
 }

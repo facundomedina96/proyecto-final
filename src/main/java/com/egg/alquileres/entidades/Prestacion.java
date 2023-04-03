@@ -6,7 +6,6 @@
  */
 package com.egg.alquileres.entidades;
 
-import com.egg.alquileres.enumeraciones.NombrePrestacion;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -31,7 +30,7 @@ public class Prestacion {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     
-    private NombrePrestacion nombre;
+    private String nombre;
     private Double precio;
     private Boolean activo;  
 }

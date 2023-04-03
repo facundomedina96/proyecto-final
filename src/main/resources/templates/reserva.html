@@ -57,69 +57,60 @@
 
 
 
-    <section class="formReserva">
-      <form id="formulario" action="">
-        <!--id propiedad oculto -->
-        <input
-          th:id="__${propiedad.id}__"
-          id="propiedad_id"
-          name="prodId"
-          type="hidden"
-        />
+        <section class="formReserva">
+            <form id="formulario" th:action="@{/cliente/crearReserva/__${propiedad.id}__}" method="POST">
+                <!--id propiedad oculto -->
+                <input th:id="__${propiedad.id}__" id="propiedad_id" name="propiedad_id" type="hidden">
 
-        <h3>Hace tu reserva!</h3>
-        <label for="fechaDesde">Fecha desde:</label>
-        <div class="col-sm-10 mb-3">
-          <input type="date" id="fechaDesde" name="fechaDesde" />
-        </div>
-        <label for="fechaHasta">Fecha hasta:</label>
-        <div class="col-sm-10 mb-3">
-          <input type="date" id="fechaHasta" name="fechaHasta" />
-        </div>
-        <p>Servicios a contratar</p>
-        <div
-          th:text="'Precio Base $' + ${propiedad.precio_base}"
-          class="form-check"
-        >
-          <input
-            class="form-check-input"
-            type="checkbox"
-            value=""
-            id="flexCheckDefault"
-            checked
-            disabled
-          />
-          <label class="form-check-label" for="flexCheckDefault"> </label>
-        </div>
-        <div th:each="prestacion : ${propiedad.prestaciones}">
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value=""
-              id="flexCheckDefault"
-            />
-            <label
-              th:text="${prestacion.nombre}+' $'+ ${prestacion.precio}"
-              class="form-check-label"
-              for="flexCheckDefault"
-            ></label>
-          </div>
-        </div>
-        <div class="col-12">
-          <button type="submit" class="btn btn-primary">Enviar</button>
-        </div>
-      </form>
-    </section>
-    <nav th:replace="/fragments/footer :: _footer"></nav>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
-  </body>
+                <h3>Hace tu reserva!</h3>
+                <label for="fechaDesde">Fecha desde:</label>
+                <div class="col-sm-10 mb-3">
+                    <input type="date" id="fechaInicio" name="fechaInicio">
+                </div>
+                <label for="fechaHasta">Fecha hasta:</label>
+                <div class="col-sm-10 mb-3">
+                    <input type="date" id="fechaFin" name="fechaFin">
+                </div>
+                <p>Servicios a contratar</p>
+                <div th:text="'Precio Base $' + ${propiedad.precio_base}" class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked disabled>
+                    <label class="form-check-label" for="flexCheckDefault">
+                    </label>
+                </div>
+
+                <div th:each="prestacion : ${propiedad.prestaciones}">
+                    <div class="form-check">
+                        <input type="checkbox" th:name="${prestacion.nombre}" id="${prestacion.nombre}" value="true" onclick="capturarCheckbox(this)" checked>
+                        <label class="form-check-label" th:text="${prestacion.nombre} + ' - $' + ${prestacion.precio}" for="${prestacion.nombre}"></label>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+            </form>
+        </section>
+
+        <nav th:replace="/fragments/footer :: _footer"></nav>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+        <script>
+                            function capturarCheckbox(checkbox) {
+                                if (checkbox.checked) {
+                                    console.log(checkbox.name + " está seleccionado");
+                                } else {
+                                    console.log(checkbox.name + " no está seleccionado");
+                                }
+                            }
+        </script>
+    </body>
+
 </html>
