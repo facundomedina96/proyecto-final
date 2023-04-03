@@ -9,9 +9,11 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 #padre{
   display: flex; 
 }
+
 .location_info {
   display: flex;
   align-items: center;
@@ -32,6 +34,7 @@ body {
   font-weight: bold;
   text-decoration:underline;
 }
+
 #formulario{
   border: purple solid 1px;
   padding:70px;
@@ -47,33 +50,27 @@ body {
 .formReserva button{
   margin-top: 20px;
 }
-#carouselExample{
-  margin:0px auto;
-  width: 80%;
-  display: flex;
-  justify-content:left;
+
+#carousel_propiedad {
+  min-width: 250px;
+  width: 50%;
 }
 #divcar{
   width: 775px;
+  padding-left: 5%;
 }
-#divcar img{
-  width:100%;
- 
-  
-}
+
 #divcar h3 {
   margin-top: 40px;
   margin-left: 10px;
   margin-bottom: 40px;
   text-align: center;
-  
 }
 #divcar p {
   margin-top: 40px;
   margin-left: 30px;
   margin-right: 20px;
   text-align: left;
-
 }
 
 #article{

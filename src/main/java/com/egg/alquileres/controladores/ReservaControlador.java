@@ -25,7 +25,7 @@ public class ReservaControlador {
     PropiedadServicio propiedadServicio;
     @Autowired
     ReservaServicio reservaServicio;
-    @PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_ADMIN')")
     @GetMapping("/reserva/{propiedad_id}")
     public String mostrar_reserva_propiedad(@PathVariable String propiedad_id, ModelMap model) {
         Propiedad propiedad = propiedadServicio.getOne(propiedad_id);
