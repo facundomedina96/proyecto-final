@@ -3,46 +3,54 @@
 
 <head th:replace="/fragments/head :: _head('Inicio', 'inicio.css')"></head>
 
-
 <body>
 
     <nav th:replace="/fragments/navbar :: _navbar"></nav>
 
-    <div th:replace="fragments/error_exito :: _error_exito"></div>
+    <main class="container bg-light bg-opacity-50 mt-2 pb-3 ">
 
-    <!-- tabla para la lista de usuarios -->
-    <div class="container m-5">
-        <table class="table">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">id Usuario</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Img de perfil</th>
-                    <th scope="col">Rol</th>
-                    <th scope="col">Activo</th>
-                    <th scope="col">Eliminar</th>
-                </tr>
-            </thead>
-            <tbody th:each="usuario : ${usuarios}"> <!-- recorremos la lista que inyectamos en el modelo -->
-                <tr>
-                    <th scope="row" th:text="${usuario.id}"></th>
-                    <td th:text="${usuario.nombre}"></td>
-                    <td th:text="${usuario.email}"></td>
-                     <td <a class="d-flex aling-items-center">
-                         <img class="img-thumbnail" width="50" height="50" th:src="@{/imagen/perfil/__${usuario.id}__}"
-                            alt="img perfil">
-                        </a>
-                    </td> 
-                    <td th:text="${usuario.rol}"></td>
-                    <td th:text="${usuario.activo}"></td>
-                    <td> <a th:href="@{/admin/eliminaruser/__${usuario.id}__}"> <i class="gg-edit-markup"></i>
-                            Desactivar</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <div th:replace="/fragments/error_exito :: _error_exito"></div>
+
+        <div class="m-5 text-center">
+            <h1 class="fw-bold fs-1">Usuarios</h1>
+        </div>
+
+        <div class="container">
+            <table class="table table-bordered table-secondary table-hover">
+                <thead class="text-decoration-underline">
+                    <tr>
+                        <th scope="col">id Usuario</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Rol</th>
+                        <th scope="col">Activo</th>
+                        <th scope="col">Suspender</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  th:each="usuario : ${usuarios}">
+                        <th scope="row" th:text="${usuario.id}"></th>
+                        <td th:text="${usuario.nombre}"></td>
+                        <td th:text="${usuario.email}"></td>
+                        <td th:text="${usuario.rol}"></td>
+                        <td th:text="${usuario.activo}"></td>
+                        <td> <a th:href="@{/admin/eliminaruser/__${usuario.id}__}"> <i class="gg-edit-markup"></i>
+                                Desactivar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <section class="py-3 text-center container">
+                <div class="row py-lg-5">
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                        <a th:href="@{/dashboard}" class="btn btn-primary">Volver</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
 
     <nav th:replace="/fragments/footer :: _footer"></nav>
 

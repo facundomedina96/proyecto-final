@@ -154,6 +154,10 @@ public class PropiedadServicio {
     public List<Propiedad> buscarPropiedadPorPropietario(String idPropietario) {
         return propiedadRepositorio.buscarPorPropietario(idPropietario);
     }
+    
+    public List<Propiedad> buscarPorPropietariosActivos() {
+        return propiedadRepositorio.buscarPorPropietariosActivos();
+    }
 
     public List<Propiedad> buscarPorCiudad(String ciudad) {
         return propiedadRepositorio.buscarPorCiudad(ciudad);

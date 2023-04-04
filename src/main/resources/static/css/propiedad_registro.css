@@ -5,9 +5,9 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
 
-  min-height: 100vmin;
-  display: flex;
-  flex-direction: column;
+    min-height: 100vmin;
+    display: flex;
+    flex-direction: column;
 }
 
 .titulo {
@@ -32,23 +32,6 @@ body {
 
 footer p {
   margin:auto;
-}
-
-.thumbnail {
-  width: 150px;
-  height: auto;
-}
-
-.carousel-item img {
-  height: 400px;
-  width: 100%;
-  object-fit: cover;
-}
-
-.modal-body .carousel-item img {
-  height: 400px;
-  width: 100%;
-  object-fit: cover;
 }
 
 .contenedor {

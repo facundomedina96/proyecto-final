@@ -8,15 +8,15 @@
 
         <div th:replace="/fragments/error_exito :: _error_exito"></div>
 
-        <div class="container-fluid px-3 py-3 text-center">
+        <div class="container mt-2 pb-3 bg-light bg-opacity-50 contenedor">
 
-            <div class="my-4">
+            <div class="my-4 text-center">
                 <h2>Reservas</h2>
             </div>
 
             <div>
-                <table class="table table-bordered table-dark">
-                    <thead class="thead-dark">
+                <table class="table table-bordered table-secondary">
+                    <thead class="thead-secondary">
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Fecha Inicio</th>
@@ -55,11 +55,7 @@
 
                                                     <!-- INICIO FILA 1 -->
                                                     <div class="row align-items-center mt-3 input-group-text mx-0 px-0">
-                                                        <h3 class="text-black mt-1">Descripcion de la reserva</h3>
-                                                    </div>
-
-                                                    <div class="modal-body bg-secondary-subtle rounded">
-
+                                                        reservas_lista
                                                         <!-- INICIO FILA 2 -->
                                                         <div class="row h-100">
 
@@ -155,7 +151,7 @@
                             </td>
 
                             <!--BOTON ELIMINAR O AGREGAR EXPERIENCIA DEPENDIENDO DEL ESTADO DE LA RESERVA-->
-                            <td>
+                            <td sec:authorize="hasRole('CLIENTE')">
                                 <a class="btn btn-danger text-black" th:if="${reserva.estado == T(com.egg.alquileres.enumeraciones.EstadoReserva).ACTIVA}"
                                    th:href="@{/cliente/eliminarReserva/__${reserva.id}__}">Cancelar
                                 </a>

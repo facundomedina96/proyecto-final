@@ -1,36 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head th:replace="/fragments/head :: _head('reserva', 'reserva.css')"></head>
-  <body>
-    <nav th:replace="/fragments/navbar :: _navbar"></nav>
-    <div id="padre">
-      <div id="divcar">
-        <h3 th:text="${propiedad.nombre}"></h3>
-        <div id="carouselExample" class="carousel slide">
-          <div th:each="foto : ${propiedad.fotos}" class="carousel-inner">
-            <div class="carousel-item active">
-              <img th:src=" @{/imagen/__${foto.id}__}" />
-            </div>
-          </div>
-          <button
-            class="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExample"
-            data-bs-slide="prev"
-          >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExample"
-            data-bs-slide="next"
-          >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
+
+<head th:replace="/fragments/head :: _head('reserva', 'reserva.css')"></head>
+
+<body>
+  <nav th:replace="/fragments/navbar :: _navbar"></nav>
+
+  <main class="container bg-light bg-opacity-50 mt-2 pb-3">
+
+    <div class="row " id="padre">
+      <div class="col bg-light bg-opacity-75 rounded  m-4 border border-3 border-success-subtle" id="divcar">
+
+        <h3 class="row justify-content-center fw-bold fs-2 border-bottom mx-3 mt-2" th:text="${propiedad.nombre}"></h3>
+        <div class="row justify-content-center border-1 me-2">
+          <div th:replace="/fragments/carousel_generico :: _carousel_unico"></div>
         </div>
+
         <p>
           Combinando lo rústico con lo sofisticado, este quincho es el ambiente
           ideal para festejar cualquier tipo de eventos. Además de ser acogedor,
@@ -38,7 +23,8 @@
           con amigos o la familia.
         </p>
       </div>
-      <div id="article">
+
+      <div class="col" id="article">
         <article class="location_info">
           <div>
             <h3>¿Que ofrece este lugar?</h3>
@@ -53,9 +39,10 @@
           </div>
         </article>
       </div>
+
     </div>
 
-
+    <hr>
 
         <section class="formReserva">
             <form id="formulario" th:action="@{/cliente/crearReserva/__${propiedad.id}__}" method="POST">
