@@ -192,7 +192,7 @@ public class PropiedadServicio {
     public void modificarImagenPropiedad(String id, MultipartFile archivo) throws MiException {
 
         if (id == null || id.isEmpty()) {
-            throw new MiException("El ID de la noticia no puede ser nulo ni estar vacio.");
+            throw new MiException("El ID de la entidad no puede ser nula ni estar vacía.");
         }
 
         Optional<Propiedad> respuesta = propiedadRepositorio.findById(id);
@@ -202,7 +202,7 @@ public class PropiedadServicio {
 
             // A desarrollar
         } else {
-            throw new MiException("No se encontro el ID de la noticia solicitado");
+            throw new MiException("No se encontro el ID de la entidad solicitada.");
         }
     }
 
@@ -230,11 +230,15 @@ public class PropiedadServicio {
                 }
             }
 
+            for (Imagen img : propiedad.getFotos()) {
+                imagenServicio.eliminarImagen(img.getId());
+            }
+            
             usuarioRepositorio.save(propietario);
             propiedadRepositorio.deleteById(propiedad.getId());
 
         } else {
-            throw new MiException("No existe una Noticia con ese ID");
+            throw new MiException("No existe una Entidad con ese ID");
         }
     }
 

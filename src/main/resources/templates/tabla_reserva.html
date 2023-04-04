@@ -1,184 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head th:replace="/fragments/head :: _head('Inicio', 'inicio.css')"></head>
+<head th:replace="/fragments/head :: _head('Inicio', 'inicio.css')"></head>
 
-    <body>
-        <nav th:replace="/fragments/navbar :: _navbar"></nav>
+<body>
+    <nav th:replace="/fragments/navbar :: _navbar"></nav>
+
+
+    <main class="container mt-4 pb-3 bg-light bg-opacity-50 contenedor">
 
         <div th:replace="/fragments/error_exito :: _error_exito"></div>
 
-        <div class="container mt-2 pb-3 bg-light bg-opacity-50 contenedor">
+        <div class="my-5 pt-4 text-center text-center">
+            <h2>Reservas</h2>
+        </div>
 
-            <div class="my-4 text-center">
-                <h2>Reservas</h2>
-            </div>
+        <div>
+            <table class="table table-bordered border-2 border-success  table-secondary table-hover  text-center">
+                <thead class="table-dark border-success text-center fw-bold">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Fecha Inicio</th>
+                        <th scope="col">Fecha Final</th>
+                        <th scope="col">Precio Total</th>
+                        <th scope="col">Nombre de la Propiedad</th>
+                        <th scope="col">Estado de la Reserva</th>
+                        <th colspan="2">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody th:each="reserva : ${reservas}">
+                    <tr>
+                        <th th:text="${reserva.id}">1</th>
+                        <td th:text="${reserva.fechaDesde}">Fecha Inicio</td>
+                        <td th:text="${reserva.fechaHasta}">Fecha Final</td>
+                        <td th:text="${reserva.precio}">Precio Total</td>
+                        <td th:text="${reserva.propiedad.nombre}">Nombre de la Propiedad</td>
+                        <td th:text="${reserva.estado}">Activo</td>
 
-            <div>
-                <table class="table table-bordered table-secondary">
-                    <thead class="thead-secondary">
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Fecha Inicio</th>
-                            <th scope="col">Fecha Final</th>
-                            <th scope="col">Precio Total</th>
-                            <th scope="col">Nombre de la Propiedad</th>
-                            <th scope="col">Estado de la Reserva</th>
-                            <th colspan="2">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody th:each="reserva : ${reservas}">
-                        <tr>
-                            <th th:text="${reserva.id}">1</th>
-                            <td th:text="${reserva.fechaDesde}">Fecha Inicio</td>
-                            <td th:text="${reserva.fechaHasta}">Fecha Final</td>
-                            <td th:text="${reserva.precio}">Precio Total</td>
-                            <td th:text="${reserva.propiedad.nombre}">Nombre de la Propiedad</td>
-                            <td th:text="${reserva.estado}">Activo</td>
+                        <td>
 
-                            <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                th:attr="data-target='#__${reserva.id}__'+'ModalCard'">
+                                Ver Detalles
+                            </button>
 
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        th:attr="data-target='#__${reserva.id}__'+'ModalCard'">
-                                    Ver Detalles
-                                </button>
+                            <div class="card-body">
 
-                                <div class="card-body">
+                                <!-- Al hacer click en ver Detalle -->
+                                <div class="modal fade w-100" th:id="__${reserva.id}__+'ModalCard'" tabindex="-1"
+                                    role="dialog">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg w-100" role="document">
+                                        <div class="modal-content w-100">
 
-                                    <!-- Al hacer click en ver Detalle -->
-                                    <div class="modal fade w-100" th:id="__${reserva.id}__+'ModalCard'" tabindex="-1" role="dialog">
-                                        <div class="modal-dialog modal-dialog-centered modal-lg w-100" role="document">
-                                            <div class="modal-content w-100">
+                                            <!-- CONTENEDOR DEL MODAL -->
+                                            <div class="container bg-secondary-subtle bg-opacity-50 rounded">
 
-                                                <!-- CONTENEDOR DEL MODAL -->
-                                                <div class="container bg-secondary-subtle bg-opacity-50 rounded">
+                                                <!-- INICIO FILA 1 -->
+                                                <div class="row align-items-center mt-3 input-group-text mx-0 px-0">
+                                                    Reserva
+                                                    <!-- INICIO FILA 2 -->
+                                                    <div class="row h-100">
 
-                                                    <!-- INICIO FILA 1 -->
-                                                    <div class="row align-items-center mt-3 input-group-text mx-0 px-0">
-                                                        reservas_lista
-                                                        <!-- INICIO FILA 2 -->
-                                                        <div class="row h-100">
+                                                        <!-- INICIO DE LA COLUMNA DERECHA DESCRIPCION -->
+                                                        <div class="col-md-12 mb-0">
 
-                                                            <!-- INICIO DE LA COLUMNA DERECHA DESCRIPCION -->
-                                                            <div class="col-md-12 mb-0">
-
-                                                                <div class="row text-black">
+                                                            <div class="row text-black">
 
 
-                                                                    <div class="col-md-4 position-relative form-floating mx-0 px-0">
-                                                                        <input type="text" class="form-control" th:value="${reserva.fechaDesde}" disabled>
-                                                                        <label for="floatingInputValue">Fecha Inicio:</label>
-                                                                    </div> 
-                                                                    <div class="col-md-4 position-relative form-floating mx-0 px-1">
-                                                                        <input type="text" class="form-control" th:value="${reserva.fechaHasta}" disabled>
-                                                                        <label class="form-label" for="floatingInputValue">Fecha Fin</label>
-                                                                    </div> 
+                                                                <div
+                                                                    class="col-md-4 position-relative form-floating mx-0 px-0">
+                                                                    <input type="text" class="form-control"
+                                                                        th:value="${reserva.fechaDesde}" disabled>
+                                                                    <label for="floatingInputValue">Fecha
+                                                                        Inicio:</label>
+                                                                </div>
+                                                                <div
+                                                                    class="col-md-4 position-relative form-floating mx-0 px-1">
+                                                                    <input type="text" class="form-control"
+                                                                        th:value="${reserva.fechaHasta}" disabled>
+                                                                    <label class="form-label"
+                                                                        for="floatingInputValue">Fecha Fin</label>
+                                                                </div>
 
-                                                                    <div class="col-md-4 position-relative form-floating mx-0 px-0">
-                                                                        <input type="text" class="form-control" th:value="${reserva.propiedad.nombre}" disabled>
-                                                                        <label class="form-label" for="floatingInputValue">Nombre de la propiedad:</label>
-                                                                    </div> 
+                                                                <div
+                                                                    class="col-md-4 position-relative form-floating mx-0 px-0">
+                                                                    <input type="text" class="form-control"
+                                                                        th:value="${reserva.propiedad.nombre}" disabled>
+                                                                    <label class="form-label"
+                                                                        for="floatingInputValue">Nombre de la
+                                                                        propiedad:</label>
+                                                                </div>
 
-                                                                    <hr class="my-2"> 
+                                                                <hr class="my-2">
 
-                                                                    <div class="col-md-4 position-relative form-floating mx-0 px-0">
-                                                                        <input type="text" class="form-control" th:value="${reserva.propiedad.ciudad}" disabled>
-                                                                        <label class="form-label" for="floatingInputValue">Ciudad: </label>
-                                                                    </div> 
+                                                                <div
+                                                                    class="col-md-4 position-relative form-floating mx-0 px-0">
+                                                                    <input type="text" class="form-control"
+                                                                        th:value="${reserva.propiedad.ciudad}" disabled>
+                                                                    <label class="form-label"
+                                                                        for="floatingInputValue">Ciudad: </label>
+                                                                </div>
 
-                                                                    <div class="col-md-4 position-relative form-floating mx-0 px-1">
-                                                                        <input type="text" class="form-control" th:value="${reserva.propiedad.direccion}" disabled>
-                                                                        <label class="form-label" for="floatingInputValue">Direccion:</label>
-                                                                    </div> 
+                                                                <div
+                                                                    class="col-md-4 position-relative form-floating mx-0 px-1">
+                                                                    <input type="text" class="form-control"
+                                                                        th:value="${reserva.propiedad.direccion}"
+                                                                        disabled>
+                                                                    <label class="form-label"
+                                                                        for="floatingInputValue">Direccion:</label>
+                                                                </div>
 
-                                                                    <div class="col-md-4 position-relative form-floating mx-0 px-0">
-                                                                        <input type="text" class="form-control" th:value="${reserva.propiedad.precio_base}" disabled>
-                                                                        <label class="form-label" for="floatingInputValue">Precio por día:</label>
-                                                                    </div> 
+                                                                <div
+                                                                    class="col-md-4 position-relative form-floating mx-0 px-0">
+                                                                    <input type="text" class="form-control"
+                                                                        th:value="${reserva.propiedad.precio_base}"
+                                                                        disabled>
+                                                                    <label class="form-label"
+                                                                        for="floatingInputValue">Precio por día:</label>
+                                                                </div>
 
-                                                                    <hr class="my-2">
+                                                                <hr class="my-2">
 
-                                                                    <div class="col-md-4 position-relative form-floating mx-0 px-0">
-                                                                        <input type="text" class="form-control" th:value="${reserva.propiedad.propietario.nombre} + ' ' + ${reserva.propiedad.propietario.apellido}" disabled>
-                                                                        <label class="form-label" for="floatingInputValue">Propietario:</label>
-                                                                    </div> 
+                                                                <div
+                                                                    class="col-md-4 position-relative form-floating mx-0 px-0">
+                                                                    <input type="text" class="form-control"
+                                                                        th:value="${reserva.propiedad.propietario.nombre} + ' ' + ${reserva.propiedad.propietario.apellido}"
+                                                                        disabled>
+                                                                    <label class="form-label"
+                                                                        for="floatingInputValue">Propietario:</label>
+                                                                </div>
 
-                                                                    <div class="col-md-4 position-relative form-floating mx-0 px-1">
-                                                                        <input type="text" class="form-control" th:value="${reserva.propiedad.propietario.email}" disabled>
-                                                                        <label class="form-label" for="floatingInputValue">Email</label>
+                                                                <div
+                                                                    class="col-md-4 position-relative form-floating mx-0 px-1">
+                                                                    <input type="text" class="form-control"
+                                                                        th:value="${reserva.propiedad.propietario.email}"
+                                                                        disabled>
+                                                                    <label class="form-label"
+                                                                        for="floatingInputValue">Email</label>
+                                                                </div>
+
+                                                                <div
+                                                                    class="col-md-4 position-relative form-floating mx-0 px-0">
+                                                                    <input type="text" class="form-control"
+                                                                        th:value="${reserva.propiedad.propietario.telefono}"
+                                                                        disabled>
+                                                                    <label class="form-label"
+                                                                        for="floatingInputValue">Telefono</label>
+                                                                </div>
+
+                                                                <hr class="my-2">
+
+                                                                <div
+                                                                    class="col-md-12 position-relative form-floating mx-0 px-0">
+                                                                    <p class="pt-2"><strong>Servicios adicionales
+                                                                            contratados</strong></p>
+
+
+                                                                    <div class="input-group pb-1 mx-0 px-0"
+                                                                        th:each="prestacion : ${reserva.prestaciones}">
+                                                                        <input type="text" class="form-control"
+                                                                            th:value="${prestacion.nombre}" disabled>
+                                                                        <span class="input-group-text">$</span>
+                                                                        <span class="input-group-text"
+                                                                            th:text="${prestacion.precio}">0.00</span>
                                                                     </div>
-
-                                                                    <div class="col-md-4 position-relative form-floating mx-0 px-0">
-                                                                        <input type="text" class="form-control" th:value="${reserva.propiedad.propietario.telefono}" disabled>
-                                                                        <label class="form-label" for="floatingInputValue">Telefono</label>
-                                                                    </div>
-
-                                                                    <hr class="my-2">
-
-                                                                    <div class="col-md-12 position-relative form-floating mx-0 px-0">
-                                                                        <p class="pt-2"><strong>Servicios adicionales contratados</strong></p>
-
-
-                                                                        <div class="input-group pb-1 mx-0 px-0" th:each="prestacion : ${reserva.prestaciones}">
-                                                                            <input type="text" class="form-control" th:value="${prestacion.nombre}" disabled>
-                                                                            <span class="input-group-text">$</span>
-                                                                            <span class="input-group-text" th:text="${prestacion.precio}">0.00</span>
-                                                                        </div>
-
-                                                                    </div> 
-
-                                                                    <hr class="my-2">
-
-                                                                    <div class="col-md-12 position-relative form-floating mx-0 px-0">
-                                                                        <input type="text" class="form-control" th:value="${reserva.precio}" disabled>
-                                                                        <label class="form-label" for="floatingInputValue">Precio Total</label>
-                                                                    </div> 
 
                                                                 </div>
+
+                                                                <hr class="my-2">
+
+                                                                <div
+                                                                    class="col-md-12 position-relative form-floating mx-0 px-0">
+                                                                    <input type="text" class="form-control"
+                                                                        th:value="${reserva.precio}" disabled>
+                                                                    <label class="form-label"
+                                                                        for="floatingInputValue">Precio Total</label>
+                                                                </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
-
-                                                    <div class="modal-footer p-0 ps-1 m-0 mb-2">
-                                                        <button type="button" class="btn btn-primary col-md-12" data-dismiss="modal">Cerrar</button>
-                                                    </div>
-
                                                 </div>
+
+                                                <div class="modal-footer p-0 ps-1 m-0 mb-2">
+                                                    <button type="button" class="btn btn-primary col-md-12"
+                                                        data-dismiss="modal">Cerrar</button>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Fin del modal -->
-                            </td>
+                                </div>
+                            </div>
+                            <!-- Fin del modal -->
+                        </td>
 
-                            <!--BOTON ELIMINAR O AGREGAR EXPERIENCIA DEPENDIENDO DEL ESTADO DE LA RESERVA-->
-                            <td sec:authorize="hasRole('CLIENTE')">
-                                <a class="btn btn-danger text-black" th:if="${reserva.estado == T(com.egg.alquileres.enumeraciones.EstadoReserva).ACTIVA}"
-                                   th:href="@{/cliente/eliminarReserva/__${reserva.id}__}">Cancelar
-                                </a>
-                                <a th:if="${reserva.estado == T(com.egg.alquileres.enumeraciones.EstadoReserva).COMPLETADA}" class="btn btn-success" href="#">
-                                    Agregar Experiencia
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                        <!--BOTON ELIMINAR O AGREGAR EXPERIENCIA DEPENDIENDO DEL ESTADO DE LA RESERVA-->
+                        <td sec:authorize="hasRole('CLIENTE')">
+                            <a class="btn btn-danger text-black"
+                                th:if="${reserva.estado == T(com.egg.alquileres.enumeraciones.EstadoReserva).ACTIVA}"
+                                th:href="@{/cliente/eliminarReserva/__${reserva.id}__}">Cancelar
+                            </a>
+                            <a th:if="${reserva.estado == T(com.egg.alquileres.enumeraciones.EstadoReserva).COMPLETADA}"
+                                class="btn btn-success" href="#">
+                                Agregar Experiencia
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+    </main>
 
-        <!-- Footer fragment-->
-        <nav th:replace="/fragments/footer :: _footer"></nav>
+    <!-- Footer fragment-->
+    <footer th:replace="/fragments/footer :: _footer"></footer>
 
-        <!--Script boostrap-->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    <!--Script boostrap-->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-        <!-- Fin Scripts-->
-    </body>
+    <!-- Fin Scripts-->
+</body>
 
 </html>
