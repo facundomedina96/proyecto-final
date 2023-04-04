@@ -43,7 +43,7 @@ public class PropietarioControlador {
         this.propiedadServicio = propiedadServicio;
         this.reservaServicio = reservaServicio;
     }
-    
+
     @GetMapping("/registrar") // especificamos la ruta donde interactua el usuario
     public String registrar(ModelMap model, HttpSession session) {
         try {
@@ -86,14 +86,14 @@ public class PropietarioControlador {
     @GetMapping("/misPropiedades")
     public String misPropiedades(ModelMap model, HttpSession session) {
         try {
-            
+
             Usuario sesionActual = (Usuario) session.getAttribute("usuarioSession");
             List<Propiedad> propiedades = usuarioServicio.listarPropiedades(sesionActual.getId());
-            
+
             // inyeccion de las propiedades en una Tabla CRUD;
             model.put("propiedades", propiedades);
             return "propiedades_crud.html";
-            
+
         } catch (MiException e) {
             model.put("error", e.getMessage());
             return "error.html";
@@ -106,7 +106,7 @@ public class PropietarioControlador {
 
         // Obtencion de la propiedad a modificar;
         Propiedad propiedad = propiedadServicio.getOne(id);
-        
+
         //Inyeccion en el HTML de los datos de la propiedad a modificar
         model.put("propiedad", propiedad);
         // Retorno del Formulario de modificacion con los valores inyecetados
@@ -117,7 +117,7 @@ public class PropietarioControlador {
     @PostMapping("/modificarPropiedad/{id}")
     public String modificarPropiedad(ModelMap modelo, @PathVariable String id, String nombre, String direccion, String ciudad, Double precio, MultipartFile fotos) {
         try {
-            
+
             // llamado al metodo de modificar(envio de parametros recibidos)
             propiedadServicio.modificarPropiedad(id, nombre, direccion, ciudad, precio, fotos);
             modelo.put("exito", "Se ha modificado la propiedad con exito");
@@ -142,9 +142,9 @@ public class PropietarioControlador {
             return "redirect:../perfil";
         }
     }
-    
+
     @GetMapping("/listarReservasPropiedad/{id}")
-    public String listarReservasDeUnaPropiedad(ModelMap modelo, @PathVariable String id){
+    public String listarReservasDeUnaPropiedad(ModelMap modelo, @PathVariable String id) {
         try {
             List<Reserva> reservas = reservaServicio.listarReservasDeUnaPropiedad(id);
             modelo.put("exito", "Se ha listado la reserva de dicha propiedad!");
@@ -154,5 +154,21 @@ public class PropietarioControlador {
             modelo.put("error", ex.getMessage());
             return "redirect:../perfil";
         }
+    }
+
+    // Metodo para que el Propietario elimine una reserva.
+    @GetMapping("/eliminarReserva/{id}")
+    public String eliminarReserva(ModelMap modelo, @PathVariable String id, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+        try {
+            usuarioServicio.eliminarReserva(id);
+            modelo.put("exito", "Se ha cancelado la reserva con exito");
+
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+        }
+        modelo.put("usuario", usuario);
+        return "panel.html";
     }
 }

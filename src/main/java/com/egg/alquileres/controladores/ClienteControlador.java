@@ -109,7 +109,7 @@ public class ClienteControlador {
         Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
         try {
             usuarioServicio.eliminarReserva(id);
-            modelo.put("exito", "Se ha eliminado la reserva con exito");
+            modelo.put("exito", "Se ha cancelado la reserva con exito");
 
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());

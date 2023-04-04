@@ -1,97 +1,98 @@
 <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary flex-nowrap" data-bs-theme="dark" th:fragment="_navbar">
-  <div class="container-fluid">
-    <a class="navbar-brand ms-5" href="/">Alquileres</a>
+    <div class="container-fluid">
+        <a class="navbar-brand ms-5" href="/">Alquileres</a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
-      aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarScroll">
-      <ul class="navbar-nav ms-auto me-5 my-2 my-lg-0 navbar-nav-scroll">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+            <ul class="navbar-nav ms-auto me-5 my-2 my-lg-0 navbar-nav-scroll">
 
-        <li class="nav-item dropdown " sec:authorize="hasRole('PROPIETARIO')">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Buscar
-          </a>
-          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/propietario/misPropiedades">Propiedades</a>
-          </div>
-        </li>
+                <li class="nav-item dropdown " sec:authorize="hasRole('PROPIETARIO')">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Buscar
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/propietario/misPropiedades">Propiedades</a>
+                    </div>
+                </li>
 
-        <li class="nav-item">
-          <a class="nav-link text-nowrap" href="/iniciar-sesion" sec:authorize="isAnonymous()">Iniciar Sesión</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/registrar" sec:authorize="isAnonymous()">Registrarse</a>
-        </li>
+                <li class="nav-item">
+                    <a class="nav-link text-nowrap" href="/iniciar-sesion" sec:authorize="isAnonymous()">Iniciar Sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/registrar" sec:authorize="isAnonymous()">Registrarse</a>
+                </li>
 
-        <li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown ">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Admin
-          </a>
-          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/admin/usuarios">Usuarios</a>
-            <a class="dropdown-item" href="/admin/propiedades">Propiedades</a>
-            <a class="dropdown-item" href="/admin/reservas">Reservas</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/perfil">Perfil</a>
-            <a class="dropdown-item" href="/dashboard">Dashboard</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item"
-              th:href="'/modificarPerfil/' + '__${session.usuarioSession.id}__'">Configuracion</a>
-          </div>
-        </li>
+                <li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown ">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Admin
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/admin/usuarios">Usuarios</a>
+                        <a class="dropdown-item" href="/admin/propiedades">Propiedades</a>
+                        <a class="dropdown-item" href="/admin/reservas">Reservas</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/perfil">Perfil</a>
+                        <a class="dropdown-item" href="/dashboard">Dashboard</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item"
+                           th:href="'/modificarPerfil/' + '__${session.usuarioSession.id}__'">Configuracion</a>
+                    </div>
+                </li>
 
-        <li sec:authorize="hasAnyRole('PROPIETARIO', 'CLIENTE')" class="nav-item dropdown ">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Usuario
-          </a>
-          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/perfil">Perfil</a>
-            <a class="dropdown-item" href="/dashboard">Dashboard</a>
-            <div class="dropdown-divider"></div>
+                <li sec:authorize="hasAnyRole('PROPIETARIO', 'CLIENTE')" class="nav-item dropdown ">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Usuario
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/perfil">Perfil</a>
+                        <a class="dropdown-item" href="/dashboard">Dashboard</a>
+                        <a class="dropdown-item" sec:authorize="hasRole('CLIENTE')" href="/cliente/listarReservas">Reservas</a>
+                        <div class="dropdown-divider"></div>
 
-            <a class="dropdown-item"
-              th:href="'/modificarPerfil/' + '__${session.usuarioSession.id}__'">Configuracion</a>
-          </div>
-        </li>
+                        <a class="dropdown-item"
+                           th:href="'/modificarPerfil/' + '__${session.usuarioSession.id}__'">Configuracion</a>
+                    </div>
+                </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="/logout" sec:authorize="isAuthenticated()">Salir</a>
-        </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout" sec:authorize="isAuthenticated()">Salir</a>
+                </li>
 
-      </ul>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
 
 
 <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary flex-nowrap" data-bs-theme="dark"
-  th:fragment="_navbar_login">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">Alquileres</a>
+     th:fragment="_navbar_login">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Alquileres</a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
-      aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarScroll">
-      <ul class="navbar-nav ms-auto me-4 my-2 my-lg-0 navbar-nav-scroll">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+            <ul class="navbar-nav ms-auto me-4 my-2 my-lg-0 navbar-nav-scroll">
 
-        <li class="nav-item dropdown me-4 pe-4">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Buscar
-          </a>
-          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/listarPropiedades">Propiedades</a>
-          </div>
-        </li>
+                <li class="nav-item dropdown me-4 pe-4">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Buscar
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/listarPropiedades">Propiedades</a>
+                    </div>
+                </li>
 
-      </ul>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>

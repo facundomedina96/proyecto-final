@@ -43,7 +43,7 @@
 
                             <td sec:authorize="hasRole('PROPIETARIO')">
                                 <a th:if="${reserva.estado == T(com.egg.alquileres.enumeraciones.EstadoReserva).ACTIVA}" class="btn btn-warning text-black"
-                                   href="#">Cancelar</a>
+                                   th:href="@{/propietario/eliminarReserva/__${reserva.id}__}">Cancelar</a>
                             </td>
                         </tr>
                     </tbody>

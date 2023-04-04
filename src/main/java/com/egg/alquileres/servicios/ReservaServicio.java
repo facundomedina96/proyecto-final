@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -180,14 +181,21 @@ public class ReservaServicio {
     }
 
     public void eliminarReserva(String id) {
-        reservaRepositorio.deleteById(id);
+        //Cambiamos el delete por la eliminacion logica.
+        Optional respuesta = reservaRepositorio.findById(id);
+        if(respuesta.isPresent()){
+            Reserva reserva = (Reserva) respuesta.get();
+            reserva.setEstado(EstadoReserva.CANCELADA);
+            reservaRepositorio.save(reserva);
+        }
+//        reservaRepositorio.deleteById(id);
     }
 
     public void actualizarEstado(Reserva reserva) {
         Date fechaFinalizacion = reserva.getFechaHasta();
         Date fechaActual = obtenerFechaActual();
 
-        if (fechaActual.after(fechaFinalizacion)) {
+        if (fechaActual.after(fechaFinalizacion) && reserva.getEstado().equals(EstadoReserva.ACTIVA)) {
             reserva.setEstado(EstadoReserva.COMPLETADA);
             reservaRepositorio.save(reserva);
         }
