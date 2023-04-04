@@ -1,9 +1,11 @@
 package com.egg.alquileres.controladores;
 
 import com.egg.alquileres.entidades.Propiedad;
+import com.egg.alquileres.entidades.Reserva;
 import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.servicios.PropiedadServicio;
+import com.egg.alquileres.servicios.ReservaServicio;
 import com.egg.alquileres.servicios.UsuarioServicio;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class AdminControlador {
     UsuarioServicio usuarioServicio;
     @Autowired
     PropiedadServicio propiedadServicio;
+    @Autowired
+    ReservaServicio reservaServicio;
 
     @GetMapping("/dashboard")
     public String panelAdmin() {
@@ -41,7 +45,7 @@ public class AdminControlador {
     }
 
     @GetMapping("/eliminaruser/{id}")
-    public String eliminarUsuario(ModelMap modelo, @PathVariable String id){
+    public String eliminarUsuario(ModelMap modelo, @PathVariable String id) {
         try {
             usuarioServicio.eliminar(id);
             modelo.put("exito", "Se ha eliminado el usuario con exito");
@@ -52,8 +56,15 @@ public class AdminControlador {
         }
     }
 
+    @GetMapping("/propiedades")
+    public String listarPropiedades(ModelMap modelo) {
+        List<Propiedad> propiedades = propiedadServicio.listarPropiedades();
+        modelo.addAttribute("propiedades", propiedades);
+        return "propiedades_crud.html";
+    }
+
     @GetMapping("/eliminarpropiedad/{id}")
-    public String eliminarPropiedad(ModelMap modelo, @PathVariable String id){
+    public String eliminarPropiedad(ModelMap modelo, @PathVariable String id) {
         try {
             propiedadServicio.eliminarPropiedad(id);
             modelo.put("exito", "Se ha eliminado la propiedad con exito");
@@ -62,6 +73,15 @@ public class AdminControlador {
             modelo.put("error", "No se ha eliminado la propiedad, vuelve a intentarlo");
             return "redirect:/";
         }
+    }
+    
+    
+    @GetMapping("/reservas")
+    public String listarReservas(ModelMap modelo) {
+        // crear metodo para buscar reservas
+        List<Reserva> reservas = reservaServicio.listarReservas();
+        modelo.addAttribute("reservas", reservas);
+        return "tabla_reserva.html";
     }
 
 }

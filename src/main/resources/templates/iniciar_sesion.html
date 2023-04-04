@@ -4,7 +4,7 @@
 <head th:replace="/fragments/head :: _head('Inicio', 'inicio.css')"></head>
 
 <body>
-    <nav th:replace="/fragments/navbar :: _navbar"></nav>
+    <nav th:replace="/fragments/navbar :: _navbar_login"></nav>
 
     <p th:replace="fragments/error_exito :: _error_exito"></p>
 
@@ -24,7 +24,13 @@
                     <label for="password" class="form-label">Contraseña</label>
                     <input type="password" name="password" class="form-control" id="exampleInputPassword1">
                 </div>
-                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary me-5">Iniciar sesión</button>
+
+                    <button type="button" class="btn btn-secondary ms-5">
+                        <a class="nav-link" href="/registrar">Registrarse</a>
+                    </button>
+                </div>
             </form>
         </div>
     </main>

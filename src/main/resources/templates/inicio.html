@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="/fragments/head :: _head('Inicio', 'inicio.css')"></head>
+<head th:replace="/fragments/head :: _head('Inicio', 'inicio.css')">
+</head>
 
 <body>
 
@@ -21,6 +22,34 @@
     <div class="album">
 
         <div class="container p-5 bg-light bg-opacity-50 contenedor">
+            <p>Filtrar por: </p>
+            <div>
+                <form class="form-inline" action="/busqueda-filtrada" method="get">
+                    <div class="form-group d-inline-block">
+                        <select class="form-select form-control" title="propietario" name="idPropietario">
+                            <option value="n">Seleccionar Propietario</option>
+                            <option th:each="propietario : ${propietarios}" th:value="${propietario.id}"
+                                th:text="${propietario.nombre}">
+                        </select>
+                    </div>
+
+                    <div class="form-group d-inline-block">
+                        <select class="form-select form-control" title="ciudad" name="ciudad">
+                            <option value="n">Seleccionar Ciudad</option>
+                            <option value="corrientes">Corrientes </option>
+                            <option value="misiones">Misiones </option>
+                            <!-- Agregar ciudades si corresponde -->
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" title="aplicar"> Aplicar </button>
+                    <button type="button" class="btn btn-primary" title="quitar filtros"
+                        onclick="window.location.href='/'"> Quitar
+                        filtros </button>
+                </form>
+            </div>
+
+            <br>
 
             <div class="row">
 

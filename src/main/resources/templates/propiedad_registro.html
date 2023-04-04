@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 
-<head th:replace="/fragments/head :: _head('Propiedad registro', 'inicio.css')"></head>
+<head th:replace="/fragments/head :: _head('Propiedad registro', 'propiedad_registro.css')"></head>
 
 <body>
 
@@ -19,26 +19,26 @@
                     <h3 class="fw-bold text-center py-2 mt-2">Formulario de registro</h3>
                     <!---Login -->
 
-                    <form th:action="@{/propiedad/registro/__${usuario.id}__}" method="POST"
+                    <form th:action="@{/propietario/registro/__${usuario.id}__}" method="POST"
                         enctype="multipart/form-data">
 
                         <input hidden th:value="${id}" name="id">
 
                         <div class="col">
-                            <label for="nombre" class="form-label">Nombre de la propiedad</label>
+                            <label for="nombre" class="form-label fw-medium">Nombre de la propiedad</label>
                             <input type="text" class="form-control" name="nombre" th:value="${nombre}"
                                 placeholder="Alpen Palace" aria-label="Nombre">
                         </div>
 
                         <div class="row mt-2">
                             <div class="col">
-                                <label for="direccion" class="form-label">Direccion</label>
+                                <label for="direccion" class="form-label fw-medium">Direccion</label>
                                 <input type="text" class="form-control" name="direccion" th:value="${direccion}"
                                     placeholder="Las Ramblas 5432" aria-label="Direccion">
                             </div>
 
-                            <div class="col ">
-                                <label for="ciudad" class="form-label">Ciudad</label>
+                            <div class="col">
+                                <label for="ciudad" class="form-label fw-medium">Ciudad</label>
                                 <input type="text" class="form-control" name="ciudad" th:value="${ciudad}"
                                     placeholder="Misiones">
                             </div>
@@ -46,36 +46,58 @@
 
                         <div class="row mt-2">
                             <div class="col">
-                                <label for="precio" class="form-label mt-1">Precio</label>
+                                <label for="precio" class="form-label fw-medium mt-1">Precio</label>
                                 <input type="number" class="form-control" name="precio" th:value="${precio}"
                                     placeholder="25.800">
                             </div>
                         </div>
 
                         <div class="col">
-                            <label for="fotos" class="form-label mt-1">Fotos</label>
+                            <label for="fotos" class="form-label fw-medium mt-1">Fotos</label>
                             <input type="file" class="form-control" multiple="true" name="fotos" alt="Subi tu imagen">
                         </div>
 
-                        <div>
-                            <label> Que servicios desea agregar? </label> <br>
-                            <label for="dj">DJ:</label>
-                            <input hidden value="DJ" name="nombreD">
-                            <input type="checkbox" name="activoD" id="dj" value="true">
-                            <label for="dj_precio">Precio:</label>
-                            <input type="number" name="precioD" id="dj_precio" step="0.01"><br>
-                            <label for="cat">Catering:</label>
-                            <input hidden value="CATERING" name="nombreC">
-                            <input type="checkbox" name="activoC" id="cat" value="true">
-                            <label for="cat_precio">Precio:</label>
-                            <input type="number" name="precioC" id="cat_precio" step="0.01"><br>
-                            <label for="pile">Pileta:</label>
-                            <input hidden value="PILETA" name="nombreP">
-                            <input type="checkbox" name="activoP" id="pile" value="true">
-                            <label for="pile_precio">Precio:</label>
-                            <input type="number" name="precioP" id="pile_precio" step="0.01">
+                        <label class="fw-medium my-2"> Que servicios desea agregar? </label>
+
+                        <div class="input-group-text align-items-center mb-1">
+                            <input class="form-check-input me-1 px-1" type="checkbox" name="activoD" id="dj" value="true">
+                            <span class="checkboxInput" for="dj">
+                                DJ
+                                <input hidden value="DJ" name="nombreD">
+                            </span>
+
+                            <span class="input-group align-items-center ms-2 ps-2 border-start" for="dj_precio">Precio
+                                <input class="form-control ms-2" type="number" name="precioD" id="dj_precio"
+                                    step="0.01">
+                            </span>
                         </div>
 
+
+
+                        <div class="input-group-text align-items-center mb-1">
+                            <input class="form-check-input me-1 px-1" type="checkbox" name="activoC" id="cat" value="true">
+                            <span class="checkboxInput" for="cat">
+                                Catering
+                                <input hidden value="CATERING" name="nombreC">
+                            </span>
+                            <span class="input-group align-items-center ms-2 ps-2 border-start" for="cat_precio">Precio
+                                <input class="form-control ms-2" type="number" name="precioC" id="cat_precio"
+                                    step="0.01">
+                            </span>
+                        </div>
+
+
+                        <div class="input-group-text align-items-center mb-1">
+                            <input class="form-check-input me-1 px-1" type="checkbox" name="activoP" id="pile" value="true">
+                            <span class="checkboxInput" for="pile">
+                                Pileta
+                                <input hidden value="PILETA" name="nombreP">
+                            </span>
+                            <span class="input-group align-items-center ms-2 ps-2 border-start" for="pile_precio">Precio
+                                <input class="form-control ms-2" type="number" name="precioP" id="pile_precio"
+                                    step="0.01">
+                            </span>
+                        </div>
 
                         <div class="row my-4">
                             <div class="col">
@@ -85,7 +107,6 @@
                                 <button type="reset" class="btn btn-danger col-md-12">Borrar</button>
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>

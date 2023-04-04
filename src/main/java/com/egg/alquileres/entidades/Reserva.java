@@ -1,11 +1,13 @@
 package com.egg.alquileres.entidades;
 
+import com.egg.alquileres.enumeraciones.EstadoReserva;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -26,15 +28,28 @@ public class Reserva implements Serializable {
 
     private Double precio;
 
+    @ManyToMany
+    private List<Prestacion> prestaciones;
+
     @OneToOne
     private Usuario cliente;
 
     @OneToOne
     private Propiedad propiedad;
-    
+
     @OneToMany
     private List<Comentario> opinion;
 
+    private EstadoReserva estado;
+
+    public EstadoReserva getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoReserva estado) {
+        this.estado = estado;
+    }
+    
     public List<Comentario> getOpinion() {
         return opinion;
     }
@@ -42,8 +57,6 @@ public class Reserva implements Serializable {
     public void setOpinion(List<Comentario> opinion) {
         this.opinion = opinion;
     }
-
-    
 
     public Reserva() {
     }
@@ -94,5 +107,13 @@ public class Reserva implements Serializable {
 
     public void setPropiedad(Propiedad propiedad) {
         this.propiedad = propiedad;
+    }
+
+    public List<Prestacion> getPrestaciones() {
+        return prestaciones;
+    }
+
+    public void setPrestaciones(List<Prestacion> prestaciones) {
+        this.prestaciones = prestaciones;
     }
 }
