@@ -104,17 +104,20 @@ public class ClienteControlador {
 
     // Metodo para que el cliente elimine una reserva.
     @GetMapping("/eliminarReserva/{id}")
-    public String eliminarReserva(ModelMap modelo, @PathVariable String id, HttpSession session) {
+    public String eliminarReserva(ModelMap modelo, @PathVariable String id, HttpSession session) throws MiException {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
         try {
             usuarioServicio.eliminarReserva(id);
             modelo.put("exito", "Se ha eliminado la reserva con exito");
-
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
+        } finally {
+            List<Reserva> reservas = usuarioServicio.listarReservasDeUnUsuario(usuario.getId());
+            modelo.put("reservas", reservas);
         }
         modelo.put("usuario", usuario);
+
         return "panel.html";
     }
 
