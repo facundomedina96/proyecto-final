@@ -214,15 +214,13 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    /*
-    @Transactional
+ @Transactional
     public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String id_propiedad, boolean dj, boolean catering, boolean pileta) throws MiException, ParseException {
 
         Reserva reserva = reservaServicio.crearReserva(fechaDesde, fechaHasta, cliente, id_propiedad, dj, catering, pileta);
         propiedadServicio.actualizarYGuardarReservas(reserva, id_propiedad);
         return reserva;
     }
-*/
 
     @Transactional
     public void eliminarReserva(String id) throws MiException {
