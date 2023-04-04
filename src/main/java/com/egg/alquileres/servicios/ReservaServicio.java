@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ReservaServicio {
@@ -168,6 +169,13 @@ public class ReservaServicio {
         for (Reserva reserva : reservas) {
             actualizarEstado(reserva);
         }
+        return reservas;
+    }
+    
+    public List<Reserva> listarReservasDeUnaPropiedad(String idPropiedad) throws MiException{
+        List<Reserva> reservas = new ArrayList();
+        reservas = reservaRepositorio.listarReservasDeUnaPropiedad(idPropiedad);
+
         return reservas;
     }
 

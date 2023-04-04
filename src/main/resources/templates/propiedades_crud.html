@@ -45,6 +45,8 @@
                                 <!--podemos quitar la autorizacion solo para que el admin pueda eliminar propiedades-->
                                 <a class="btn btn-danger text-black"
                                    th:href="@{/propietario/eliminarPropiedad/__${propiedad.id}__}">Eliminar</a>
+                                <a class="btn btn-success text-black"
+                                   th:href="@{/propietario/listarReservasPropiedad/__${propiedad.id}__}">Ver Reservas</a>
                             </td>
 
                             <td sec:authorize="hasRole('ADMIN')">

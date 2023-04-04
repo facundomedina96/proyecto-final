@@ -1,6 +1,7 @@
 package com.egg.alquileres.repositorios;
 
 import com.egg.alquileres.entidades.Usuario;
+import com.egg.alquileres.enumeraciones.Rol;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +20,6 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
     @Query("SELECT u FROM Usuario u WHERE u.rol = CLIENTE")
     public List<Usuario> buscarClientes();
 
-    @Query("SELECT u FROM Usuario u WHERE u.rol = PROPIETARIO")
-    public List<Usuario> buscarPropietarios();
+    @Query("SELECT u FROM Usuario u WHERE u.rol = :rol")
+    public List<Usuario> buscarPropietarios(@Param("rol") Rol rol);
 }

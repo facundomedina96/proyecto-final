@@ -40,6 +40,7 @@ public class PropiedadServicio {
     }
 
     private void validar(String nombre, String direccion, String ciudad, Double precio, Usuario propietario, MultipartFile[] fotos) throws MiException {
+
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre no puede ser nulo ni estar vacio.");
         }
@@ -77,7 +78,8 @@ public class PropiedadServicio {
         LocalDate ultimoDiaDelAnio = LocalDate.of(LocalDate.now().getYear(), 12, 31);
         Date fechaFinAnio = Date.from(ultimoDiaDelAnio.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        // Retornar una nueva instancia de Casa con los parámetros proporcionados y las fechas disponible
+        // Retornar una nueva instancia de Casa con los parámetros proporcionados y las
+        // fechas disponible
         Propiedad propiedad = new Propiedad();
 
         propiedad.setNombre(nombre);
@@ -86,6 +88,7 @@ public class PropiedadServicio {
         propiedad.setPrecio_base(precio);
         propiedad.setEstado(Boolean.TRUE);
         propiedad.setPropietario(propietario);
+
         propiedad.setFechaCreacion(fechaActual);
         propiedad.setFechaFinAnio(fechaFinAnio);
 
@@ -150,6 +153,14 @@ public class PropiedadServicio {
 
     public List<Propiedad> buscarPropiedadPorPropietario(String idPropietario) {
         return propiedadRepositorio.buscarPorPropietario(idPropietario);
+    }
+
+    public List<Propiedad> buscarPorCiudad(String ciudad) {
+        return propiedadRepositorio.buscarPorCiudad(ciudad);
+    }
+    
+    public List<Propiedad> buscarPorPropietarioYCiudad(String idPropietario, String ciudad){
+        return propiedadRepositorio.buscarPorPropietarioYCiudad(idPropietario, ciudad);
     }
 
     public List<Propiedad> listarPropiedades() {
@@ -223,8 +234,11 @@ public class PropiedadServicio {
         }
     }
 
-    /* Por ahora el propietario solo puede modificar estos atributos, Si se opta por darle la opcion 
-       de modificar mas atributos, Modificar el HTML para pedir los datos, el controlador, y por ultimo este servicio.
+    /*
+     * Por ahora el propietario solo puede modificar estos atributos, Si se opta por
+     * darle la opcion
+     * de modificar mas atributos, Modificar el HTML para pedir los datos, el
+     * controlador, y por ultimo este servicio.
      */
     public void modificarPropiedad(String id, String nombre, String direccion, String ciudad, Double precio, MultipartFile fotos) throws MiException {
 

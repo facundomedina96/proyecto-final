@@ -6,9 +6,11 @@
 package com.egg.alquileres.controladores;
 
 import com.egg.alquileres.entidades.Propiedad;
+import com.egg.alquileres.entidades.Reserva;
 import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.servicios.PropiedadServicio;
+import com.egg.alquileres.servicios.ReservaServicio;
 import com.egg.alquileres.servicios.UsuarioServicio;
 import java.text.ParseException;
 import java.util.List;
@@ -34,10 +36,12 @@ public class PropietarioControlador {
 
     private final UsuarioServicio usuarioServicio;
     private final PropiedadServicio propiedadServicio;
+    private final ReservaServicio reservaServicio;
 
-    public PropietarioControlador(UsuarioServicio propietarioServicio, PropiedadServicio propiedadServicio) {
+    public PropietarioControlador(UsuarioServicio propietarioServicio, PropiedadServicio propiedadServicio, ReservaServicio reservaServicio) {
         this.usuarioServicio = propietarioServicio;
         this.propiedadServicio = propiedadServicio;
+        this.reservaServicio = reservaServicio;
     }
     
     @GetMapping("/registrar") // especificamos la ruta donde interactua el usuario
@@ -133,6 +137,19 @@ public class PropietarioControlador {
             modelo.put("exito", "Se ha eliminado la propiedad con exito");
 
             return "redirect:/propietario/misPropiedades";
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+            return "redirect:../perfil";
+        }
+    }
+    
+    @GetMapping("/listarReservasPropiedad/{id}")
+    public String listarReservasDeUnaPropiedad(ModelMap modelo, @PathVariable String id){
+        try {
+            List<Reserva> reservas = reservaServicio.listarReservasDeUnaPropiedad(id);
+            modelo.put("exito", "Se ha listado la reserva de dicha propiedad!");
+            modelo.put("reservas", reservas);
+            return "propiedad_reservas.html";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
             return "redirect:../perfil";
