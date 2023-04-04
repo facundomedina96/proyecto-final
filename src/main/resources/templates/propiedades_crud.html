@@ -38,7 +38,6 @@
                     <td th:text="${propiedad.precio_base}"></td>
                     <td th:text="${propiedad.estado}"></td>
 
-
                     <td class="d-flex justify-content-around" sec:authorize="hasRole('PROPIETARIO')">
                         <a class="btn btn-warning text-black"
                             th:href="@{/propietario/modificarPropiedad/__${propiedad.id}__}">Modificar</a>
