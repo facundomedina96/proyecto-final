@@ -249,6 +249,9 @@ public class UsuarioServicio implements UserDetailsService {
         return propiedades;
     }
 
+    public List<Usuario> buscarPropietarios() {
+        return usuarioRepositorio.buscarPropietarios(Rol.PROPIETARIO);
+    }
     //Metodo para que listar las reservas de un Cliente
     public List<Reserva> listarReservasDeUnUsuario(String idUsuario) throws MiException {
         return reservaServicio.listarReservasDeUnUsuario(idUsuario);
