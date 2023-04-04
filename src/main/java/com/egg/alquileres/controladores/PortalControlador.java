@@ -54,7 +54,7 @@ public class PortalControlador {
     @GetMapping("/listaPropiedades") // especificamos la ruta donde interactua el usuario
     public String listaPropiedades(ModelMap model) {
         try {
-            List<Propiedad> propiedades = propiedadServicio.listarPropiedades(); // buscar todas las noticias
+            List<Propiedad> propiedades = propiedadServicio.listarPropiedades();
             model.put("propiedades", propiedades);
             // retorno del HTML
             return "inicio.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.

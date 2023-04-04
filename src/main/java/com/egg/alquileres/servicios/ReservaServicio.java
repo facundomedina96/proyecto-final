@@ -122,9 +122,14 @@ public class ReservaServicio {
     }
 
     private Double calcularPrecioEstadia(Date fechaDesde, Date fechaHasta, Propiedad propiedad) {
+        
         int diasEstadia = (int) ChronoUnit.DAYS.between(fechaDesde.toInstant(), fechaHasta.toInstant());
-        Double precioCalculado = propiedad.getPrecio_base() * diasEstadia;
-        return precioCalculado;
+        if (diasEstadia == 0) {
+            return propiedad.getPrecio_base();
+        } else {
+            Double precioCalculado = propiedad.getPrecio_base() * diasEstadia;
+            return precioCalculado;
+        }
     }
 
     private Double obtenerCostoPrestacion(String nombrePrestacion, List<Prestacion> prestaciones) {

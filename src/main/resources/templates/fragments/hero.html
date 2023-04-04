@@ -1,7 +1,7 @@
 <!-- hero -->
 <section class="hero" th:fragment="_hero">
 
-    <div class="px-4 pt-5 my-5 text-center">
+    <div class="px-4 pt-5  text-center">
 
         <h1 class="display-4 fw-bold" th:text="'Bienvenido ' + ${usuario.nombre}"></h1>
 
@@ -21,12 +21,12 @@
             </button>
         </div>
 
-        <div class="col-lg-6 mx-auto mb-4" sec:authorize="hasRole('CLIENTE')">
-            <p class="lead mb-4">En esta pagina encontrarás todas tus reservas hechas.</p>
+        <div class="col-lg-6 mx-auto my-4" sec:authorize="hasRole('CLIENTE')">
+            <p class="lead">En esta pagina encontrarás todas tus reservas activas.</p>
         </div>
 
         <div class="col-lg-6 mx-auto mb-4" sec:authorize="hasRole('ADMIN')">
-            <p class="lead mb-4"> Panel de administrador.</p>
+            <p class="lead my-4"> Panel de administrador.</p>
 
             <button class="btn btn-primary">
                 <a class="nav-link" href="/admin/usuarios">Lista de Usuarios.</a>
