@@ -252,6 +252,11 @@ public class UsuarioServicio implements UserDetailsService {
     public List<Usuario> buscarPropietarios() {
         return usuarioRepositorio.buscarPropietarios(Rol.PROPIETARIO);
     }
+    
+    public List<Usuario> buscarPropietariosActivos() {
+        return usuarioRepositorio.buscarPropietariosActivos(Rol.PROPIETARIO);
+    }
+    
     //Metodo para que listar las reservas de un Cliente
     public List<Reserva> listarReservasDeUnUsuario(String idUsuario) throws MiException {
         return reservaServicio.listarReservasDeUnUsuario(idUsuario);

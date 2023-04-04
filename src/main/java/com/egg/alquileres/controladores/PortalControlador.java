@@ -37,10 +37,10 @@ public class PortalControlador {
     @GetMapping("/") // especificamos la ruta donde interactua el usuario
     public String inicio(ModelMap model) {
         try {
-            List<Usuario> propietarios = usuarioServicio.buscarPropietarios();
+            List<Usuario> propietarios = usuarioServicio.buscarPropietariosActivos();
             model.put("propietarios", propietarios);
             // Necesito inyectar en el HTML la lista de propiedades
-            List<Propiedad> propiedades = propiedadServicio.listarPropiedades();
+            List<Propiedad> propiedades = propiedadServicio.buscarPorPropietariosActivos();
             model.put("propiedades", propiedades);
 
             // retorno del HTML

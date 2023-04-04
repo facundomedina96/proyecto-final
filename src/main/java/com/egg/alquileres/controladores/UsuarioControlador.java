@@ -55,7 +55,7 @@ public class UsuarioControlador {
 
             modelo.put("exito", "Ya puedes ingresar con tu correo y contraseña");
 
-            List<Propiedad> propiedades = propiedadServicio.listarPropiedades();
+            List<Propiedad> propiedades = propiedadServicio.buscarPorPropietariosActivos();
             modelo.put("propiedades", propiedades);
 
             return "inicio.html";

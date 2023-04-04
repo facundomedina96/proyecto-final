@@ -196,4 +196,8 @@ public class ReservaServicio {
     public List<Reserva> listarReservas(){
         return reservaRepositorio.findAll();
     }
+    
+    public List<Reserva> listarReservasDeUsuariosActivos(){
+        return reservaRepositorio.buscarClientesActivos();
+    }
 }
