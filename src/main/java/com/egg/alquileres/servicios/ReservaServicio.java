@@ -13,7 +13,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ReservaServicio {
@@ -123,13 +122,9 @@ public class ReservaServicio {
 
     private Double calcularPrecioEstadia(Date fechaDesde, Date fechaHasta, Propiedad propiedad) {
         
-        int diasEstadia = (int) ChronoUnit.DAYS.between(fechaDesde.toInstant(), fechaHasta.toInstant());
-        if (diasEstadia == 0) {
-            return propiedad.getPrecio_base();
-        } else {
+        int diasEstadia = (int) ChronoUnit.DAYS.between(fechaDesde.toInstant(), fechaHasta.toInstant()) + 1;
             Double precioCalculado = propiedad.getPrecio_base() * diasEstadia;
             return precioCalculado;
-        }
     }
 
     private Double obtenerCostoPrestacion(String nombrePrestacion, List<Prestacion> prestaciones) {

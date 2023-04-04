@@ -87,4 +87,19 @@ public class PropiedadControlador {
             return "redirect:../perfil";
         }
     }
+    
+        @GetMapping("/detalles/{id}")
+    public String mostrar_propiedad(ModelMap modelo, @PathVariable String id) {
+        try {
+            Propiedad propiead = propiedadServicio.getOne(id);
+            if (propiead == null) {
+                throw new MiException("Propiedad nula.");
+            }
+            modelo.put("propiedad", propiead);
+            return "comentario.html";
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+            return "redirect:../";
+        }
+    }
 }
