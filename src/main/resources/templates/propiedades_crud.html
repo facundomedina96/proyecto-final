@@ -7,16 +7,17 @@
 
     <nav th:replace="/fragments/navbar :: _navbar"></nav>
 
-    <main class="container bg-light bg-opacity-50 mt-2 pb-3">
+
+    <main class="container bg-light bg-opacity-50 mt-4 pb-3">
 
         <div th:replace="/fragments/error_exito :: _error_exito"></div>
 
-        <div class="m-5 text-center">
+        <div class="my-5 pt-4 text-center text-center">
             <h1 class="fw-bold fs-1">Propiedades</h1>
         </div>
 
-        <table class="table table-bordered table-secondary table-hover  text-center">
-            <thead>
+        <table class="table table-bordered border-2 border-success  table-secondary table-hover  text-center">
+            <thead class="table-dark border-success text-center fw-bold">
                 <tr>
                     <th scope="col">Nombre</th>
                     <th scope="col">Direccion</th>
@@ -38,28 +39,28 @@
                     <td th:text="${propiedad.estado}"></td>
 
 
-                            <td sec:authorize="hasRole('PROPIETARIO')">
-                                <a class="btn btn-warning text-black"
-                                   th:href="@{/propietario/modificarPropiedad/__${propiedad.id}__}">Modificar</a>
+                    <td class="d-flex justify-content-around" sec:authorize="hasRole('PROPIETARIO')">
+                        <a class="btn btn-warning text-black"
+                            th:href="@{/propietario/modificarPropiedad/__${propiedad.id}__}">Modificar</a>
 
-                                <!--podemos quitar la autorizacion solo para que el admin pueda eliminar propiedades-->
-                                <a class="btn btn-danger text-black"
-                                   th:href="@{/propietario/eliminarPropiedad/__${propiedad.id}__}">Eliminar</a>
-                                <a class="btn btn-success text-black"
-                                   th:href="@{/propietario/listarReservasPropiedad/__${propiedad.id}__}">Ver Reservas</a>
-                            </td>
+                        <!--podemos quitar la autorizacion solo para que el admin pueda eliminar propiedades-->
+                        <a class="btn btn-danger text-black"
+                            th:href="@{/propietario/eliminarPropiedad/__${propiedad.id}__}">Eliminar</a>
+                        <a class="btn btn-success text-black"
+                            th:href="@{/propietario/listarReservasPropiedad/__${propiedad.id}__}">Ver Reservas</a>
+                    </td>
 
-                            <td sec:authorize="hasRole('ADMIN')">
-                                <a class="btn btn-warning text-black"
-                                   th:href="@{/propiedad/modificar/__${propiedad.id}__}">Modificar</a>
+                    <td sec:authorize="hasRole('ADMIN')">
+                        <a class="btn btn-warning text-black"
+                            th:href="@{/propiedad/modificar/__${propiedad.id}__}">Modificar</a>
 
-                                <!--podemos quitar la autorizacion solo para que el admin pueda eliminar propiedades-->
-                                <a class="btn btn-danger text-black"
-                                   th:href="@{/propiedad/eliminar/__${propiedad.id}__}">Eliminar</a>
-                            </td>
+                        <!--podemos quitar la autorizacion solo para que el admin pueda eliminar propiedades-->
+                        <a class="btn btn-danger text-black"
+                            th:href="@{/propiedad/eliminar/__${propiedad.id}__}">Eliminar</a>
+                    </td>
 
-                        </tr>
-                    </tbody>
+                </tr>
+            </tbody>
 
         </table>
 
@@ -74,16 +75,16 @@
 
     <footer th:replace="/fragments/footer :: _footer"></footer>
 
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-    </body>
+</body>
 
 
 </html>
