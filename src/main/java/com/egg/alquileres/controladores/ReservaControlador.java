@@ -48,34 +48,4 @@ public class ReservaControlador {
         model.put("propiedad", propiedad);
         return "reserva.html";
     }
- 
-    //Metodo POST reserva recepcion de los datos nuevos
-    @PostMapping("/reservar")//me trae mal las fechas, arreglar! trae con -3hs de diferencia, toma la local.
-    public String reservar(
-            ModelMap modelo, 
-            HttpSession session,
-            @RequestParam("fechaDesde") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fecha_desde,
-            @RequestParam("fechaHasta") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fecha_hasta,
-            @RequestParam String prodId,
-            @RequestParam String prestaciones
-            @RequestParam List<Comentario> opinion){
-        Usuario cliente;
-        try {
-            cliente = (Usuario) session.getAttribute("usuarioSession");//////preguntar si se termina la sesion....
-        } catch (Exception e) {
-             modelo.put("error","Su sesión expiró, inicie sesión nuevamente!");
-            return "iniciar_sesion.html";
-        }
-        try {
-            String[] ids_prestaciones = prestaciones.split(",");
-            List<String> list_ids_prestaciones = new ArrayList(Arrays.asList(ids_prestaciones));
-            reservaServicio.crearReserva(fecha_desde,fecha_hasta, cliente, prodId, ids_prestaciones, opinion);
-            modelo.put("exito", "Se ha creado correctamente su reserva.");
-
-            return "redirect:/dashboard";
-        } catch (MiException e) {
-            modelo.put("error", ex.getMessage());
-            return "reserva.html";
-        }
-    }   
 }

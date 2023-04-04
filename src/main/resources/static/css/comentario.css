@@ -1,0 +1,41 @@
+body {
+
+    background: rgb(238, 174, 202);
+    background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+    background-size: cover;
+    background-repeat: no-repeat;
+  
+      min-height: 100vmin;
+      display: flex;
+      flex-direction: column;
+  }
+  #divform{
+    width: 100%;
+  }
+  #formulario{
+    border: purple solid 1px;
+    padding:70px;
+    border-radius: 30px;
+    height: auto;
+   
+    background: rgb(241, 226, 245);
+    align-items: stretch;
+
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column; 
+
+    justify-content: center;
+    text-align: center;
+    margin-top: 70px;
+    color: purple;
+    
+  
+  }
+
+  datalist {
+    display: flex;
+    justify-content: space-between;
+  }

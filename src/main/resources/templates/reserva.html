@@ -54,16 +54,10 @@
         </article>
       </div>
     </div>
-    <section class="formReserva">
-      <form id="formulario" th:action="@{/reservar}" method="POST">
-        <!--id propiedad oculto -->
-        <input
-          th:id="__${propiedad.id}__"
-          id="propiedad_id"
-          name="prodId"
-          type="hidden"
-          th:value="${propiedad.id}"
-        />
+        <section class="formReserva">
+            <form id="formulario" th:action="@{/cliente/crearReserva/__${propiedad.id}__}" method="POST">
+                <!--id propiedad oculto -->
+                <input th:id="__${propiedad.id}__" id="propiedad_id" name="propiedad_id" type="hidden">
 
         <h3>Hace tu reserva!</h3>
         <label for="fechaDesde">Fecha desde:</label>
