@@ -32,4 +32,5 @@ public class ReservaControlador {
         model.put("propiedad", propiedad);
         return "reserva.html";
     }
+    
 }

@@ -19,46 +19,32 @@
                 <table class="table table-bordered text-center">
                     <thead class="table-dark">
                         <tr>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Direccion</th>
-                            <th scope="col">Ciudad</th>
-                            <th scope="col">Precio</th>
-                            <th scope="col">Estado</th>
+                            <th>ID</th>
+                            <td>Fecha Inicio</td>
+                            <td>Fecha Final</td>
+                            <td>Precio Total</td>
+                            <td>Nombre de la Propiedad</td>
+                            <td>Estado</td>
 
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
 
-                    <tbody th:each="propiedad : ${propiedades}">
+                    <tbody th:each="reserva : ${reservas}">
                         <!-- recorremos la lista que inyectamos en el modelo -->
                         <tr>
-                            <td th:text="${propiedad.nombre}"></td>
-                            <td th:text="${propiedad.direccion}"></td>
-                            <td th:text="${propiedad.ciudad}"></td>
-                            <td th:text="${propiedad.precio_base}"></td>
-                            <td th:text="${propiedad.estado}"></td>
+                            <th th:text="${reserva.id}">1</th>
+                            <td th:text="${reserva.fechaDesde}">Fecha Inicio</td>
+                            <td th:text="${reserva.fechaHasta}">Fecha Final</td>
+                            <td th:text="${reserva.precio}">Precio Total</td>
+                            <td th:text="${reserva.propiedad.nombre}">Nombre de la Propiedad</td>
+                            <td th:text="${reserva.estado}">Activo</td>
 
 
                             <td sec:authorize="hasRole('PROPIETARIO')">
-                                <a class="btn btn-warning text-black"
-                                   th:href="@{/propietario/modificarPropiedad/__${propiedad.id}__}">Modificar</a>
-
-                                <!--podemos quitar la autorizacion solo para que el admin pueda eliminar propiedades-->
-                                <a class="btn btn-danger text-black"
-                                   th:href="@{/propietario/eliminarPropiedad/__${propiedad.id}__}">Eliminar</a>
-                                <a class="btn btn-success text-black"
-                                   th:href="@{/propietario/listarReservasPropiedad/__${propiedad.id}__}">Ver Reservas</a>
+                                <a th:if="${reserva.estado == T(com.egg.alquileres.enumeraciones.EstadoReserva).ACTIVA}" class="btn btn-warning text-black"
+                                   href="#">Cancelar</a>
                             </td>
-
-                            <td sec:authorize="hasRole('ADMIN')">
-                                <a class="btn btn-warning text-black"
-                                   th:href="@{/propiedad/modificar/__${propiedad.id}__}">Modificar</a>
-
-                                <!--podemos quitar la autorizacion solo para que el admin pueda eliminar propiedades-->
-                                <a class="btn btn-danger text-black"
-                                   th:href="@{/propiedad/eliminar/__${propiedad.id}__}">Eliminar</a>
-                            </td>
-
                         </tr>
                     </tbody>
 
@@ -86,6 +72,5 @@
                 integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     </body>
-
 
 </html>

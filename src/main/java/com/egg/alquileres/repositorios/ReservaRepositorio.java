@@ -12,5 +12,7 @@ public interface ReservaRepositorio extends JpaRepository<Reserva, String> {
 
     @Query("SELECT r FROM Reserva r WHERE r.cliente.id = :id")
     public List<Reserva> buscarPorCliente(@Param("id") String id);
-
+    
+    @Query("SELECT r FROM Reserva r WHERE r.propiedad.id = :id")
+    public List<Reserva> listarReservasDeUnaPropiedad(@Param("id") String id);
 }

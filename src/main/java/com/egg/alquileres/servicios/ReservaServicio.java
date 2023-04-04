@@ -170,6 +170,13 @@ public class ReservaServicio {
         }
         return reservas;
     }
+    
+    public List<Reserva> listarReservasDeUnaPropiedad(String idPropiedad) throws MiException{
+        List<Reserva> reservas = new ArrayList();
+        reservas = reservaRepositorio.listarReservasDeUnaPropiedad(idPropiedad);
+
+        return reservas;
+    }
 
     public void eliminarReserva(String id) {
         reservaRepositorio.deleteById(id);
