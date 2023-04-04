@@ -19,7 +19,7 @@
                     <h3 class="fw-bold text-center py-2 mt-2">Formulario de registro</h3>
                     <!---Login -->
 
-                    <form th:action="@{/propiedad/registro/__${usuario.id}__}" method="POST"
+                    <form th:action="@{/propietario/registro/__${usuario.id}__}" method="POST"
                         enctype="multipart/form-data">
 
                         <input hidden th:value="${id}" name="id">
@@ -59,7 +59,7 @@
 
                         <label class="fw-medium my-2"> Que servicios desea agregar? </label>
 
-                        <div class="input-group-text align-items-center">
+                        <div class="input-group-text align-items-center mb-1">
                             <input class="form-check-input me-1 px-1" type="checkbox" name="activoD" id="dj" value="true">
                             <span class="checkboxInput" for="dj">
                                 DJ
@@ -74,7 +74,7 @@
 
 
 
-                        <div class="input-group-text align-items-center">
+                        <div class="input-group-text align-items-center mb-1">
                             <input class="form-check-input me-1 px-1" type="checkbox" name="activoC" id="cat" value="true">
                             <span class="checkboxInput" for="cat">
                                 Catering
@@ -87,7 +87,7 @@
                         </div>
 
 
-                        <div class="input-group-text align-items-center">
+                        <div class="input-group-text align-items-center mb-1">
                             <input class="form-check-input me-1 px-1" type="checkbox" name="activoP" id="pile" value="true">
                             <span class="checkboxInput" for="pile">
                                 Pileta

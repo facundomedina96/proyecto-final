@@ -79,9 +79,9 @@ public class AdminControlador {
     @GetMapping("/reservas")
     public String listarReservas(ModelMap modelo) {
         // crear metodo para buscar reservas
-        List<Reserva> reservas = null;
+        List<Reserva> reservas = reservaServicio.listarReservas();
         modelo.addAttribute("reservas", reservas);
-        return "propiedades_crud.html";
+        return "tabla_reserva.html";
     }
 
 }
