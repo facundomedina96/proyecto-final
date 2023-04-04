@@ -6,12 +6,15 @@
 <body>
     <nav th:replace="/fragments/navbar :: _navbar"></nav>
 
-    <div th:replace="/fragments/error_exito :: _error_exito"></div>
-
     <main>
-        <div th:replace="/fragments/hero :: _hero"></div>
 
-        <div id="album" class="album py-5" sec:authorize="hasAnyRole('PROPIETARIO')">
+        <div th:replace="/fragments/error_exito :: _error_exito"></div>
+
+        <div class="container mt-4 bg-light bg-opacity-50 contenedor">
+            <div th:replace="/fragments/hero :: _hero"></div>
+        </div>
+
+        <div id="album" class="album" sec:authorize="hasAnyRole('PROPIETARIO')">
 
             <div class="container p-5 bg-light bg-opacity-50 contenedor">
                 <div class="row">
@@ -30,8 +33,10 @@
                                     th:text="${propiedad.propietario.nombre} + ' ' + ${propiedad.propietario.apellido}">
                                 </li>
                             </ul>
-                            <div class="card-body">
-                                <a th:href="'/detalle/' + '__${propiedad.id}__'" class="card-link">Ver más</a>
+                            <div class="text-center p-2">
+                                <a class="btn btn-success text-black"
+                                    th:href="@{/propietario/listarReservasPropiedad/__${propiedad.id}__}">Ver
+                                    Reservas</a>
                             </div>
                         </div>
                     </div>
@@ -42,18 +47,20 @@
 
         <div id="album" class="album py-5" sec:authorize="hasAnyRole('CLIENTE')">
             <div class="container p-5 bg-light bg-opacity-50 contenedor">
-                <div class="row">
-                    <div class="col-md-4 mb-4" th:each="reserva : ${reservas}">
-                        <div class="card shadow" style="width: 18rem">
+                <div class="row justify-content-around">
+                    <div class="col-md-4 mb-4" th:each="reserva : ${reservas}" style="width: 20rem">
+                        <div class="card shadow">
 
-                            <nav th:replace="/fragments/carousel_generico :: _carousel_reservas"></nav>
+                            <nav th:replace="/fragments/carousel_generico :: _carousel_reservas(__${reserva.id}__)">
+                            </nav>
 
                             <div class="card-body">
                                 <h5 class="card-title" th:text="${reserva.propiedad.nombre}"></h5>
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item" th:text="${reserva.propiedad.ciudad}"></li>
-                                <li class="list-group-item" th:text="${reserva.propiedad.precio_base}"></li>
+                                <li class="list-group-item" th:text="${reserva.precio}">
+                                </li>
                                 <li class="list-group-item"
                                     th:text="${reserva.propiedad.propietario.nombre} + ' ' + ${reserva.propiedad.propietario.apellido}">
                                 </li>
@@ -61,8 +68,9 @@
                                     th:text="'De ' + ${reserva.fechaDesde} + ' a ' + ${reserva.fechaHasta}">
                                 </li>
                             </ul>
-                            <div class="card-body">
-                                <a th:href="'/detalle/' + '__${reserva.id}__'" class="card-link">Ver más</a>
+                            <div class="text-center p-2">
+                                <a type="submit" class="btn btn-danger"
+                                    th:href="@{/cliente/eliminarReserva/__${reserva.id}__}">Cancelar</a>
                             </div>
                         </div>
                     </div>
@@ -70,7 +78,7 @@
             </div>
         </div>
 
-        <nav th:replace="/fragments/footer :: _footer"></nav>
+        <footer th:replace="/fragments/footer :: _footer"></footer>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
