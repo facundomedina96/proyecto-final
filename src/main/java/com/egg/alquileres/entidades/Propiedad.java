@@ -34,7 +34,7 @@ public class Propiedad implements Serializable {
 
     @OneToOne
     private Usuario propietario;
-    
+
     // si solo vamos a guardar dos dias parece inecesario que sea un set de fechas;
     @Temporal(TemporalType.DATE)
     private Date fechaCreacion;
@@ -49,6 +49,9 @@ public class Propiedad implements Serializable {
 
     @OneToMany
     private List<Prestacion> prestaciones;
+
+    @OneToMany
+    private List<Comentario> opiniones;
 
     public Propiedad() {
     }
@@ -147,5 +150,13 @@ public class Propiedad implements Serializable {
 
     public void setPrestaciones(List<Prestacion> prestaciones) {
         this.prestaciones = prestaciones;
+    }
+
+    public List<Comentario> getOpiniones() {
+        return opiniones;
+    }
+
+    public void setOpiniones(List<Comentario> opiniones) {
+        this.opiniones = opiniones;
     }
 }

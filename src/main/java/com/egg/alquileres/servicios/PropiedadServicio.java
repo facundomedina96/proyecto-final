@@ -1,5 +1,6 @@
 package com.egg.alquileres.servicios;
 
+import com.egg.alquileres.entidades.Comentario;
 import com.egg.alquileres.entidades.Imagen;
 import com.egg.alquileres.entidades.Prestacion;
 import com.egg.alquileres.entidades.Propiedad;
@@ -109,6 +110,9 @@ public class PropiedadServicio {
             propiedad.setPrestaciones(agregarPrestacionesAPropiedad(prestaciones, prestacion1, prestacion2, prestacion3));
         }
 
+        // seteo una lista vacia para las futuras opiniones
+        propiedad.setOpiniones(new ArrayList());
+
         propiedadRepositorio.save(propiedad);
         System.out.println("Propiedad persistida");
     }
@@ -154,7 +158,7 @@ public class PropiedadServicio {
     public List<Propiedad> buscarPropiedadPorPropietario(String idPropietario) {
         return propiedadRepositorio.buscarPorPropietario(idPropietario);
     }
-    
+
     public List<Propiedad> buscarPorPropietariosActivos() {
         return propiedadRepositorio.buscarPorPropietariosActivos();
     }
@@ -162,8 +166,8 @@ public class PropiedadServicio {
     public List<Propiedad> buscarPorCiudad(String ciudad) {
         return propiedadRepositorio.buscarPorCiudad(ciudad);
     }
-    
-    public List<Propiedad> buscarPorPropietarioYCiudad(String idPropietario, String ciudad){
+
+    public List<Propiedad> buscarPorPropietarioYCiudad(String idPropietario, String ciudad) {
         return propiedadRepositorio.buscarPorPropietarioYCiudad(idPropietario, ciudad);
     }
 
@@ -290,5 +294,12 @@ public class PropiedadServicio {
             }
         }
         throw new IllegalArgumentException("No se encontró la reserva con id " + idReserva);
+    }
+
+    // Metodo para agregar un comentario a la propiedad
+    public void agregarComentario(Propiedad propiedad, Comentario comentario) {
+        List<Comentario> opiniones = propiedad.getOpiniones();
+        opiniones.add(comentario);
+        propiedadRepositorio.save(propiedad);
     }
 }

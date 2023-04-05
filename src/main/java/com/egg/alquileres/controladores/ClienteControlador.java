@@ -1,14 +1,18 @@
 package com.egg.alquileres.controladores;
 
+import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.entidades.Reserva;
 import com.egg.alquileres.excepciones.MiException;
+import com.egg.alquileres.servicios.PropiedadServicio;
 import com.egg.alquileres.servicios.UsuarioServicio;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -29,9 +34,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ClienteControlador {
 
     private final UsuarioServicio usuarioServicio;
+    private final PropiedadServicio propiedadServicio;
 
-    public ClienteControlador(UsuarioServicio usuarioServicio) {
+    public ClienteControlador(UsuarioServicio usuarioServicio, PropiedadServicio propiedadServicio) {
         this.usuarioServicio = usuarioServicio;
+        this.propiedadServicio = propiedadServicio;
     }
 
     @PostMapping("/crearReserva/{propiedad_id}")
@@ -118,4 +125,35 @@ public class ClienteControlador {
         return "panel.html";
     }
 
+    // COMENTARIOS DEL CLIENTE
+    @GetMapping("/comentario/{id}")
+    public String comentario(@PathVariable String id, ModelMap model) {
+
+        Propiedad propiedad = propiedadServicio.getOne(id);
+        model.put("propiedad", propiedad);
+        return "comentario.html";
+    }
+
+    @PostMapping("/comentario/{id}")
+    public String comentario(@PathVariable String id, ModelMap model, @RequestParam int calificacion, @RequestParam String opinion, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+      
+        try {
+            
+            Propiedad propiedad = propiedadServicio.buscarPropiedadPorId(id);
+            
+            System.out.println("Busqueda de la propiedad");
+            usuarioServicio.crearComentario(propiedad, calificacion, opinion);
+
+            model.put("exito", "Se agrego exitosamente su comentario");
+            model.put("usuario", usuario);
+
+        } catch (MiException ex) {
+            model.put("error", ex.getMessage());
+            model.put("usuario", usuario);
+
+        }
+        return "panel.html";
+    }
 }

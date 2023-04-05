@@ -16,10 +16,6 @@ import org.hibernate.annotations.GenericGenerator;
  * @author agofa
  */
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class Comentario implements Serializable {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -28,4 +24,31 @@ public class Comentario implements Serializable {
    
     private String opinion;
     private int calificacion;
+
+    public Comentario() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getOpinion() {
+        return opinion;
+    }
+
+    public void setOpinion(String opinion) {
+        this.opinion = opinion;
+    }
+
+    public int getCalificacion() {
+        return calificacion;
+    }
+
+    public void setCalificacion(int calificacion) {
+        this.calificacion = calificacion;
+    }
 }

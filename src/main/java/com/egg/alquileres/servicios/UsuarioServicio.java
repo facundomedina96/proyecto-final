@@ -1,5 +1,6 @@
 package com.egg.alquileres.servicios;
 
+import com.egg.alquileres.entidades.Comentario;
 import com.egg.alquileres.entidades.Imagen;
 import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Reserva;
@@ -11,7 +12,6 @@ import com.egg.alquileres.repositorios.UsuarioRepositorio;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpSession;
@@ -36,13 +36,17 @@ public class UsuarioServicio implements UserDetailsService {
     private final ReservaRepositorio reservaRepositorio;
     private final PropiedadServicio propiedadServicio;
     private final ReservaServicio reservaServicio;
+    private final ComentarioServicio comentarioServicio;
 
-    public UsuarioServicio(UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio, ReservaRepositorio reservaRepositorio, PropiedadServicio propiedadServicio, ReservaServicio reservaServicio) {
+    public UsuarioServicio(UsuarioRepositorio usuarioRepositorio, ImagenServicio imagenServicio,
+            ReservaRepositorio reservaRepositorio, PropiedadServicio propiedadServicio,
+            ReservaServicio reservaServicio, ComentarioServicio comentarioServicio) {
         this.usuarioRepositorio = usuarioRepositorio;
         this.imagenServicio = imagenServicio;
         this.reservaRepositorio = reservaRepositorio;
         this.propiedadServicio = propiedadServicio;
         this.reservaServicio = reservaServicio;
+        this.comentarioServicio = comentarioServicio;
     }
 
     public void validar(String nombre, String apellido, String email, String password, String password2,
@@ -229,12 +233,12 @@ public class UsuarioServicio implements UserDetailsService {
         if (respuesta.isPresent()) {
             // si la respuesta esta presente buscar la reserva en la propiedad y eliminarla
             Reserva reserva = respuesta.get();
-            
+
             Propiedad propiedad = reserva.getPropiedad();
-            
+
             propiedadServicio.eliminarReserva(propiedad, id);
             reservaServicio.eliminarReserva(id);
-            
+
         } else {
             throw new MiException("No existe una reserva con ese ID");
         }
@@ -252,13 +256,25 @@ public class UsuarioServicio implements UserDetailsService {
     public List<Usuario> buscarPropietarios() {
         return usuarioRepositorio.buscarPropietarios(Rol.PROPIETARIO);
     }
-    
+
     public List<Usuario> buscarPropietariosActivos() {
         return usuarioRepositorio.buscarPropietariosActivos(Rol.PROPIETARIO);
     }
-    
+
     //Metodo para que listar las reservas de un Cliente
     public List<Reserva> listarReservasDeUnUsuario(String idUsuario) throws MiException {
         return reservaServicio.listarReservasDeUnUsuario(idUsuario);
+    }
+
+    //Metodo para crear un comentario.
+    public void crearComentario(Propiedad propiedad, int calificacion, String opinion) {
+        // el metodo crear comentario retorna una instancia.
+        Comentario comentario = comentarioServicio.crearComentario(opinion, calificacion);
+
+        // para mi la propiedad deberia tener la lista de comentarios asi una vez creado el comentario
+        // añadimos ese comentario a la propiedad. con propiedad.setOpiniones(comentario)
+        // despues podemos en la vista recorrer la lista de comentarios y mostrarla. 
+        propiedadServicio.agregarComentario(propiedad, comentario);
+
     }
 }

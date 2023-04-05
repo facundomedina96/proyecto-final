@@ -37,9 +37,6 @@ public class Reserva implements Serializable {
     @OneToOne
     private Propiedad propiedad;
 
-    @OneToMany
-    private List<Comentario> opinion;
-
     private EstadoReserva estado;
 
     public EstadoReserva getEstado() {
@@ -48,14 +45,6 @@ public class Reserva implements Serializable {
 
     public void setEstado(EstadoReserva estado) {
         this.estado = estado;
-    }
-    
-    public List<Comentario> getOpinion() {
-        return opinion;
-    }
-
-    public void setOpinion(List<Comentario> opinion) {
-        this.opinion = opinion;
     }
 
     public Reserva() {

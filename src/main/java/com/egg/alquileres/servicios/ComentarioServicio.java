@@ -24,8 +24,7 @@ public class ComentarioServicio {
         Comentario comentario = new Comentario();
         comentario.setOpinion(opinion);
         comentario.setCalificacion(calificacion);
-        
-        comentarioRepositorio.save(opinion);
+        comentarioRepositorio.save(comentario);
         return comentario;
     }
     
