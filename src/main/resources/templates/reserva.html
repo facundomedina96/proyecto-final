@@ -60,18 +60,23 @@
     <hr>
     <div class="row">
       <div class="col">
-        <div th:each="reserva : ${propiedad.reservasActivas}">
-          <div th:each="opinion : ${reserva.opinion}">
-            <!-- Horizontal under breakpoint -->
 
-            <ul class="list-group list-group-horizontal">
-              <li class="list-group-item">Item</li>
-              <li class="list-group-item">Item</li>
-              <li class="list-group-item">Item</li>
+        <div th:each="reserva : ${reservas}">
+          <div th:each="comentario : ${reserva.opinion}">
+
+            <ul class="list-group list-group">
+              <li class="list-group-item" th:text="'Calificacion: ' + ${comentario.calificacion}"></li>
+              <li class="list-group-item" th:text="${comentario.opinion}"></li>
+              <li class="list-group-item text-center">
+                <div th:each="imagen : ${comentario.imagen}">
+                  <img class="w-25 img-thumbnail" th:src="@{/imagen/__${imagen.id}__}">
+                </div>
+              </li>
+              <!-- imagen -->
             </ul>
+
           </div>
         </div>
-
       </div>
     </div>
 
