@@ -154,7 +154,7 @@ public class PropiedadServicio {
     public List<Propiedad> buscarPropiedadPorPropietario(String idPropietario) {
         return propiedadRepositorio.buscarPorPropietario(idPropietario);
     }
-    
+
     public List<Propiedad> buscarPorPropietariosActivos() {
         return propiedadRepositorio.buscarPorPropietariosActivos();
     }
@@ -162,9 +162,25 @@ public class PropiedadServicio {
     public List<Propiedad> buscarPorCiudad(String ciudad) {
         return propiedadRepositorio.buscarPorCiudad(ciudad);
     }
-    
-    public List<Propiedad> buscarPorPropietarioYCiudad(String idPropietario, String ciudad){
+
+    public List<Propiedad> buscarPorPropietarioYCiudad(String idPropietario, String ciudad) {
         return propiedadRepositorio.buscarPorPropietarioYCiudad(idPropietario, ciudad);
+    }
+
+    public List<Propiedad> buscarPorPrecioMax(Double precioMax) {
+        return propiedadRepositorio.buscarPorPrecioMax(precioMax);
+    }
+
+    public List<Propiedad> buscarPorPropietarioCiudadPrecio(String idPropietario, String ciudad, Double precio) {
+        return propiedadRepositorio.buscarPorPropietarioCiudadPrecio(idPropietario, ciudad, precio);
+    }
+
+    public List<Propiedad> buscarPorPropietarioYPrecio(String idPropietario, Double precio) {
+        return propiedadRepositorio.buscarPorPropietarioYPrecio(idPropietario, precio);
+    }
+
+    public List<Propiedad> buscarPorCiudadYPrecio(String ciudad, Double precio) {
+        return propiedadRepositorio.buscarPorCiudadYPrecio(ciudad, precio);
     }
 
     public List<Propiedad> listarPropiedades() {
@@ -233,7 +249,7 @@ public class PropiedadServicio {
             for (Imagen img : propiedad.getFotos()) {
                 imagenServicio.eliminarImagen(img.getId());
             }
-            
+
             usuarioRepositorio.save(propietario);
             propiedadRepositorio.deleteById(propiedad.getId());
 

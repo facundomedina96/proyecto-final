@@ -42,6 +42,13 @@
                             </select>
                         </div>
 
+                        <div class="form-group d-inline-block">
+                            <label for="precio">Precio máximo:</label>
+                            <input type="range" id="precio" name="precio" min="0" max="100000" step="10000"
+                                oninput="outputPrecio.value = precio.value" value="0">
+                            <span>$</span><output id="outputPrecio" for="precio">n/a</output>
+                        </div>
+
                         <button type="submit" class="btn btn-primary" title="aplicar"> Aplicar </button>
                         <button type="button" class="btn btn-primary" title="quitar filtros"
                             onclick="window.location.href='/'"> Quitar
