@@ -78,18 +78,28 @@ public class PortalControlador {
     }
 
     @GetMapping("/busqueda-filtrada")
-    public String buscar(String idPropietario, ModelMap modelo, String ciudad) {
+    public String buscar(String idPropietario, String ciudad, Double precio, ModelMap modelo) {
         //inyectar nuevamente lista de propietarios
         List<Usuario> propietarios = usuarioServicio.buscarPropietarios();
-            modelo.put("propietarios", propietarios);
+        modelo.put("propietarios", propietarios);
         //buscar resultados segun filtros seleccionados    
         List<Propiedad> resultados = new ArrayList<>();
-        if (!"n".equals(idPropietario) && !"n".equals(ciudad)) {
+        if (!"n".equals(idPropietario) && !"n".equals(ciudad) && precio != 0) {
+            resultados = propiedadServicio.buscarPorPropietarioCiudadPrecio(idPropietario, ciudad, precio);
+        } else if (!"n".equals(idPropietario) && !"n".equals(ciudad) && precio == 0) {
             resultados = propiedadServicio.buscarPorPropietarioYCiudad(idPropietario, ciudad);
-        } else if (!"n".equals(idPropietario)) {
+        } else if (!"n".equals(idPropietario) && ciudad.equals("n") && precio != 0) {
+            resultados = propiedadServicio.buscarPorPropietarioYPrecio(idPropietario, precio);
+        } else if (!"n".equals(idPropietario) && ciudad.equals("n") && precio == 0) {
             resultados = propiedadServicio.buscarPropiedadPorPropietario(idPropietario);
+        } else if (idPropietario.equals("n") && !"n".equals(ciudad) && precio != 0) {
+            resultados = propiedadServicio.buscarPorCiudadYPrecio(ciudad, precio);
         } else if (!"n".equals(ciudad)) {
             resultados = propiedadServicio.buscarPorCiudad(ciudad);
+        } else if (precio != 0) {
+            resultados = propiedadServicio.buscarPorPrecioMax(precio);
+        } else {
+            return "redirect:/";
         }
         modelo.put("propiedades", resultados);
         return "inicio.html";

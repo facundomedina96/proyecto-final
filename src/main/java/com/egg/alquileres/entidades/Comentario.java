@@ -28,6 +28,7 @@ public class Comentario implements Serializable {
    
     private String opinion;
     private int calificacion;
+    
     @OneToOne
     private Imagen imagen;
 }
