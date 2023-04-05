@@ -50,9 +50,6 @@
                     </td>
 
                     <td sec:authorize="hasRole('ADMIN')">
-                        <a class="btn btn-warning text-black"
-                            th:href="@{/propiedad/modificar/__${propiedad.id}__}">Modificar</a>
-
                         <!--podemos quitar la autorizacion solo para que el admin pueda eliminar propiedades-->
                         <a class="btn btn-danger text-black"
                             th:href="@{/propiedad/eliminar/__${propiedad.id}__}">Eliminar</a>

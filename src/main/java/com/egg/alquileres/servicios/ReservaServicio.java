@@ -213,6 +213,8 @@ public class ReservaServicio {
     public void agregarComentarioAReserva(String idReserva, Comentario comenatrio) throws MiException {
         Reserva reserva = reservaRepositorio.findById(idReserva).get();
         reserva.getOpinion().add(comenatrio);
+        reserva.setEstado(EstadoReserva.CANCELADA);
+
         reservaRepositorio.save(reserva);
     }
 }

@@ -27,7 +27,7 @@ public class ReservaControlador {
     PropiedadServicio propiedadServicio;
     @Autowired
     ReservaServicio reservaServicio;
-    @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/reserva/{propiedad_id}")
     public String mostrar_reserva_propiedad(@PathVariable String propiedad_id, ModelMap model) throws MiException {
         Propiedad propiedad = propiedadServicio.getOne(propiedad_id);

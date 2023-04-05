@@ -113,8 +113,7 @@ public class PropiedadControlador {
         try {
             Comentario comentario = comentarioServicio.crearComentario(opinion, calificacion, imagen);
             reservaServicio.agregarComentarioAReserva(id, comentario);
-
-            return "redirect:/propiedad/listar";
+            return "redirect:/";
 
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());

@@ -25,7 +25,7 @@
                         <th scope="col">Precio Total</th>
                         <th scope="col">Nombre de la Propiedad</th>
                         <th scope="col">Estado de la Reserva</th>
-                        <th colspan="2">Acciones</th>
+                        <th scope="col" colspan="2">Acciones</th>
                     </tr>
                 </thead>
                 <tbody th:each="reserva : ${reservas}">
@@ -196,7 +196,7 @@
                         </td>
 
                         <!--BOTON ELIMINAR O AGREGAR EXPERIENCIA DEPENDIENDO DEL ESTADO DE LA RESERVA-->
-                        <td sec:authorize="hasRole('CLIENTE')">
+                        <td sec:authorize="hasAnyRole('CLIENTE', 'ADMIN')">
                             <a class="btn btn-danger text-black"
                                 th:if="${reserva.estado == T(com.egg.alquileres.enumeraciones.EstadoReserva).ACTIVA}"
                                 th:href="@{/cliente/eliminarReserva/__${reserva.id}__}">Cancelar
@@ -209,6 +209,13 @@
                     </tr>
                 </tbody>
             </table>
+            <section class="py-3 text-center container">
+                <div class="row py-lg-5">
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                        <a th:href="@{/dashboard}" class="btn btn-primary">Volver</a>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
 
