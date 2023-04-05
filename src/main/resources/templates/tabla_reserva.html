@@ -202,7 +202,7 @@
                                 th:href="@{/cliente/eliminarReserva/__${reserva.id}__}">Cancelar
                             </a>
                             <a th:if="${reserva.estado == T(com.egg.alquileres.enumeraciones.EstadoReserva).COMPLETADA}"
-                                class="btn btn-success" href="#">
+                                class="btn btn-success" th:href="@{/propiedad/detalle/__${reserva.id}__}">
                                 Agregar Experiencia
                             </a>
                         </td>

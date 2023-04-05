@@ -8,77 +8,78 @@
 
   <main class="container bg-light bg-opacity-50 mt-2 pb-3">
 
-    <div class="row " id="padre">
-      <div class="col bg-light bg-opacity-75 rounded  m-4 border border-3 border-success-subtle" id="divcar">
+    <div class="row" id="padre">
+      <div class="col bg-light bg-opacity-75 rounded m-4 border border-3 border-success-subtle" id="divcar">
 
         <h3 class="row justify-content-center fw-bold fs-2 border-bottom mx-3 mt-2" th:text="${propiedad.nombre}"></h3>
-        <div class="row justify-content-center border-1 me-2">
+        <div class="row justify-content-center border-1 pb-4 me-2">
           <div th:replace="/fragments/carousel_generico :: _carousel_unico"></div>
         </div>
 
-        <p>
-          Combinando lo rústico con lo sofisticado, este quincho es el ambiente
-          ideal para festejar cualquier tipo de eventos. Además de ser acogedor,
-          ofrece una impresionante vista a las montañas, perfecto para disfrutar
-          con amigos o la familia.
-        </p>
       </div>
 
-      <div class="col" id="article">
-        <article class="location_info">
-          <div>
-            <h3>¿Que ofrece este lugar?</h3>
-            <ul>
-              <li type="circle">Wifi</li>
-              <li type="circle">Cocina</li>
-              <li type="circle">Estacionamiento gratis en la propiedad</li>
-              <li type="circle">Aire acondicionado</li>
-              <li type="circle">Se permiten mascotas</li>
-              <li type="circle">Tv HD</li>
-            </ul>
-          </div>
-        </article>
-      </div>
+      <div class="col align-self-center">
+        <section class="formReserva">
+          <form id="formulario" th:action="@{/cliente/crearReserva/__${propiedad.id}__}" method="POST">
+            <!--id propiedad oculto -->
+            <input th:id="__${propiedad.id}__" id="propiedad_id" name="propiedad_id" type="hidden">
 
+            <h3>Hace tu reserva!</h3>
+            <label for="fechaDesde">Fecha desde:</label>
+            <div class="col-sm-10 mb-3">
+              <input type="date" id="fechaInicio" name="fechaInicio">
+            </div>
+            <label for="fechaHasta">Fecha hasta:</label>
+            <div class="col-sm-10 mb-3">
+              <input type="date" id="fechaFin" name="fechaFin">
+            </div>
+            <p>Servicios a contratar</p>
+            <div th:text="'Precio Base $' + ${propiedad.precio_base}" class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked disabled>
+              <label class="form-check-label" for="flexCheckDefault">
+              </label>
+            </div>
+
+            <div th:each="prestacion : ${propiedad.prestaciones}">
+              <div class="form-check">
+                <input type="checkbox" th:name="${prestacion.nombre}" id="${prestacion.nombre}" value="true"
+                  onclick="capturarCheckbox(this)" checked>
+                <label class="form-check-label" th:text="${prestacion.nombre} + ' - $' + ${prestacion.precio}"
+                  for="${prestacion.nombre}"></label>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+          </form>
+        </section>
+      </div>
     </div>
 
     <hr>
+    <div class="row">
+      <div class="col">
 
-    <section class="formReserva">
-      <form id="formulario" th:action="@{/cliente/crearReserva/__${propiedad.id}__}" method="POST">
-        <!--id propiedad oculto -->
-        <input th:id="__${propiedad.id}__" id="propiedad_id" name="propiedad_id" type="hidden">
+        <div th:each="reserva : ${reservas}">
+          <div th:each="comentario : ${reserva.opinion}">
 
-        <h3>Hace tu reserva!</h3>
-        <label for="fechaDesde">Fecha desde:</label>
-        <div class="col-sm-10 mb-3">
-          <input type="date" id="fechaInicio" name="fechaInicio">
-        </div>
-        <label for="fechaHasta">Fecha hasta:</label>
-        <div class="col-sm-10 mb-3">
-          <input type="date" id="fechaFin" name="fechaFin">
-        </div>
-        <p>Servicios a contratar</p>
-        <div th:text="'Precio Base $' + ${propiedad.precio_base}" class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked disabled>
-          <label class="form-check-label" for="flexCheckDefault">
-          </label>
-        </div>
+            <ul class="list-group list-group">
+              <li class="list-group-item" th:text="'Calificacion: ' + ${comentario.calificacion}"></li>
+              <li class="list-group-item" th:text="${comentario.opinion}"></li>
+              <li class="list-group-item text-center">
+                <div th:each="imagen : ${comentario.imagen}">
+                  <img class="w-25 img-thumbnail" th:src="@{/imagen/__${imagen.id}__}">
+                </div>
+              </li>
+              <!-- imagen -->
+            </ul>
 
-        <div th:each="prestacion : ${propiedad.prestaciones}">
-          <div class="form-check">
-            <input type="checkbox" th:name="${prestacion.nombre}" id="${prestacion.nombre}" value="true"
-              onclick="capturarCheckbox(this)" checked>
-            <label class="form-check-label" th:text="${prestacion.nombre} + ' - $' + ${prestacion.precio}"
-              for="${prestacion.nombre}"></label>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="col-12">
-          <button type="submit" class="btn btn-primary">Enviar</button>
-        </div>
-      </form>
-    </section>
 
     <footer th:replace="/fragments/footer :: _footer"></footer>
 
