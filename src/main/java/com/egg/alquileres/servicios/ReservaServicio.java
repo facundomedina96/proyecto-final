@@ -214,6 +214,7 @@ public class ReservaServicio {
         Reserva reserva = reservaRepositorio.findById(idReserva).get();
         reserva.getOpinion().add(comenatrio);
         reserva.setEstado(EstadoReserva.CANCELADA);
+
         reservaRepositorio.save(reserva);
     }
 }

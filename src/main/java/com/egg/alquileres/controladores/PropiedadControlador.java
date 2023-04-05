@@ -114,6 +114,7 @@ public class PropiedadControlador {
             Comentario comentario = comentarioServicio.crearComentario(opinion, calificacion, imagen);
             reservaServicio.agregarComentarioAReserva(id, comentario);
             return "redirect:/";
+
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
             return "propiedades_crud.html";
