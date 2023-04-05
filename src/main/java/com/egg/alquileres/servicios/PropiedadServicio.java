@@ -77,7 +77,7 @@ public class PropiedadServicio {
         // Obtener ultimo dia del año;
         LocalDate ultimoDiaDelAnio = LocalDate.of(LocalDate.now().getYear(), 12, 31);
         Date fechaFinAnio = Date.from(ultimoDiaDelAnio.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
+        
         // Retornar una nueva instancia de Casa con los parámetros proporcionados y las
         // fechas disponible
         Propiedad propiedad = new Propiedad();

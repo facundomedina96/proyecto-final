@@ -72,9 +72,8 @@ public class PropiedadControlador {
 
             propiedadServicio.modificarPropiedad(id, nombre, direccion, ciudad, precio, fotos);
             modelo.put("exito", "Se ha modificado la propiedad con exito");
-
+            
             return "redirect:/propiedad/listar";
-
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
             return "propiedades_crud.html";
