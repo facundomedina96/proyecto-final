@@ -16,7 +16,7 @@
             <h1 class="fs-1 fw-bold">Reservas de tus Propiedades</h1>
         </div>
 
-        <table class="table table-bordered border-2 border-success table-secondary-subtle table-hover  text-center">
+        <table class="table table-bordered border-2 border-success table-secondary table-hover  text-center">
             <thead class="table-secondary border-success text-center fw-bold">
                 <tr>
                     <th>ID</th>
@@ -43,7 +43,7 @@
 
                     <td>
                         <a th:if="${reserva.estado == T(com.egg.alquileres.enumeraciones.EstadoReserva).ACTIVA}"
-                            class="btn btn-warning text-black" href="#">Cancelar</a>
+                            class="btn btn-warning text-black" th:href="@{/cliente/eliminarReserva/__${reserva.id}__}">Cancelar</a>
                     </td>
                 </tr>
             </tbody>

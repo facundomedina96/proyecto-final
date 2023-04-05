@@ -51,7 +51,8 @@ body {
 }
 
 #carousel_propiedad {
-  min-width: 250px;
+  min-width: 400px;
+  min-height: 350px;
   width: 70%;
 }
 #divcar{

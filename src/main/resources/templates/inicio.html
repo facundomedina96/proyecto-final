@@ -22,7 +22,7 @@
         <div class="album">
 
             <div class="container p-5 bg-light bg-opacity-50 contenedor">
-                <p>Filtrar por: </p>
+                <p>Filtros: </p>
                 <div>
                     <form class="form-inline" action="/busqueda-filtrada" method="get">
                         <div class="form-group d-inline-block">
@@ -38,6 +38,8 @@
                                 <option value="n">Seleccionar Ciudad</option>
                                 <option value="corrientes">Corrientes </option>
                                 <option value="misiones">Misiones </option>
+                                <option value="nono">Nono </option>
+                                <option value="malagueño">Malagueño </option>
                                 <!-- Agregar ciudades si corresponde -->
                             </select>
                         </div>
@@ -164,10 +166,16 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <div class="modal-footer">
+                                            <div sec:authorize="hasRole('CLIENTE')" class="modal-footer">
                                                 <a type="button" class="btn btn-primary"
                                                     th:href="@{/reserva/__${propiedad.id}__}">Reservar</a>
                                             </div>
+
+                                            <div sec:authorize="hasRole('PROPIETARIO')" class="modal-footer">
+                                                <a type="button" class="btn btn-primary"
+                                                    th:href="@{/reserva/__${propiedad.id}__}">Comentarios</a>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>

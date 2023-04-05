@@ -12,49 +12,50 @@
       <div class="col bg-light bg-opacity-75 rounded m-4 border border-3 border-success-subtle" id="divcar">
 
         <h3 class="row justify-content-center fw-bold fs-2 border-bottom mx-3 mt-2" th:text="${propiedad.nombre}"></h3>
+
         <div class="row justify-content-center border-1 pb-4 me-2">
           <div th:replace="/fragments/carousel_generico :: _carousel_unico"></div>
         </div>
-        <div class="col align-self-center">
-          <section class="formReserva">
-            <form id="formulario" th:action="@{/cliente/crearReserva/__${propiedad.id}__}" method="POST">
-              <!--id propiedad oculto -->
-              <input th:id="__${propiedad.id}__" id="propiedad_id" name="propiedad_id" type="hidden">
+      </div>
+      <div sec:authorize="hasRole('CLIENTE')" class="col mt-2 align-self-center">
+        <section class="formReserva">
+          <form id="formulario" th:action="@{/cliente/crearReserva/__${propiedad.id}__}" method="POST">
+            <!--id propiedad oculto -->
+            <input th:id="__${propiedad.id}__" id="propiedad_id" name="propiedad_id" type="hidden">
 
-              <h3>Hace tu reserva!</h3>
-              <label for="fechaDesde">Fecha desde:</label>
-              <div class="col-sm-10 mb-3">
-                <input type="date" id="fechaInicio" name="fechaInicio">
-              </div>
-              <label for="fechaHasta">Fecha hasta:</label>
-              <div class="col-sm-10 mb-3">
-                <input type="date" id="fechaFin" name="fechaFin">
-              </div>
-              <p>Servicios a contratar</p>
-              <div th:text="'Precio Base $' + ${propiedad.precio_base}" class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked disabled>
-                <label class="form-check-label" for="flexCheckDefault">
-                </label>
-              </div>
+            <h3>Hace tu reserva!</h3>
+            <label for="fechaDesde">Fecha desde:</label>
+            <div class="col-sm-10 mb-3">
+              <input type="date" id="fechaInicio" name="fechaInicio">
+            </div>
+            <label for="fechaHasta">Fecha hasta:</label>
+            <div class="col-sm-10 mb-3">
+              <input type="date" id="fechaFin" name="fechaFin">
+            </div>
+            <p>Servicios a contratar</p>
+            <div th:text="'Precio Base $' + ${propiedad.precio_base}" class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked disabled>
+              <label class="form-check-label" for="flexCheckDefault">
+              </label>
+            </div>
 
-              <div th:each="prestacion : ${propiedad.prestaciones}">
-                <div class="form-check">
-                  <input type="checkbox" th:name="${prestacion.nombre}" id="${prestacion.nombre}" value="true"
-                    onclick="capturarCheckbox(this)" checked>
-                  <label class="form-check-label" th:text="${prestacion.nombre} + ' - $' + ${prestacion.precio}"
-                    for="${prestacion.nombre}"></label>
-                </div>
+            <div th:each="prestacion : ${propiedad.prestaciones}">
+              <div class="form-check">
+                <input type="checkbox" th:name="${prestacion.nombre}" id="${prestacion.nombre}" value="true"
+                  onclick="capturarCheckbox(this)" checked>
+                <label class="form-check-label" th:text="${prestacion.nombre} + ' - $' + ${prestacion.precio}"
+                  for="${prestacion.nombre}"></label>
               </div>
+            </div>
 
-              <div class="col-12">
-                <button type="submit" class="btn btn-primary">Enviar</button>
-              </div>
-            </form>
-          </section>
-        </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+          </form>
+        </section>
       </div>
 
-      <div class="row">
+      <div class="row mt-2">
         <div class="col">
 
           <div th:each="reserva : ${reservas}">
@@ -65,7 +66,7 @@
                 <li class="list-group-item" th:text="${comentario.opinion}"></li>
                 <li class="list-group-item text-center">
                   <div th:each="imagen : ${comentario.imagen}">
-                    <img class="w-25 img-thumbnail" th:src="@{/imagen/__${imagen.id}__}">
+                    <img class="w-100 img-thumbnail" style="max-width: 800px; min-width: 300px;" th:src="@{/imagen/__${imagen.id}__}">
                   </div>
                 </li>
                 <!-- imagen -->
