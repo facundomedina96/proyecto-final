@@ -1,0 +1,60 @@
+body {
+
+  background: rgb(238, 174, 202);
+  background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  min-height: 100vmin;
+  display: flex;
+  flex-direction: column;
+}
+
+.titulo {
+  color: #010003;
+  font-weight: normal;
+  font-size: 40px;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 40px;
+}
+
+.titulo h1 {
+  display: inline-block;
+}
+
+.album {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+footer p {
+  margin:auto;
+}
+
+.thumbnail {
+  width: 150px;
+  height: auto;
+}
+
+.carousel-item img {
+  height: 400px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.modal-body .carousel-item img {
+  height: 400px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.contenedor {
+  min-height: 25rem;
+}
+
+.checkboxInput{
+  min-width: 3.8rem;
+}

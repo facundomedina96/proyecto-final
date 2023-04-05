@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -36,13 +35,20 @@ public class Propiedad implements Serializable {
     @OneToOne
     private Usuario propietario;
     
-    // ¿Hace falta?
-    @ElementCollection
-    @Temporal(TemporalType.DATE) // Agregar la anotación @Temporal(TemporalType.DATE)
-    private Set<Date> fechasDisponibles; // Cambiar la lista a un conjunto Set
+    // si solo vamos a guardar dos dias parece inecesario que sea un set de fechas;
+    @Temporal(TemporalType.DATE)
+    private Date fechaCreacion;
+    @Temporal(TemporalType.DATE)
+    private Date fechaFinAnio;
 
     @OneToMany
     private List<Reserva> reservasActivas;
+
+    @OneToMany
+    private Set<Imagen> fotos;
+
+    @OneToMany
+    private List<Prestacion> prestaciones;
 
     public Propiedad() {
     }
@@ -103,12 +109,20 @@ public class Propiedad implements Serializable {
         this.propietario = propietario;
     }
 
-    public Set<Date> getFechasDisponibles() {
-        return fechasDisponibles;
+    public Date getFechaCreacion() {
+        return fechaCreacion;
     }
 
-    public void setFechasDisponibles(Set<Date> fechasDisponibles) {
-        this.fechasDisponibles = fechasDisponibles;
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public Date getFechaFinAnio() {
+        return fechaFinAnio;
+    }
+
+    public void setFechaFinAnio(Date fechaFinAnio) {
+        this.fechaFinAnio = fechaFinAnio;
     }
 
     public List<Reserva> getReservasActivas() {
@@ -119,4 +133,19 @@ public class Propiedad implements Serializable {
         this.reservasActivas = reservasActivas;
     }
 
+    public Set<Imagen> getFotos() {
+        return fotos;
+    }
+
+    public void setFotos(Set<Imagen> fotos) {
+        this.fotos = fotos;
+    }
+
+    public List<Prestacion> getPrestaciones() {
+        return prestaciones;
+    }
+
+    public void setPrestaciones(List<Prestacion> prestaciones) {
+        this.prestaciones = prestaciones;
+    }
 }

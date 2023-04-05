@@ -1,0 +1,76 @@
+body {
+
+  background: rgb(238, 174, 202);
+  background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+
+    min-height: 100vmin;
+    display: flex;
+    flex-direction: column;
+}
+
+#padre{
+  display: flex; 
+}
+
+.location_info {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.formReserva{
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  color: purple;
+}
+
+.formReserva p{
+  font-weight: bold;
+  text-decoration:underline;
+}
+
+#formulario{
+  border: purple solid 1px;
+  padding:70px;
+  border-radius: 30px;
+  height: auto;
+  text-align: left;
+  background: rgb(241, 226, 245);
+
+}
+.formReserva h3{
+  margin-bottom: 40px;
+}
+.formReserva button{
+  margin-top: 20px;
+}
+
+#carousel_propiedad {
+  min-width: 250px;
+  width: 70%;
+}
+#divcar{
+  width: 775px;
+}
+
+#divcar p {
+  margin-top: 40px;
+  margin-left: 30px;
+  margin-right: 20px;
+  text-align: left;
+}
+
+#article{
+  display: flex;
+  justify-content:left;
+}
+.location_info{
+  margin-top: 40px;
+  justify-content:space-evenly;
+}
+

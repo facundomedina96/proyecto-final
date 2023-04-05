@@ -1,6 +1,7 @@
 package com.egg.alquileres.servicios;
 
 import com.egg.alquileres.entidades.Imagen;
+import com.egg.alquileres.excepciones.MiException;
 import com.egg.alquileres.repositorios.ImagenRepositorio;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class ImagenServicio {
 
     private final ImagenRepositorio imagenRepositorio;
 
-    public ImagenServicio(ImagenRepositorio imagenRepositorio) {
+    public ImagenServicio(ImagenRepositorio imagenRepositorio) throws MiException {
         this.imagenRepositorio = imagenRepositorio;
     }
 
@@ -30,7 +31,8 @@ public class ImagenServicio {
                 imagen.setFormato(archivo.getContentType());
                 imagen.setNombre(archivo.getName());
 
-                return imagenRepositorio.save(imagen);
+                imagenRepositorio.save(imagen);
+                return imagen;
 
             } catch (IOException e) {
 
@@ -54,7 +56,7 @@ public class ImagenServicio {
     }
 
     @Transactional
-    public Imagen actualizarImagen(MultipartFile archivo, String idImagen) {
+    public Imagen actualizarImagen(MultipartFile archivo, String idImagen) throws MiException {
         if (archivo != null) {
             try {
 

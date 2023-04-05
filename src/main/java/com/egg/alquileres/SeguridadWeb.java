@@ -23,10 +23,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SeguridadWeb extends WebSecurityConfigurerAdapter {
-    
-    @Autowired
+
     public UsuarioServicio usuarioServicio;
 
+    public SeguridadWeb(UsuarioServicio usuarioServicio) {
+        this.usuarioServicio = usuarioServicio;
+    }
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(usuarioServicio).passwordEncoder(new BCryptPasswordEncoder());
@@ -35,12 +37,12 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.
-                authorizeRequests()
+        http.authorizeRequests()
+                .antMatchers("/admin/*").hasRole("ADMIN")
                 .antMatchers("/css/*", "/js/*", "/img/*", "/**")
                 .permitAll()
                 .and().formLogin()
-                .loginPage("/login")
+                .loginPage("/iniciar-sesion")
                 .loginProcessingUrl("/logincheck")
                 .usernameParameter("email")
                 .passwordParameter("password")
@@ -48,7 +50,7 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and().logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/")
                 .permitAll()
                 .and().csrf()
                 .disable();

@@ -1,4 +1,3 @@
-/* lo primero es descargar de https://fonts.google.com/ las fuentes a utilizar y linkearlos en el head.  Aboreto y Roboto en mi caso*/
 
 * {
     padding: 0;
@@ -160,7 +159,6 @@ a:hover {
         );
 }
 
-/*CARTA MOSTRANDO NOTICIAS*/
 .carta {
     border-radius: 6px;
     overflow: hidden;
