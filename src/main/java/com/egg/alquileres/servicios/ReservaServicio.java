@@ -1,5 +1,6 @@
 package com.egg.alquileres.servicios;
 
+import com.egg.alquileres.entidades.Comentario;
 import com.egg.alquileres.entidades.Prestacion;
 import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Reserva;
@@ -13,7 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ReservaServicio {
@@ -21,11 +22,16 @@ public class ReservaServicio {
     private final ReservaRepositorio reservaRepositorio;
     private final PropiedadServicio propiedadServicio;
     private final PrestacionServicio prestacionServicio;
+    private final ComentarioServicio comentarioServicio;
 
-    public ReservaServicio(ReservaRepositorio reservaRepositorio, PropiedadServicio propiedadServicio, PrestacionServicio prestacionServicio) {
+    public ReservaServicio(ReservaRepositorio reservaRepositorio,
+            PropiedadServicio propiedadServicio,
+            PrestacionServicio prestacionServicio,
+            ComentarioServicio comentarioServicio) {
         this.reservaRepositorio = reservaRepositorio;
         this.propiedadServicio = propiedadServicio;
         this.prestacionServicio = prestacionServicio;
+        this.comentarioServicio = comentarioServicio;
     }
 
     public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String idPropiedad,
@@ -122,14 +128,9 @@ public class ReservaServicio {
     }
 
     private Double calcularPrecioEstadia(Date fechaDesde, Date fechaHasta, Propiedad propiedad) {
-        
-        int diasEstadia = (int) ChronoUnit.DAYS.between(fechaDesde.toInstant(), fechaHasta.toInstant());
-        if (diasEstadia == 0) {
-            return propiedad.getPrecio_base();
-        } else {
-            Double precioCalculado = propiedad.getPrecio_base() * diasEstadia;
-            return precioCalculado;
-        }
+        int diasEstadia = (int) ChronoUnit.DAYS.between(fechaDesde.toInstant(), fechaHasta.toInstant()) + 1;
+        Double precioCalculado = propiedad.getPrecio_base() * diasEstadia;
+        return precioCalculado;
     }
 
     private Double obtenerCostoPrestacion(String nombrePrestacion, List<Prestacion> prestaciones) {
@@ -176,8 +177,8 @@ public class ReservaServicio {
         }
         return reservas;
     }
-    
-    public List<Reserva> listarReservasDeUnaPropiedad(String idPropiedad) throws MiException{
+
+    public List<Reserva> listarReservasDeUnaPropiedad(String idPropiedad) throws MiException {
         List<Reserva> reservas = new ArrayList();
         reservas = reservaRepositorio.listarReservasDeUnaPropiedad(idPropiedad);
 
@@ -197,12 +198,21 @@ public class ReservaServicio {
             reservaRepositorio.save(reserva);
         }
     }
-    
-    public List<Reserva> listarReservas(){
+
+    public List<Reserva> listarReservas() {
         return reservaRepositorio.findAll();
     }
-    
-    public List<Reserva> listarReservasDeUsuariosActivos(){
+    public Reserva getOne(String id) {
+        return reservaRepositorio.findById(id).get();
+    }
+
+    public List<Reserva> listarReservasDeUsuariosActivos() {
         return reservaRepositorio.buscarClientesActivos();
+    }
+
+    public void agregarComentarioAReserva(String idReserva, Comentario comenatrio) throws MiException {
+        Reserva reserva = reservaRepositorio.findById(idReserva).get();
+        reserva.getOpinion().add(comenatrio);
+        reservaRepositorio.save(reserva);
     }
 }
