@@ -1,8 +1,11 @@
 package com.egg.alquileres.controladores;
 
+import com.egg.alquileres.entidades.Propiedad;
 import com.egg.alquileres.entidades.Usuario;
 import com.egg.alquileres.entidades.Reserva;
 import com.egg.alquileres.excepciones.MiException;
+import com.egg.alquileres.servicios.PropiedadServicio;
+import com.egg.alquileres.servicios.ReservaServicio;
 import com.egg.alquileres.servicios.UsuarioServicio;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,16 +27,22 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author Hernan E Encizo
  */
 @Controller
-@PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
 @RequestMapping("/cliente")
 public class ClienteControlador {
 
     private final UsuarioServicio usuarioServicio;
+    private final ReservaServicio reservaServicio;
+    private final PropiedadServicio propiedadServicio;
 
-    public ClienteControlador(UsuarioServicio usuarioServicio) {
+    public ClienteControlador(UsuarioServicio usuarioServicio,
+            ReservaServicio reservaServicio,
+            PropiedadServicio propiedadServicio) {
         this.usuarioServicio = usuarioServicio;
+        this.reservaServicio = reservaServicio;
+        this.propiedadServicio = propiedadServicio;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
     @PostMapping("/crearReserva/{propiedad_id}")
     public String crearReserva(ModelMap modelo, HttpSession session, @RequestParam("fechaInicio") String fechaInicio, @RequestParam("fechaFin") String fechaFin,
             @PathVariable String propiedad_id,
@@ -69,7 +78,8 @@ public class ClienteControlador {
                 Reserva reservas = usuarioServicio.crearReserva(fechaDesde, fechaHasta, cliente, propiedad_id, DJ, CATERING, PILETA);
                 modelo.put("exito", "Se ha creado la reserva con exito");
                 modelo.put("usuario", cliente);
-                modelo.put("reservas", reservas);
+                List<Reserva> reservaLista = reservaServicio.listarReservasDeUnUsuario(cliente.getId());
+                modelo.put("reservas", reservaLista);
                 return "panel.html";
 
             } catch (MiException ex) {
@@ -85,6 +95,8 @@ public class ClienteControlador {
     }
 
     // Metodo para que los clientes puedan listar sus reservas
+    
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_ADMIN')")
     @GetMapping("/listarReservas")
     public String listarReservas(ModelMap model, HttpSession session) {
 
@@ -102,19 +114,24 @@ public class ClienteControlador {
         }
     }
 
-    // Metodo para que el cliente elimine una reserva.
+    
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/eliminarReserva/{id}")
-    public String eliminarReserva(ModelMap modelo, @PathVariable String id, HttpSession session) {
+    public String eliminarReserva(ModelMap modelo, @PathVariable String id, HttpSession session) throws MiException {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
         try {
             usuarioServicio.eliminarReserva(id);
             modelo.put("exito", "Se ha eliminado la reserva con exito");
-
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
+        } finally {
+            List<Reserva> reservas = usuarioServicio.listarReservasDeUnUsuario(usuario.getId());
+            modelo.put("reservas", reservas);
         }
         modelo.put("usuario", usuario);
+        List<Propiedad> propiedades = propiedadServicio.buscarPropiedadPorPropietario(usuario.getId());
+        modelo.put("propiedades", propiedades);
         return "panel.html";
     }
 

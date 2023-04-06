@@ -44,7 +44,7 @@
           </div>
         </li>
 
-        <li sec:authorize="hasAnyRole('PROPIETARIO', 'CLIENTE')" class="nav-item dropdown ">
+        <li sec:authorize="hasAnyRole('CLIENTE')" class="nav-item dropdown ">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             Usuario
@@ -52,6 +52,23 @@
           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="/perfil">Perfil</a>
             <a class="dropdown-item" href="/dashboard">Dashboard</a>
+            <a class="dropdown-item" href="/cliente/listarReservas">Reservas</a>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item"
+              th:href="'/modificarPerfil/' + '__${session.usuarioSession.id}__'">Configuracion</a>
+          </div>
+        </li>
+
+        <li sec:authorize="hasAnyRole('PROPIETARIO')" class="nav-item dropdown ">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Usuario
+          </a>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/perfil">Perfil</a>
+            <a class="dropdown-item" href="/dashboard">Dashboard</a>
+            <a class="dropdown-item" href="/propietario/misPropiedades">Propiedades</a>
             <div class="dropdown-divider"></div>
 
             <a class="dropdown-item"

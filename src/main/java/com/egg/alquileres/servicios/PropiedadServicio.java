@@ -77,7 +77,7 @@ public class PropiedadServicio {
         // Obtener ultimo dia del año;
         LocalDate ultimoDiaDelAnio = LocalDate.of(LocalDate.now().getYear(), 12, 31);
         Date fechaFinAnio = Date.from(ultimoDiaDelAnio.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
+        
         // Retornar una nueva instancia de Casa con los parámetros proporcionados y las
         // fechas disponible
         Propiedad propiedad = new Propiedad();
@@ -154,7 +154,6 @@ public class PropiedadServicio {
     public List<Propiedad> buscarPropiedadPorPropietario(String idPropietario) {
         return propiedadRepositorio.buscarPorPropietario(idPropietario);
     }
-    
     public List<Propiedad> buscarPorPropietariosActivos() {
         return propiedadRepositorio.buscarPorPropietariosActivos();
     }
@@ -162,9 +161,25 @@ public class PropiedadServicio {
     public List<Propiedad> buscarPorCiudad(String ciudad) {
         return propiedadRepositorio.buscarPorCiudad(ciudad);
     }
-    
-    public List<Propiedad> buscarPorPropietarioYCiudad(String idPropietario, String ciudad){
+
+    public List<Propiedad> buscarPorPropietarioYCiudad(String idPropietario, String ciudad) {
         return propiedadRepositorio.buscarPorPropietarioYCiudad(idPropietario, ciudad);
+    }
+
+    public List<Propiedad> buscarPorPrecioMax(Double precioMax) {
+        return propiedadRepositorio.buscarPorPrecioMax(precioMax);
+    }
+
+    public List<Propiedad> buscarPorPropietarioCiudadPrecio(String idPropietario, String ciudad, Double precio) {
+        return propiedadRepositorio.buscarPorPropietarioCiudadPrecio(idPropietario, ciudad, precio);
+    }
+
+    public List<Propiedad> buscarPorPropietarioYPrecio(String idPropietario, Double precio) {
+        return propiedadRepositorio.buscarPorPropietarioYPrecio(idPropietario, precio);
+    }
+
+    public List<Propiedad> buscarPorCiudadYPrecio(String ciudad, Double precio) {
+        return propiedadRepositorio.buscarPorCiudadYPrecio(ciudad, precio);
     }
 
     public List<Propiedad> listarPropiedades() {
@@ -192,7 +207,7 @@ public class PropiedadServicio {
     public void modificarImagenPropiedad(String id, MultipartFile archivo) throws MiException {
 
         if (id == null || id.isEmpty()) {
-            throw new MiException("El ID de la noticia no puede ser nulo ni estar vacio.");
+            throw new MiException("El ID de la entidad no puede ser nula ni estar vacía.");
         }
 
         Optional<Propiedad> respuesta = propiedadRepositorio.findById(id);
@@ -202,7 +217,7 @@ public class PropiedadServicio {
 
             // A desarrollar
         } else {
-            throw new MiException("No se encontro el ID de la noticia solicitado");
+            throw new MiException("No se encontro el ID de la entidad solicitada.");
         }
     }
 
@@ -230,11 +245,15 @@ public class PropiedadServicio {
                 }
             }
 
+            for (Imagen img : propiedad.getFotos()) {
+                imagenServicio.eliminarImagen(img.getId());
+            }
+
             usuarioRepositorio.save(propietario);
             propiedadRepositorio.deleteById(propiedad.getId());
 
         } else {
-            throw new MiException("No existe una Noticia con ese ID");
+            throw new MiException("No existe una Entidad con ese ID");
         }
     }
 

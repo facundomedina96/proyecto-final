@@ -1,178 +1,197 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="/fragments/head :: _head('Inicio', 'inicio.css')">
-</head>
+<head th:replace="/fragments/head :: _head('Inicio', 'inicio.css')"></head>
 
 <body>
 
     <nav th:replace="/fragments/navbar :: _navbar"></nav>
 
-    <div th:replace="fragments/error_exito :: _error_exito"></div>
+    <main>
+        <div class="titulo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-houses"
+                viewBox="0 0 16 16">
+                <path
+                    d="M5.793 1a1 1 0 0 1 1.414 0l.647.646a.5.5 0 1 1-.708.708L6.5 1.707 2 6.207V12.5a.5.5 0 0 0 .5.5.5.5 0 0 1 0 1A1.5 1.5 0 0 1 1 12.5V7.207l-.146.147a.5.5 0 0 1-.708-.708L5.793 1Zm3 1a1 1 0 0 1 1.414 0L12 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l1.854 1.853a.5.5 0 0 1-.708.708L15 8.207V13.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 4 13.5V8.207l-.146.147a.5.5 0 1 1-.708-.708L8.793 2Zm.707.707L5 7.207V13.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V7.207l-4.5-4.5Z" />
+            </svg>
+            <h1>Alquileres de Quinchos para Fiestas</h1>
+        </div>
 
-    <div class="titulo">
-        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-houses"
-            viewBox="0 0 16 16">
-            <path
-                d="M5.793 1a1 1 0 0 1 1.414 0l.647.646a.5.5 0 1 1-.708.708L6.5 1.707 2 6.207V12.5a.5.5 0 0 0 .5.5.5.5 0 0 1 0 1A1.5 1.5 0 0 1 1 12.5V7.207l-.146.147a.5.5 0 0 1-.708-.708L5.793 1Zm3 1a1 1 0 0 1 1.414 0L12 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l1.854 1.853a.5.5 0 0 1-.708.708L15 8.207V13.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 4 13.5V8.207l-.146.147a.5.5 0 1 1-.708-.708L8.793 2Zm.707.707L5 7.207V13.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V7.207l-4.5-4.5Z" />
-        </svg>
-        <h1>Alquileres de Quinchos para Fiestas</h1>
-    </div>
+        <div th:replace="fragments/error_exito :: _error_exito"></div>
 
-    <div class="album">
+        <div class="album">
 
-        <div class="container p-5 bg-light bg-opacity-50 contenedor">
-            <p>Filtrar por: </p>
-            <div>
-                <form class="form-inline" action="/busqueda-filtrada" method="get">
-                    <div class="form-group d-inline-block">
-                        <select class="form-select form-control" title="propietario" name="idPropietario">
-                            <option value="n">Seleccionar Propietario</option>
-                            <option th:each="propietario : ${propietarios}" th:value="${propietario.id}"
-                                th:text="${propietario.nombre}">
-                        </select>
-                    </div>
+            <div class="container p-5 bg-light bg-opacity-50 contenedor">
+                <p>Filtros: </p>
+                <div>
+                    <form class="form-inline" action="/busqueda-filtrada" method="get">
+                        <div class="form-group d-inline-block">
+                            <select class="form-select form-control" title="propietario" name="idPropietario">
+                                <option value="n">Seleccionar Propietario</option>
+                                <option th:each="propietario : ${propietarios}" th:value="${propietario.id}"
+                                    th:text="${propietario.nombre}">
+                            </select>
+                        </div>
 
-                    <div class="form-group d-inline-block">
-                        <select class="form-select form-control" title="ciudad" name="ciudad">
-                            <option value="n">Seleccionar Ciudad</option>
-                            <option value="corrientes">Corrientes </option>
-                            <option value="misiones">Misiones </option>
-                            <!-- Agregar ciudades si corresponde -->
-                        </select>
-                    </div>
+                        <div class="form-group d-inline-block">
+                            <select class="form-select form-control" title="ciudad" name="ciudad">
+                                <option value="n">Seleccionar Ciudad</option>
+                                <option value="corrientes">Corrientes </option>
+                                <option value="misiones">Misiones </option>
+                                <option value="nono">Nono </option>
+                                <option value="malagueño">Malagueño </option>
+                                <!-- Agregar ciudades si corresponde -->
+                            </select>
+                        </div>
 
-                    <button type="submit" class="btn btn-primary" title="aplicar"> Aplicar </button>
-                    <button type="button" class="btn btn-primary" title="quitar filtros"
-                        onclick="window.location.href='/'"> Quitar
-                        filtros </button>
-                </form>
-            </div>
+                        <div class="form-group d-inline-block">
+                            <label for="precio">Precio máximo:</label>
+                            <input type="range" id="precio" name="precio" min="0" max="100000" step="10000"
+                                oninput="outputPrecio.value = precio.value" value="0">
+                            <span>$</span><output id="outputPrecio" for="precio">n/a</output>
+                        </div>
 
-            <br>
+                        <button type="submit" class="btn btn-primary" title="aplicar"> Aplicar </button>
+                        <button type="button" class="btn btn-primary" title="quitar filtros"
+                            onclick="window.location.href='/'"> Quitar
+                            filtros </button>
+                    </form>
+                </div>
 
-            <div class="row">
+                <br>
 
-                <div class="col-md-4 mb-4 d-flex justify-content-center" th:each="propiedad : ${propiedades}">
+                <div class="row">
 
-                    <div class="card shadow" style="width: 18rem">
+                    <div class="col-md-4 mb-4 d-flex justify-content-center" th:each="propiedad : ${propiedades}">
+
+                        <div class="card shadow" style="width: 18rem">
 
 
-                        <div th:id="__${propiedad.id}__" class="carousel slide m-1" data-interval="false">
-                            <div class="carousel-inner">
+                            <div th:id="__${propiedad.id}__" class="carousel slide m-1" data-interval="false">
+                                <div class="carousel-inner">
 
-                                <div th:each="imagen, iterstat: ${propiedad.fotos}"
-                                    th:class="${iterstat.first} ? 'carousel-item active':'carousel-item' ">
-                                    <img class="d-block w-100 rounded p-1" th:src=" @{/imagen/__${imagen.id}__}"
-                                        alt="slide">
+                                    <div th:each="imagen, iterstat: ${propiedad.fotos}"
+                                        th:class="${iterstat.first} ? 'carousel-item active':'carousel-item' ">
+                                        <img class="d-block w-100 rounded p-1" th:src=" @{/imagen/__${imagen.id}__}"
+                                            alt="slide">
+                                    </div>
+
                                 </div>
-
+                                <button class="carousel-control-prev" type="button"
+                                    th:attr="data-bs-target='#__${propiedad.id}__'" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button"
+                                    th:attr="data-bs-target='#__${propiedad.id}__'" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
                             </div>
-                            <button class="carousel-control-prev" type="button"
-                                th:attr="data-bs-target='#__${propiedad.id}__'" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button"
-                                th:attr="data-bs-target='#__${propiedad.id}__'" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
 
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${propiedad.nombre}"></h5>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item" th:text="${propiedad.ciudad}"></li>
-                            <li class="list-group-item" th:text="${propiedad.precio_base}"></li>
-                            <li class="list-group-item"
-                                th:text="${propiedad.propietario.nombre} + ' ' + ${propiedad.propietario.apellido}">
-                            </li>
-                        </ul>
-                        <div class="card-body">
-                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                th:attr="data-target='#__${propiedad.id}__'+'ModalCard'">
-                                Ver más
-                            </button>
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${propiedad.nombre}"></h5>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" th:text="${propiedad.ciudad}"></li>
+                                <li class="list-group-item" th:text="${propiedad.precio_base}"></li>
+                                <li class="list-group-item"
+                                    th:text="${propiedad.propietario.nombre} + ' ' + ${propiedad.propietario.apellido}">
+                                </li>
+                            </ul>
+                            <div class="card-body">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    th:attr="data-target='#__${propiedad.id}__'+'ModalCard'">
+                                    Ver más
+                                </button>
 
-                            <!-- Al hacer click en ver más muestra esto. -->
-                            <div class="modal fade" th:id="__${propiedad.id}__+'ModalCard'" tabindex="-1" role="dialog">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="card-title" th:text="${propiedad.nombre}"></h5>
-                                            <button type="button" class="btn-close" data-dismiss="modal">
-                                            </button>
-                                        </div>
+                                <!-- Al hacer click en ver más muestra esto. -->
+                                <div class="modal fade" th:id="__${propiedad.id}__+'ModalCard'" tabindex="-1"
+                                    role="dialog">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="card-title" th:text="${propiedad.nombre}"></h5>
+                                                <button type="button" class="btn-close" data-dismiss="modal">
+                                                </button>
+                                            </div>
 
-                                        <div class="modal-body">
+                                            <div class="modal-body">
 
-                                            <div th:id="__${propiedad.id}__ + 'modal'" class="carousel slide"
-                                                data-interval="false">
-                                                <div class="carousel-inner ">
+                                                <div th:id="__${propiedad.id}__ + 'modal'" class="carousel slide"
+                                                    data-interval="false">
+                                                    <div class="carousel-inner ">
 
-                                                    <div th:each="imagen, iterstat: ${propiedad.fotos}"
-                                                        th:class="${iterstat.first} ? 'carousel-item active':'carousel-item' ">
-                                                        <img class="d-block w-100 rounded p-1"
-                                                            th:src=" @{/imagen/__${imagen.id}__}" alt="slide">
+                                                        <div th:each="imagen, iterstat: ${propiedad.fotos}"
+                                                            th:class="${iterstat.first} ? 'carousel-item active':'carousel-item' ">
+                                                            <img class="d-block w-100 rounded p-1"
+                                                                th:src=" @{/imagen/__${imagen.id}__}" alt="slide">
+                                                        </div>
+
                                                     </div>
+
+                                                    <button class="carousel-control-prev" type="button"
+                                                        th:attr="data-bs-target='#__${propiedad.id}__' + 'modal'"
+                                                        data-bs-slide="prev">
+                                                        <span class="carousel-control-prev-icon"
+                                                            aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Previous</span>
+                                                    </button>
+
+                                                    <button class="carousel-control-next" type="button"
+                                                        th:attr="data-bs-target='#__${propiedad.id}__' + 'modal'"
+                                                        data-bs-slide="next">
+                                                        <span class="carousel-control-next-icon"
+                                                            aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Next</span>
+                                                    </button>
 
                                                 </div>
 
-                                                <button class="carousel-control-prev" type="button"
-                                                    th:attr="data-bs-target='#__${propiedad.id}__' + 'modal'"
-                                                    data-bs-slide="prev">
-                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                    <span class="visually-hidden">Previous</span>
-                                                </button>
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item" th:text="${propiedad.ciudad}"></li>
+                                                    <li class="list-group-item" th:text="${propiedad.precio_base}"></li>
+                                                    <li class="list-group-item"
+                                                        th:text="${propiedad.propietario.nombre} + ' ' + ${propiedad.propietario.apellido}">
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <span>Servicios opcionales:</span>
+                                                        <ul>
+                                                            <li th:each="prestacion : ${propiedad.prestaciones}"
+                                                                th:if="${prestacion.activo}">
+                                                                <span th:text="${prestacion.nombre}"></span>
+                                                                <span th:text="${prestacion.precio}"></span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            
+                                            <div sec:authorize="hasRole('CLIENTE')" class="modal-footer">
 
-                                                <button class="carousel-control-next" type="button"
-                                                    th:attr="data-bs-target='#__${propiedad.id}__' + 'modal'"
-                                                    data-bs-slide="next">
-                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                    <span class="visually-hidden">Next</span>
-                                                </button>
-
+                                                <a type="button" class="btn btn-primary"
+                                                    th:href="@{/reserva/__${propiedad.id}__}">Reservar</a>
                                             </div>
 
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item" th:text="${propiedad.ciudad}"></li>
-                                                <li class="list-group-item" th:text="${propiedad.precio_base}"></li>
-                                                <li class="list-group-item"
-                                                    th:text="${propiedad.propietario.nombre} + ' ' + ${propiedad.propietario.apellido}">
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>Servicios opcionales:</span>
-                                                    <ul>
-                                                        <li th:each="prestacion : ${propiedad.prestaciones}"
-                                                            th:if="${prestacion.activo}">
-                                                            <span th:text="${prestacion.nombre}"></span>
-                                                            <span th:text="${prestacion.precio}"></span>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Cerrar</button>
-                                            <a type="button" class="btn btn-primary"
-                                                th:href="@{/reserva/__${propiedad.id}__}">Reservar</a>
+                                            <div sec:authorize="hasRole('PROPIETARIO')" class="modal-footer">
+                                                <a type="button" class="btn btn-primary"
+                                                    th:href="@{/reserva/__${propiedad.id}__}">Comentarios</a>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Fin del modal -->
+                                <!-- Fin del modal -->
 
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <nav th:replace="/fragments/footer :: _footer"></nav>
+    <footer th:replace="/fragments/footer :: _footer"></footer>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
