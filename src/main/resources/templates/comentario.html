@@ -1,45 +1,40 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
-<head th:replace="/fragments/head :: _head('Comentarios', 'comentario.css')"></head>
+<head th:replace="/fragments/head :: _head('comentario', 'comentario.css')"></head>
+<!DOCTYPE html>
 
 <body>
     <nav th:replace="/fragments/navbar :: _navbar"></nav>
-    
     <div th:replace="fragments/error_exito :: _error_exito"></div>
-
-    <div id="divform">
-        <form id="formulario" th:action="@{/propiedad/agregar_comentario/__${reserva.id}__}" method="POST" enctype="multipart/form-data">
-            <div class="mb-3">
-                <!--id propiedad oculto -->
-                <input th:id="__${reserva.id}__" id="id" name="id" type="hidden">
-                <label for="formFile" class="form-label">Calificación</label>
-                <input type="range" class="form-range" min="1" max="5" step="1" id="calificacion" name="calificacion"
-                    list="values">
-                <datalist id="values">
-                    <option value="1" label="1"></option>
-                    <option value="2" label="2"></option>
-                    <option value="3" label="3"></option>
-                    <option value="4" label="4"></option>
-                    <option value="5" label="5"></option>
-                </datalist>
-            </div>
-            <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label" maxlength="255">Comentario</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="opinion"></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="formFile" class="form-label">Agregue fotos de su experiencia!</label>
-                <input class="form-control" type="file" id="formFile" name="imagen">
-            </div>
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Enviar</button>
-            </div>
-        </form>
-    </div>
-
-    <footer th:replace="/fragments/footer :: _footer"></footer>
-
+<div id="divform">
+    <form id="formulario" th:action="@{/cliente/crearReserva/__${propiedad.id}__}" method="POST">
+        <div class="mb-3">
+              <!--id propiedad oculto -->
+            <input th:id="__${propiedad.id}__" id="propiedad_id" name="propiedad_id" type="hidden">
+            <label for="formFile" class="form-label">Calificación</label>
+            <input type="range" class="form-range" min="1" max="5" step="1" id="calificacion" name="calificacion" list="values">
+            <datalist id="values">
+                <option value="1" label="1"></option>
+                <option value="2" label="2"></option>
+                <option value="3" label="3"></option>
+                <option value="4" label="4"></option>
+                <option value="5" label="5"></option>
+              </datalist>
+          </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label" maxlength="255">Comentario</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="opinion"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Agregue fotos de su experiencia!</label>
+            <input class="form-control" type="file" id="formFile">
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </div>
+    </form>
+</div>
+    <nav th:replace="/fragments/footer :: _footer"></nav>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>

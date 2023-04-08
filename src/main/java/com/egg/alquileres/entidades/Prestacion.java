@@ -33,4 +33,5 @@ public class Prestacion {
     private String nombre;
     private Double precio;
     private Boolean activo;  
+
 }

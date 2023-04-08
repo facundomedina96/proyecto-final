@@ -23,3 +23,4 @@ puedan dejar un mensaje o descripción con detalles para que el dueño pueda
 leerlo. Los servicios tendrán sus respectivos precios y, dependiendo de cuáles
 hayan sido seleccionados, mostrará un monto final para que el cliente visualice
 antes de confirmar la reserva.
+
