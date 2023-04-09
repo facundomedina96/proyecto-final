@@ -7,10 +7,10 @@
     <nav th:replace="/fragments/navbar :: _navbar"></nav>
     <div th:replace="fragments/error_exito :: _error_exito"></div>
 <div id="divform">
-    <form id="formulario" th:action="@{/cliente/crearReserva/__${propiedad.id}__}" method="POST">
+     <form id="formulario" th:action="@{/propiedad/agregar_comentario/__${reserva.id}__}" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
               <!--id propiedad oculto -->
-            <input th:id="__${propiedad.id}__" id="propiedad_id" name="propiedad_id" type="hidden">
+           <input th:id="__${reserva.id}__" id="id" name="id" type="hidden">
             <label for="formFile" class="form-label">Calificación</label>
             <input type="range" class="form-range" min="1" max="5" step="1" id="calificacion" name="calificacion" list="values">
             <datalist id="values">
