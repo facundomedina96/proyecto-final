@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
- * @author Hernan E Encizo
+ * @author Sofia Raia
  */
 @Controller
 @RequestMapping("/cliente")

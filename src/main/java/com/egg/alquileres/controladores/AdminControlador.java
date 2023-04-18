@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
- * @author milip
+ * @authora Sofia Raia
  */
-@Controller
+@Controller 
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequestMapping("/admin")
 public class AdminControlador {
@@ -44,7 +44,7 @@ public class AdminControlador {
         return "usuario_list.html";
     }
 
-    @GetMapping("/eliminaruser/{id}")
+    @GetMapping("/eliminaruser/{id}")//id es una varible en la ruta =@PathVariable 
     public String eliminarUsuario(ModelMap modelo, @PathVariable String id) {
         try {
             usuarioServicio.eliminar(id);
@@ -78,7 +78,6 @@ public class AdminControlador {
     
     @GetMapping("/reservas")
     public String listarReservas(ModelMap modelo) {
-        // crear metodo para buscar reservas
         List<Reserva> reservas = reservaServicio.listarReservas();
         modelo.addAttribute("reservas", reservas);
         return "tabla_reserva.html";

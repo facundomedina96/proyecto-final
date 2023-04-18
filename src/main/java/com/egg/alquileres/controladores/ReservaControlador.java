@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @Controller
 public class ReservaControlador {
+    
     @Autowired
     PropiedadServicio propiedadServicio;
     @Autowired

@@ -27,11 +27,6 @@ public class ImagenControlador {
         this.imagenServicio = imagenServicio;
     }
 
-    /**
-     * Función general para presentar una imagen.
-     * @param id id de la imagen.
-     * @return
-     */
     @GetMapping("/{id}")
     public ResponseEntity<byte[]> imagenMostrar(@PathVariable String id) {
 

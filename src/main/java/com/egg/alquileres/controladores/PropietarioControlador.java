@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author Hernan E Encizo
+ * @authora Sofia Raia
  */
 @Controller
 @PreAuthorize("hasAnyRole('ROLE_PROPIETARIO')")
@@ -50,11 +50,11 @@ public class PropietarioControlador {
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             model.put("usuario", usuario);
 
-            return "propiedad_registro.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+            return "propiedad_registro.html"; 
 
         } catch (Exception e) {
             model.put("error", e.getMessage());
-            return "redirect:/propietario/dashboard"; // mas tarde crearemos un html para mostrar si surge errores
+            return "redirect:/propietario/dashboard"; 
         }
     }
 
@@ -82,15 +82,13 @@ public class PropietarioControlador {
         }
     }
 
-    //Metodo propiedadesCRUD lista las porpiedads en una tabla crud(puede modificar y eliminar);
+    //Lista las porpiedads en una tabla (puede modificar y eliminar);
     @GetMapping("/misPropiedades")
     public String misPropiedades(ModelMap model, HttpSession session) {
         try {
             
             Usuario sesionActual = (Usuario) session.getAttribute("usuarioSession");
             List<Propiedad> propiedades = usuarioServicio.listarPropiedades(sesionActual.getId());
-            
-            // inyeccion de las propiedades en una Tabla CRUD;
             model.put("propiedades", propiedades);
             return "propiedades_crud.html";
             
@@ -103,10 +101,8 @@ public class PropietarioControlador {
     //Metodo GET modificarPropiedad recibe el id de la propiedad que se desea modificar; 
     @GetMapping("/modificarPropiedad/{id}")
     public String modificarPropiedad(@PathVariable String id, ModelMap model) {
-
         // Obtencion de la propiedad a modificar;
         Propiedad propiedad = propiedadServicio.getOne(id);
-        
         //Inyeccion en el HTML de los datos de la propiedad a modificar
         model.put("propiedad", propiedad);
         // Retorno del Formulario de modificacion con los valores inyecetados
@@ -117,11 +113,8 @@ public class PropietarioControlador {
     @PostMapping("/modificarPropiedad/{id}")
     public String modificarPropiedad(ModelMap modelo, @PathVariable String id, String nombre, String direccion, String ciudad, Double precio, MultipartFile fotos) {
         try {
-            
-            // llamado al metodo de modificar(envio de parametros recibidos)
             propiedadServicio.modificarPropiedad(id, nombre, direccion, ciudad, precio, fotos);
             modelo.put("exito", "Se ha modificado la propiedad con exito");
-
             return "redirect:/propietario/misPropiedades";
 
         } catch (MiException ex) {

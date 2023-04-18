@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author agofa
+ * @author Sofia Raia
  */
 @Service
 public class ComentarioServicio {
@@ -58,9 +58,7 @@ public class ComentarioServicio {
         }
     }
 
-    Comentario crearComentario(Comentario opinion) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 
 
 }

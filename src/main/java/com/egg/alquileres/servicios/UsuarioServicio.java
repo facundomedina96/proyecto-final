@@ -117,7 +117,6 @@ public class UsuarioServicio implements UserDetailsService {
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
             usuario.setTelefono(telefono);
 
-            // se crea la imagen para luego setearla al usuario
             if (foto_perfil == null || foto_perfil.isEmpty()) {
                 usuario.setFoto_perfil(null);
             } else {
@@ -130,37 +129,6 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    /*
-     * Metodo eliminar(usuario) si bien cambia el estado del Usuario(Propietario o
-     * Cliente) a FALSE;
-     * El usuario todavia tiene capacidad para ingresar al sitio;
-     * Soluciones: O lo eliminamos directamente de la BBDD para que ya no exista o
-     * tenemos que agregar
-     * condiciones en el inicio de sesion; para evitar que ingresen los usuarios con
-     * estado activo.FALSE;
-     * 
-     * Tambien falta desarrollar mas el metodo ya que tanto Cliente como Propietario
-     * (Y Admin)
-     * apuntaran al mismo metodo para eliminar su perfil(O en el caso del admin el
-     * perfil de alguien);
-     * 
-     * Aqui otro inconvenniente; Un cliente deberia darse de baja y quedar sin
-     * acceso a la plataforma
-     * sin mas, pero un Propetario al darse de baja, sus propiedades y todo lo
-     * relacionado a el tambien
-     * deberian hacerlo(es decir sus propiedades ya no deberian estar disponiblies,
-     * ni las reservas);
-     * 
-     * Soluciones: Podemos agregar mas metodos eliminar, es decir seguiremos usando
-     * eliminar
-     * pero a la hora de buscar el usuario preguntaremos por el rol que tiene segun
-     * su rol
-     * redireccionar al metodo eliminarPropietario o eliminarCliente que
-     * desarrolaran la logica
-     * adecuada para cada caso; La otra solucion seria desarrollar todo el codigo
-     * con validaciones
-     * dentro del metodo eliminar;
-     */
     @Transactional
     public void eliminar(String id) throws MiException {
 
@@ -176,7 +144,8 @@ public class UsuarioServicio implements UserDetailsService {
             throw new MiException("No se encontro ningún usuario con ese ID");
         }
     }
-
+    
+//Admin.
     public List<Usuario> listarUsuarios() {
         List<Usuario> usuarios = new ArrayList();
         usuarios = usuarioRepositorio.buscarUsuarios();
@@ -188,7 +157,7 @@ public class UsuarioServicio implements UserDetailsService {
         return usuario;
     }
 
-    @Override
+    @Override  //cargar usuario por nombre de usuario
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
@@ -214,6 +183,7 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
+ //Clientes
  @Transactional
     public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String id_propiedad, boolean dj, boolean catering, boolean pileta) throws MiException, ParseException {
 
@@ -227,11 +197,9 @@ public class UsuarioServicio implements UserDetailsService {
         Optional<Reserva> respuesta = reservaRepositorio.findById(id);
 
         if (respuesta.isPresent()) {
-            // si la respuesta esta presente buscar la reserva en la propiedad y eliminarla
+            
             Reserva reserva = respuesta.get();
-            
             Propiedad propiedad = reserva.getPropiedad();
-            
             propiedadServicio.eliminarReserva(propiedad, id);
             reservaServicio.eliminarReserva(id);
             
@@ -240,7 +208,7 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    // Metodo agregado para que los Usuarios-Propietarios puedan ver sus propiedades
+    //Propietarios
     public List<Propiedad> listarPropiedades(String idPropietario) throws MiException {
 
         List<Propiedad> propiedades = new ArrayList();
@@ -257,7 +225,6 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarioRepositorio.buscarPropietariosActivos(Rol.PROPIETARIO);
     }
     
-    //Metodo para que listar las reservas de un Cliente
     public List<Reserva> listarReservasDeUnUsuario(String idUsuario) throws MiException {
         return reservaServicio.listarReservasDeUnUsuario(idUsuario);
     }

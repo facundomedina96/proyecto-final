@@ -23,6 +23,7 @@ public class Reserva implements Serializable {
 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaDesde;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaHasta;
 
@@ -41,6 +42,8 @@ public class Reserva implements Serializable {
     private List<Comentario> opinion;
 
     private EstadoReserva estado;
+    
+    
 
     public EstadoReserva getEstado() {
         return estado;

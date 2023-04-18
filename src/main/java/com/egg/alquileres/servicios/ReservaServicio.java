@@ -37,22 +37,16 @@ public class ReservaServicio {
     public Reserva crearReserva(Date fechaDesde, Date fechaHasta, Usuario cliente, String idPropiedad,
             boolean dj, boolean catering, boolean pileta) throws MiException {
 
-        // Buscar la propiedad
         Propiedad propiedad = propiedadServicio.buscarPropiedadPorId(idPropiedad);
-
-        //Validar las fechas dentro del rango
+        
         validarFechasDisponibles(fechaDesde, fechaHasta, propiedad);
-
-        // Validar si las fechas ya no estan reservadas
+        
         validarReservasActivas(fechaDesde, fechaHasta, propiedad);
-
-        // Calcular el precio de los dias de estadía
+        
         Double precioCalculado = calcularPrecioEstadia(fechaDesde, fechaHasta, propiedad);
 
-        // Obtener las prestaciones de la propiedad
         List<Prestacion> prestaciones = propiedad.getPrestaciones();
 
-        // Crear una lista de prestaciones en la reserva;
         List<Prestacion> prestacionesReserva = new ArrayList();
 
         // Validar los checkbox
@@ -98,22 +92,15 @@ public class ReservaServicio {
     }
 
     private Date obtenerFechaActual() {
-        // Obtener la fecha actual
+        
         Date fechaActual = new Date();
-
-        // Crear un objeto de tipo Calendar
         Calendar cal = Calendar.getInstance();
-
-        // Establecer la fecha actual en el objeto Calendar
         cal.setTime(fechaActual);
-
-        // Establecer la hora, minutos y segundos a cero
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
 
-        // Obtener la fecha actual sin la hora, minutos y segundos
         Date fechaSinHora = cal.getTime();
         return fechaSinHora;
     }

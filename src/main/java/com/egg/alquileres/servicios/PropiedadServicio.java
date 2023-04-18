@@ -78,8 +78,6 @@ public class PropiedadServicio {
         LocalDate ultimoDiaDelAnio = LocalDate.of(LocalDate.now().getYear(), 12, 31);
         Date fechaFinAnio = Date.from(ultimoDiaDelAnio.atStartOfDay(ZoneId.systemDefault()).toInstant());
         
-        // Retornar una nueva instancia de Casa con los parámetros proporcionados y las
-        // fechas disponible
         Propiedad propiedad = new Propiedad();
 
         propiedad.setNombre(nombre);
@@ -88,18 +86,14 @@ public class PropiedadServicio {
         propiedad.setPrecio_base(precio);
         propiedad.setEstado(Boolean.TRUE);
         propiedad.setPropietario(propietario);
-
         propiedad.setFechaCreacion(fechaActual);
         propiedad.setFechaFinAnio(fechaFinAnio);
-
         propiedad.setFotos(new HashSet<>());
 
         for (MultipartFile foto : fotos) {
             propiedad.getFotos().add(imagenServicio.crearImagen(foto));
         }
-
-        // Falta validar que los valores de las prestaciones no venga nulos 
-        // si no se persisten servicios vacios. 
+        //prestaciones adicionales; catering, pileta y DJ.
         Prestacion prestacion1 = crearPrestacion(nombreD, precioD, activoD);
         Prestacion prestacion2 = crearPrestacion(nombreC, precioC, activoC);
         Prestacion prestacion3 = crearPrestacion(nombreP, precioP, activoP);
@@ -192,8 +186,6 @@ public class PropiedadServicio {
         return propiedades;
     }
 
-    // modifique este metodo estaba mal devolvia una sola propiedad en vez de una
-    // lista
     @Transactional(readOnly = true)
     public List<Propiedad> listarPropiedadesPorPropietario(String id) throws MiException {
 
@@ -258,15 +250,9 @@ public class PropiedadServicio {
         }
     }
 
-    /*
-     * Por ahora el propietario solo puede modificar estos atributos, Si se opta por
-     * darle la opcion
-     * de modificar mas atributos, Modificar el HTML para pedir los datos, el
-     * controlador, y por ultimo este servicio.
-     */
     public void modificarPropiedad(String id, String nombre, String direccion, String ciudad, Double precio, MultipartFile fotos) throws MiException {
 
-        // Buscar la propiedad en la BBDD y la guardamos en respuesta
+        // Buscar la propiedad en la BD y la guardamos en respuesta
         Optional<Propiedad> respuesta = propiedadRepositorio.findById(id);
 
         if (respuesta.isPresent()) {

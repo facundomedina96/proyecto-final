@@ -21,23 +21,28 @@ public class Propiedad implements Serializable {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-    @Column(nullable = false) // Agregar la anotación @Column(nullable = false)
+    @Column(nullable = false) //impide que se inserten valores nulos.
+    
     private String nombre;
-    @Column(nullable = false) // Agregar la anotación @Column(nullable = false)
+    @Column(nullable = false) 
+    
     private String direccion;
-    @Column(nullable = false) // Agregar la anotación @Column(nullable = false)
+    @Column(nullable = false)
+    
     private String ciudad;
-    @Column(nullable = false) // Agregar la anotación @Column(nullable = false)
+    @Column(nullable = false) 
+    
     private Double precio_base;
-    @Column(nullable = false) // Agregar la anotación @Column(nullable = false)
+    @Column(nullable = false)
+    
     private Boolean estado;
 
     @OneToOne
     private Usuario propietario;
     
-    // si solo vamos a guardar dos dias parece inecesario que sea un set de fechas;
     @Temporal(TemporalType.DATE)
     private Date fechaCreacion;
+    
     @Temporal(TemporalType.DATE)
     private Date fechaFinAnio;
 
@@ -49,6 +54,8 @@ public class Propiedad implements Serializable {
 
     @OneToMany
     private List<Prestacion> prestaciones;
+    
+    
 
     public Propiedad() {
     }

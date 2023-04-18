@@ -17,11 +17,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
- * @author Hernan E Encizo
+ * @authora Sofia Raia
  */
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity  //Clase de seguridad personalizada.
+@EnableGlobalMethodSecurity(prePostEnabled = true) //Habilita la seguidad de Spring a nivel metodo.
 public class SeguridadWeb extends WebSecurityConfigurerAdapter {
 
     public UsuarioServicio usuarioServicio;
@@ -34,7 +34,7 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(usuarioServicio).passwordEncoder(new BCryptPasswordEncoder());
     }
 
-    @Override
+    @Override //Sobreescribe el metodo de configuracion de seguridad.
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()

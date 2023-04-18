@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author Hernan E Encizo
+ * @authora Sofia Raia
  */
 @Controller
 //@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
@@ -46,8 +46,7 @@ public class PropiedadControlador {
         this.reservaServicio = reservaServicio;
     }
 
-    // Metodo listarPropiedades toma un usuario y lista sus porpiedads en una tabla
-    // crud;
+    // Metodo listarPropiedades toma un usuario y lista sus porpiedads en una tabla.
     @GetMapping("/listar")
     public String listar(ModelMap model, HttpSession session) {
         List<Propiedad> propiedades = propiedadServicio.listarPropiedades();
@@ -55,7 +54,7 @@ public class PropiedadControlador {
         return "propiedades_crud.html";
     }
 
-    // Metodo listarPropiedades toma un usuario y lista sus porpiedads en una tabla;
+    // Metodo listarPropiedades toma un usuario y lista sus porpiedades en una tabla;
     @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap model) {
 

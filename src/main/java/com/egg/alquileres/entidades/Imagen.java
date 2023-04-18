@@ -8,9 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import org.hibernate.annotations.GenericGenerator;
-
+/*Que una clase implemente Serializable significa que puede ser convertido en una secuencia de bytes 
+y luego reconstruido como un objeto nuevo */
 @Entity
-public class Imagen implements Serializable {
+public class Imagen implements Serializable {    
 
     @Id
     @GeneratedValue(generator = "uuid")

@@ -21,7 +21,7 @@ public class PrestacionServicio {
         
         return prestacion;
     }
-    //vista del propietario para que pueda modificar la prestacion de su propiedad
+   
     public void modificarPrestacion(String id, String nombre, Double precio){
         Optional<Prestacion> respuesta = prestacionRepo.findById(id);
         
@@ -29,8 +29,6 @@ public class PrestacionServicio {
             Prestacion prestacion = respuesta.get();
             prestacion.setNombre(nombre);
             prestacion.setPrecio(precio);
-
-
             prestacionRepo.save(prestacion);
         }
         

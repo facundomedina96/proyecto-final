@@ -16,13 +16,13 @@ import org.hibernate.annotations.GenericGenerator;
  * @author agofa
  */
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor //genera un constructor sin parametros
+@AllArgsConstructor //con parametros
 @Getter
 @Setter
 public class Comentario implements Serializable {
     @Id
-    @GeneratedValue(generator = "uuid")
+    @GeneratedValue(generator = "uuid") 
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
    

@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * 
  */
 package com.egg.alquileres.controladores;
 
@@ -39,28 +37,26 @@ public class PortalControlador {
         try {
             List<Usuario> propietarios = usuarioServicio.buscarPropietariosActivos();
             model.put("propietarios", propietarios);
-            // Necesito inyectar en el HTML la lista de propiedades
             List<Propiedad> propiedades = propiedadServicio.buscarPorPropietariosActivos();
             model.put("propiedades", propiedades);
-
-            // retorno del HTML
-            return "inicio.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+            return "inicio.html"; 
+            
         } catch (Exception e) {
             model.put("error", e.getMessage());
-            return "error.html"; // mas tarde crearemos un html para mostrar si surge errores
+            return "error.html"; 
         }
     }
 
-    @GetMapping("/listaPropiedades") // especificamos la ruta donde interactua el usuario
+    @GetMapping("/listaPropiedades")
     public String listaPropiedades(ModelMap model) {
         try {
             List<Propiedad> propiedades = propiedadServicio.listarPropiedades();
             model.put("propiedades", propiedades);
-            // retorno del HTML
-            return "inicio.html"; // indicamos el path de nuestra pagina. Vamos a templates a crearla.
+            return "inicio.html"; 
+            
         } catch (Exception e) {
             model.put("error", e.getMessage());
-            return "error.html"; // mas tarde crearemos un html para mostrar si surge errores
+            return "error.html"; 
         }
     }
 
